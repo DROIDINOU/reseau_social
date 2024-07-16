@@ -1,0 +1,43 @@
+<title>CREATION DE FANS</title>
+<fieldset>
+    <legend>Formulaire</legend>
+    <form [formGroup]="formulaire1" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Nom :</label>
+            <input type="text" id="name" formControlName="name">
+            @if (formulaire1.controls["name"].errors?.['required'] && formulaire1.controls["name"].touched) {
+            <p class="error">Le nom est requis.</p>
+            }
+            @if (formulaire1.controls["name"].invalid  && formulaire1.controls["name"].touched) {
+                <p class="error">{{formulaire1.controls["name"].getError('erreur')}}</p>
+            }
+        </div>
+
+        <div>
+            <label for="birthYear">date de naissance :</label>
+            <input type="number" id="birthYear" formControlName="birthYear">
+            @if (formulaire1.controls["birthYear"].errors?.['required'] && formulaire1.controls["birthYear"].touched) {
+            <p class="error">Le age est requis.</p>
+            }
+            @if (formulaire1.controls["birthYear"].invalid && formulaire1.controls["birthYear"].touched) {
+                <p class="error">{{formulaire1.controls["birthYear"].getError('erreurAge')}}</p>
+            }
+        </div>
+
+        
+        <div formArrayName="favoriteSeries">
+            @for (titre of titres.controls; track $index) {
+                <input formControlName="{{$index}}">
+            }
+            <button type="button" (click)="ajoutertitre()">Ajouter un titre</button>
+        </div>
+
+
+        <button type="submit" >Envoyer</button>
+        
+    </form>
+</fieldset>
+
+@if (complete) {
+    <p>Affichage après ajout : {{ formulaire1.value |json}}</p>
+}

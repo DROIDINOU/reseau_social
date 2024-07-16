@@ -1,0 +1,6 @@
+<div>
+    <p>{{minutes}} minute(s) {{secondes}} seconde(s)</p>
+    <button (click)="demarrer()" [disabled]="enCours">Démarrer</button>
+    <button (click)="pause()" [disabled]="!enCours">Pause</button>
+    <button (click)="reinitialiser()">Reinitialiser</button>
+</div>

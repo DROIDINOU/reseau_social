@@ -1,0 +1,73 @@
+<div id="myModal" class="modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Votre commentaire {{username}}</h2>
+        <button type="button" class="close-button" (click)="closeModal()">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <div class="form-container">
+        <div class="post-form">
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="content">Message</label>
+              <textarea id="content" name="content" placeholder="Exprimez-vous ici..." formControlName="content"></textarea>
+            </div>
+            <button type="submit">Publier</button>&nbsp;&nbsp;
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="feed">
+    <div *ngFor="let contents of content; let idx = index" class="message-card">
+      <div class="message-header">
+        <div class="author-avatar">
+          <img src="" alt="User Avatar">
+        </div>
+        <div class="author-info">
+          <span class="author-name"></span>
+          <span class="timestamp"></span>
+        </div>
+      </div>
+      <div class="message-content">
+      </div>
+      <div class="comments-action">
+        <p>J'aime</p>&nbsp;&nbsp;
+        <!-- Premier bouton "J'aime" avec affichage conditionnel du nombre de likes -->
+        <!--<app-coeur [messagecontent]="message.id" (likeClicked)="likeClicked(message.id)"></app-coeur>&nbsp;&nbsp;&nbsp;&nbsp;-->
+        <app-pouces></app-pouces>&nbsp;&nbsp;
+        <p></p>&nbsp;&nbsp;
+        <!--<button (click)="launchmodal()">Commenter</button>&nbsp;&nbsp;-->
+        <!--<app-modalcomments [modal]="is_clicked"></app-modalcomments>-->
+        <!--<app-comments></app-comments>-->
+        <p class="align-right typo"></p>
+      
+      </div>
+    
+    </div>
+  
+  
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

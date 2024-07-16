@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Montserrat, sans-serif;
+    background-color: #9dadc5;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.layout {
+    display: flex;
+    justify-content: left;
+    width: 100%;
+}
+
+.main-container {
+    background-color: #fff;
+    width: 400px;
+    height: 1000px;
+    border-radius: 40px;
+    padding: 5%;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#profil-container {
+    position: relative;
+    background-color: #2b3340;
+    width: 65%;
+    height: 18%; /* Ajustez la hauteur selon vos besoins */
+    border-radius: 50%; /* Cercle */
+    overflow: hidden; /* Assure que l'image respecte le cercle */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left : 38px;
+    border: 4px solid #7eff8a; /* Bordure verte claire */
+
+}
+
+#profile-picture1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Assure que l'image couvre entièrement le cercle */
+    object-position: center; /* Centre l'image horizontalement et verticalement */
+
+}
+
+#container-info {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin: 10px 0;
+}
+
+.line {
+    width: 80%;
+    height: 2px;
+    background-color: #999da3;
+    margin: 10px auto;
+}
+
+.info {
+    color: #2b3340;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.info:hover {
+    background-color: #ebebf0;
+}
+
+.info::after {
+    content: '>';
+    position: absolute;
+    right: 15px;
+    font-weight: bold;
+}
+
+#home-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    width: 40%;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.right-container {
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0px;
+    width: 80%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}

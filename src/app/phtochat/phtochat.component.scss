@@ -1,0 +1,106 @@
+*{
+    box-sizing: border-box; 
+ 
+  }
+  table{
+      width: 60%;
+
+  }
+  
+  
+  td{
+    /*Centering cell content: images*/
+    text-align: left;
+  }
+  
+  th{
+    font-size: 200%;
+    height: 4em;
+  }
+  
+  #preview{
+    position: fixed;
+    top: 35%;
+    right: 5%;
+    width: 30%;
+    float: right;
+    background-color: #8e68ff;
+    text-align: center;
+    height: 250px;
+    line-height: 250px;
+    color: #fff;
+    font-size: 2em;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Ajustez cette valeur pour la taille maximale souhaitée */
+    max-height: 170px; /* Ajustez cette valeur pour la hauteur maximale souhaitée */
+    object-fit: cover; /* Assure que l'image couvre toute la zone, en coupant si nécessaire */
+
+}
+
+table img {
+    width: 300px; /* Taille fixe */
+    height: auto; /* Conserver le ratio original */
+    display: block;
+}
+.news-feed-container {
+    flex-basis: 48%; /* Largeur de chaque conteneur */
+}
+.container {
+  display: flex;
+  width:100%;
+  gap: 2rem; /* Espace entre les éléments */
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Cache le défilement du conteneur de gauche */
+
+}
+
+
+
+
+.right-container {
+  width : 200%;
+  margin-top: 7%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.right1-container {
+  display: flex; /* Utilise flexbox pour aligner les éléments en ligne */
+  flex-grow: 1;
+  width : 50%;
+  margin-top: 3%;
+  background-color: rgb(185, 218, 248);
+  border-radius: 10px;
+  padding: 0px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between; /* Ajoute de l'espace entre les éléments */
+
+}
+
+.friends{color: white;}
+
+
+
+.typo{
+
+  font-size: 12px;
+}
+
+
+.right1-container .align-right {
+  margin-bottom: auto; /* Push the component to the extreme right */
+
+}
+

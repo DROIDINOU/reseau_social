@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="row justify-content-center -spacing-a">
+        <div class="col-md-8">
+            <h5 class="text-center">Infos générales sur la race de votre chat</h5>
+            <div class="row -spacing-b">
+                <div class="col-md-3 text-center">
+                    
+                    <button (click)="getallrace()" class="btn btn--green">
+                        <span class="btn__icon fa fa-pencil"></span>
+                        <span class="btn__label">Caractéristiques de votre chat</span>
+                    </button>
+                
+                
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+    @if(ra){
+            @for(r of ra; track r.id){
+                @if(hasard == r.name ){
+    
+                    <div class="col-md-3 text-center">
+        <h1 class="-typo-copy -typo-copy--blue">Race : {{r.name}}</h1>
+        @if(r.intelligence == 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Intelligence: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.intelligence == 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Intelligence: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.intelligence ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Intelligence: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.intelligence == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Intelligence:<fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.intelligence == 5){
+            <p class="-typo-copy -typo-copy--blue text-right">Intelligence: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.affection_level == 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Affectueux <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.affection_level == 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Affectueux <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.affection_level ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Affectueux<fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.affection_level == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Affectueux <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.affection_level == 5){
+            <p class="-typo-copy -typo-copy--blue text-right">Affectueux <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.adaptability== 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Adaptabilité: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.adaptability== 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Adaptabilité: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.adaptability ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Adaptabilité: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.adaptability == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Adaptabilité:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.adaptability == 5){
+                <p class="-typo-copy -typo-copy--blue text-right">Adaptabilité: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+        <p class="-typo-copy -typo-copy--blue text-right">Poid: {{r.weight.metric}} kg</p>
+        <p class="-typo-copy -typo-copy--blue text-right">Origine : {{r.origin}}</p>
+        @if(r.social_needs== 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Lien social: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.social_needs== 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Lien social: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.social_needs ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Lien social: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.social_needs == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Lizn social:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.social_needs == 5){
+                <p class="-typo-copy -typo-copy--blue text-right">Lien social: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.child_friendly== 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Aime les enfants: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.child_friendly== 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Aime les enfants: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.child_friendly ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Aime les enfants: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.child_friendly == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Aime les enfants:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.child_friendly == 5){
+                <p class="-typo-copy -typo-copy--blue text-right">Aime les enfants: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.stranger_friendly== 1){
+                    <p class="-typo-copy -typo-copy--blue text-right">Aime les étrangers: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.stranger_friendly== 2){
+                    <p class="-typo-copy -typo-copy--blue text-right">Aime les étrangers: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+                @if(r.stranger_friendly ==3 )
+                   {<p class="-typo-copy -typo-copy--blue text-right">Aime les étrangers: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.stranger_friendly == 4){
+                    <p class="-typo-copy -typo-copy--blue text-right">Aime les étrangers:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                    @if(r.stranger_friendly == 5){
+                        <p class="-typo-copy -typo-copy--blue text-right">Aime les étrangers: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.vocalisation == 1){
+            <p class="-typo-copy -typo-copy--blue text-right">Vocalisation : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.vocalisation == 2){
+            <p class="-typo-copy -typo-copy--blue text-right">Vocalisation :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+        @if(r.vocalisation ==3 )
+           {<p class="-typo-copy -typo-copy--blue text-right">Vocalisation :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.vocalisation == 4){
+            <p class="-typo-copy -typo-copy--blue text-right">Vocalisation :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+        @if(r.vocalisation == 5){
+            <p class="-typo-copy -typo-copy--blue text-right">Vocalisation : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.dog_friendly == 1){
+                <p class="-typo-copy -typo-copy--blue text-right">Aime les chiens: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.dog_friendly == 2){
+                <p class="-typo-copy -typo-copy--blue text-right">Aime les chiens:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+            @if(r.dog_friendly ==3 )
+               {<p class="-typo-copy -typo-copy--blue text-right">Aime les chiens:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.dog_friendly == 4){
+                <p class="-typo-copy -typo-copy--blue text-right">Aime les chiens:  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+            @if(r.dog_friendly == 5){
+                <p class="-typo-copy -typo-copy--blue text-right">Aime les chiens: <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.energy_level == 1){
+                    <p class="-typo-copy -typo-copy--blue text-right">Niveau d'énergie : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.energy_level == 2){
+                    <p class="-typo-copy -typo-copy--blue text-right">Niveau d'énergie :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+                @if(r.energy_level ==3 )
+                   {<p class="-typo-copy -typo-copy--blue text-right">Niveau d'énergie :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.energy_level == 4){
+                    <p class="-typo-copy -typo-copy--blue text-right">Niveau d'énergie :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                @if(r.energy_level == 5){
+                    <p class="-typo-copy -typo-copy--blue text-right">Niveau d'énergie : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+                    @if(r.health_issues == 1){
+                        <p class="-typo-copy -typo-copy--blue text-right">Problèmes de santé : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                    @if(r.health_issues == 2){
+                        <p class="-typo-copy -typo-copy--blue text-right">Problèmes de santé :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon><fa-icon  [icon]="fastar" size="2x"></fa-icon></fa-icon></p>}
+                    @if(r.health_issues ==3 )
+                       {<p class="-typo-copy -typo-copy--blue text-right">Problèmes de santé :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar"  size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                    @if(r.health_issues == 4){
+                        <p class="-typo-copy -typo-copy--blue text-right">Problèmes de santé :  <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon [icon]="fastar" class="yo" size="2x"></fa-icon><fa-icon [icon]="fastar" size="2x"></fa-icon></p>}
+                    @if(r.health_issues == 5){
+                        <p class="-typo-copy -typo-copy--blue text-right">Problèmes de santé : <fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon><fa-icon class="yo" [icon]="fastar" size="2x"></fa-icon></p>}
+                    <p class="-typo-copy -typo-copy--blue text-right">Espérance de vie: {{r.life_span}} ans</p>
+
+
+    </div>
+
+}
+}
+}
+@else{<p>y a pas</p>}
+
+
+

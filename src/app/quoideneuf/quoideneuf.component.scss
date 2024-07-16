@@ -1,0 +1,371 @@
+/* HTML et body */
+html, body {
+  height: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+body {
+  background: #f8f8f8;
+}
+
+/* Flexbox pour aligner et espacer les éléments */
+.form-container {
+  display: flex;
+  justify-content: left;
+  gap: 2rem; /* Espace entre les formulaires */
+  margin-bottom: 2rem; /* Espace sous les formulaires */
+  width: 90%;
+  margin: 0 auto;
+}
+
+.post-form {
+  width: 70%;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 7px;
+  border: 3px solid #eee;
+  margin: 0 auto;
+}
+
+.post-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.post-form label {
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.post-form textarea, .post-form input[type="file"] {
+  width: calc(100% - 20px); /* Calcul de la largeur du textarea */
+  padding: 0.2rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.post-form button {
+  padding: .5rem 1rem;
+  background: #454cad;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.uploader {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.uploader label {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  background: #fff;
+  border-radius: 7px;
+  border: 3px solid #eee;
+  transition: all .2s ease;
+  user-select: none;
+}
+
+.uploader label:hover {
+  border-color: #454cad;
+}
+
+.uploader label.hover {
+  border: 3px solid #454cad;
+  box-shadow: inset 0 0 0 6px #eee;
+}
+
+.uploader label.hover #start i.fa {
+  transform: scale(0.8);
+  opacity: 0.3;
+}
+
+.uploader #start {
+  width: 100%;
+}
+
+.uploader #start.hidden {
+  display: none;
+}
+
+.uploader #start i.fa {
+  font-size: 50px;
+  margin-bottom: 1rem;
+  transition: all .2s ease-in-out;
+}
+
+.uploader #response {
+  width: 100%;
+}
+
+.uploader #response.hidden {
+  display: none;
+}
+
+.uploader #response #messages {
+  margin-bottom: .5rem;
+}
+
+.uploader #file-video {
+  display: block;
+  margin: 0 auto .5rem auto;
+  width: 100%;
+  max-width: 180px;
+}
+
+.uploader #file-video.hidden {
+  display: none;
+}
+
+.uploader #notvideo {
+  display: block;
+  width: 100%;
+}
+
+.uploader #notvideo.hidden {
+  display: none;
+}
+
+.uploader progress,
+.uploader .progress {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 180px;
+  height: 8px;
+  border: 0;
+  border-radius: 4px;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.uploader .progress[value]::-webkit-progress-bar {
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.uploader .progress[value]::-webkit-progress-value {
+  background: linear-gradient(to right, #393f90 0%, #454cad 50%);
+  border-radius: 4px;
+}
+
+.uploader .progress[value]::-moz-progress-bar {
+  background: linear-gradient(to right, #393f90 0%, #454cad 50%);
+  border-radius: 4px;
+}
+
+.uploader input[type="file"] {
+  display: none;
+}
+
+.uploader div {
+  margin: 0 0 .5rem 0;
+  color: #5f6982;
+}
+
+.uploader .btn {
+  display: inline-block;
+  margin: .5rem .5rem 1rem .5rem;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border: none;
+  border-radius: .2rem;
+  padding: 0 1rem;
+  height: 36px;
+  line-height: 36px;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+  background: #454cad;
+  cursor: pointer;
+}
+
+.uploader .btn:hover {
+  background: #393f90;
+}
+
+/* Container for the feed */
+.feed {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+
+  align-items: center;
+  margin: 20px auto;
+  min-width: 529.8px; /* Définir la largeur maximale */
+  min-height: 128px;
+}
+
+/* Message card styling */
+.message-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  width: 130%;
+  max-width: 529.8px; /* Définir la largeur maximale */
+  max-height: 128px; /* Définir la hauteur maximale */
+  padding: 15px;
+  box-sizing: border-box;
+
+}
+
+/* Header styling */
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Author avatar styling */
+.author-avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Author information styling */
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.timestamp {
+  font-size: 0.85em;
+  color: #888;
+}
+
+/* Message content styling */
+.message-content {
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 15px; /* Espacement sous le contenu du message */
+}
+
+/* Comments action styling */
+.comments-action {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Espacement au-dessus des actions de commentaire */
+}
+
+.comments-action p {
+  margin-right: 10px; /* Espacement entre les éléments */
+}
+
+.nostyle {
+  border: none;
+  background-color: white;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.typo {
+  font-size: 12px;
+}
+
+.comments-action .align-right {
+  margin-left: auto;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Style pour le bouton "Photos/Vidéos" */
+.post-form button.photos {
+  background-color: green;
+}
+
+/* Style pour le nombre de commentaires */
+.comment-count {
+  color: blue;
+}
+
+/* Style pour les éléments désactivés */
+.disabled {
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.modal {
+  display: none; /* Modale initialement cachée */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent noir */
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #a01d1d;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 200%;
+  max-width: 600px;
+  position: relative;
+  z-index: 1000;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.message-card {
+  margin-bottom: 20px;
+}
+
+.comments-action {
+  margin-top: 10px;
+}
+
+.comment-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+}

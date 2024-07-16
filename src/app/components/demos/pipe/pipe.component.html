@@ -1,0 +1,45 @@
+<h1>Démonstrations Pipes</h1>
+
+<fieldset>
+    <legend>Pipes intégrés</legend>
+    <!-- Pipe uppercase -->
+    <p>Texte original : {{texte}}</p>
+    <p>Texte en majuscules : {{texte | uppercase}}</p>
+
+    <!-- Pipe lowerCase -->
+    <p>Texte en minuscules {{texte | lowercase}}</p>
+
+    <!-- Pipe Date -->
+    <p>Date actuelle (fullDate) : {{dateActuelle | date:'fullDate'}}</p>
+    <p>Date actuelle (shortDate) : {{dateActuelle | date:'shortDate'}}</p>
+    <!-- <p>Date actuelle (mediumDate) : {{dateActuelle | date}}</p> -->
+    <p>Date actuelle (mediumDate) : {{dateActuelle | date:'mediumDate'}}</p>
+    <p>Date actuelle (fullDate) : {{dateActuelle | date:'full'}}</p>
+
+    <!-- Pipe Currency -->
+    <p>Montant : {{montant | currency:'EUR'}}</p>
+    <p>Montant : {{montant | currency:'USD'}}</p>
+    <p>Montant : {{montant | currency:'GBP'}}</p>
+
+    <!-- Pipe Pourcentage -->
+    <p>Pourcentage : {{pourcentage | percent}}</p>
+
+    <!-- Pipe Number -->
+    <p>Nombre formaté : {{nombre | number}}</p>
+
+    <!-- Pipe Json -->
+    <p>Objet JSON : {{objet | json}}</p>
+
+    <!-- Pipe sclice -->
+    <p>Tableau original : {{tableau}}</p>
+    <p>Slice (2 à 5) : {{tableau | slice:2:5}}</p>
+    <p>Slice (dernier élément) : {{tableau | slice:-1}}</p>
+</fieldset>
+
+<fieldset>
+    <legend>Pipes Custom</legend>
+    <p>Chaine originale : 'Angular'</p>
+    <p>Chaine Formatée : {{ 'Angular' | formatter:"Hello, ":" !!!"}}</p>
+    <p>Prix original : 100 €</p>
+    <p>Prix avec réduction : {{ 100 | reduction:20:'€'}}</p>
+</fieldset>

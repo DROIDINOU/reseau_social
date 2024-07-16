@@ -1,0 +1,23 @@
+<h1>Démonstrations service</h1>
+<fieldset>
+    <legend>Affichage</legend>
+    @if (livres.length > 0) {
+        <ul>
+            @for (livre of livres; track livre.id) {
+                <li>{{livre.id}} : {{livre.titre}}</li>
+            }
+        </ul>
+    } @else {
+        <p>Aucun titre trouvé 😥</p>
+    }
+</fieldset>
+<fieldset>
+    <legend>Ajout</legend>
+    <label for="id">ID :</label>
+    <input type="number" id="id" [(ngModel)]="newId" required>
+
+    <label for="titre">Titre :</label>
+    <input type="text" id="titre" [(ngModel)]="newTitre" required>
+
+    <button (click)="ajoutLivre()">Ajouter</button>
+</fieldset>

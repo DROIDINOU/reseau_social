@@ -1,0 +1,33 @@
+<h1>Bindings en angular</h1>
+
+<!-- Property binding one-way -->
+ <div>
+    <h2>Property binding (one-way)</h2>
+    <p>Valeur : {{nom}}</p>
+ </div>
+
+ <hr>
+
+ <!-- Property binding two-way -->
+ <div>
+    <h2>Property binding (two-way)</h2>
+    <input type="text" [(ngModel)]="valeurBiDirectionnel">
+    <p>Valeur : {{valeurBiDirectionnel}}</p>
+ </div>
+
+ <hr>
+
+ <!-- Event Binding -->
+  <div>
+    <h2>Event binding</h2>
+    <button (click)="incrementer()">Incrémentation</button>
+    <p>Compteur : {{compteur}}</p>
+  </div>
+
+  <hr>
+
+ <!-- Attribute binding -->
+  <div>
+    <h2>Attribute binding</h2>
+    <input type="text" value="Test Attribute Binding" [disabled]="attributeTitre">
+  </div>

@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+$blue: #457b8c;
+$gray: #f0f0f0;
+$red: #ce4034;
+$green: #08b8b8;
+$primary-font-color: #798796;
+$secondary-font-color: #595556;
+
+$primary-font: 'PT Sans';
+$secondary-font: 'Oswald';
+
+body {
+    font-family: $primary-font;
+    background-color: $gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    background-color: #fff;
+    padding: 10rem;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-family: $secondary-font;
+    text-transform: uppercase;
+    color: $primary-font-color;
+    font-size: 3.5rem;
+}
+
+h5 {
+    font-family: $secondary-font;
+    text-transform: uppercase;
+    color: $primary-font-color;
+    font-size: 1.563rem;
+    margin-bottom: 1.875rem;
+}
+
+.-typo-copy {
+    margin-bottom: 1.875rem;
+    color: $secondary-font-color;
+    font-size: 2
+    1.5rem;
+    font-family: $primary-font;
+
+    &--blue {
+        color: $primary-font-color;
+    }
+}
+
+.profile-image {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1.875rem;
+
+    &:hover .edit-profile-image {
+        opacity: 1;
+    }
+}
+
+.edit-profile-image {
+    width: auto;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0.9375rem;
+    right: 0.9375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem;
+    cursor: pointer;
+    opacity: 0;
+    background: linear-gradient(to bottom, rgba(231, 211, 116, 0.7) 0%, rgba(8, 184, 184, 0.7) 100%);
+    transition: all 0.2s ease-in-out;
+  
+    &__information {
+        color: #fff;
+        font-size: 1.125rem;
+    }
+  
+    &__label {
+        margin-left: 0.5rem;
+        display: inline-block;
+        font-family: $primary-font;
+    }
+}
+
+.btn {
+    border: none;
+    background: #fff;
+    border-radius: 0;
+    padding: 0.875rem 0.625rem;
+    cursor: pointer;
+  
+    &__label {
+        font-family: $primary-font;
+        margin-left: 0.5rem;
+    }
+  
+    &--green {
+        background: $green;
+        color: #fff;
+    }
+}
+
+.yo{color:yellow}
+

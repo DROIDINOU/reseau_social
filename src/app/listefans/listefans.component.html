@@ -1,0 +1,49 @@
+
+    <div class="layout">
+        <div class="main-container">
+            <div id="profil-container">
+                <img id="profile-picture1" src='assets/photos/IMG_1859.JPG' alt="Profile Picture">
+            </div>
+            <div id="container-info">
+                <ul>
+                    <li><h3 id="name">{{user}}</h3></li>
+                    <li id="mail"></li>
+                    <li class="line"></li>
+                    <li (click)="photoschats()">
+                        <h2 class="info">Photos</h2>
+                    </li>
+                    <li (click)="videoschats()">
+                        <h2 class="info" >Vidéos</h2>
+                    </li>
+                    <li>
+                        <h2 class="info">Caractère</h2>
+                    </li>
+                    <li>
+                        <h2 class="info">Infos humain</h2>
+                    </li>
+                    <li (click)="race()">
+                        <h2 class="info">Race</h2>
+                    </li>
+                    <li>
+                        <h2 class="info">Infos humain</h2>
+                    </li>
+                    <li>
+                        <h2 class="info">Race</h2>
+                    </li>
+                </ul>
+            </div>
+            <div id="home-bar"></div>
+        </div>
+        <div class="right-container">
+            @if(show_videos){
+                <app-videochat></app-videochat> <!-- Intégration du composant enfant -->
+            }
+            @else if(show_photos){
+                <app-photospost></app-photospost> <!-- Intégration du composant enfant -->
+            }
+            @else if(show_race){
+                <app-racechat></app-racechat> <!-- Intégration du composant enfant -->
+            }
+            <!-- Contenu du nouveau conteneur à droite -->
+        </div>
+    </div>

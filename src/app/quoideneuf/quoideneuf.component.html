@@ -1,0 +1,82 @@
+<div class="form-container">
+  <div class="post-form">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="message">Quoi de neuf {{username}}</label>
+        <textarea id="message" name="message" placeholder="Exprimez-vous ici..." formControlName="message"></textarea>
+      </div>
+      <button type="submit">Publier</button>&nbsp;&nbsp;
+      <button class="photos" type="submit"><fa-icon  [icon]="videos_photos"></fa-icon>Photos/Videos</button>
+    </form>
+  </div>
+</div>
+<div class="feed">
+  <div *ngIf="(messages$ | async) as messages">
+  <div *ngFor="let message of messages; let idx = index" class="message-card">
+    <div class="message-header">
+      <div class="author-avatar">
+        <img src="" alt="User Avatar">
+      </div>
+      <div class="author-info">
+        <span class="author-name"></span>
+        <span class="timestamp"></span>
+      </div>
+    </div>
+    <div class="message-content">
+      {{ message?.message }}
+    </div>
+    <div class="comments-action">
+      <p>J'aime</p>&nbsp;&nbsp;
+      <app-coeur [messagecontent]="message.id" (likeClicked)="likeClicked(message.id)"></app-coeur>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button class="nostyle" (click)="liaison_click_modal(message.id)">Commenter&nbsp;
+      </button>
+      <app-comments></app-comments>
+      <app-modalcomments 
+        [modal]="currentModal" 
+        [message_id]="message.id" 
+        [id_comment]="id_commentaire"
+        (modalClosed)="handleModalClosed()"
+        (commentAdded)="handleCommentAdded()"
+
+
+
+      ></app-modalcomments>
+      <button (click)="liaison_click_modal1(message.id)" class="nostyle align-right typo">Commentaires&nbsp;<span>{{ message.comments.length }}</span>&nbsp;
+        <app-pouces class="disabled"></app-pouces>&nbsp;
+        <span>{{ message?.likes_count }}</span>
+      </button>
+    </div>
+    <app-modalgeneral 
+        [modal1]="currentModal1" 
+        [message_id1]="message.id" 
+        [id_comment1]="id_commentaire1"
+        (modalClosed1)="handleModalClosed1()"
+        [dataObservable]="messages$"
+
+      ></app-modalgeneral>
+  </div>
+ </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

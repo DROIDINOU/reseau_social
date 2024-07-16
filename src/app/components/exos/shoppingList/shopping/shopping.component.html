@@ -1,0 +1,4 @@
+<div>
+    <app-ajout-article (ajoutArticleEvent)="ajouterArticleParent($event)"></app-ajout-article>
+    <app-affichage-liste [articlesEnfant]="articlesParent" (SupprimerArticleEvent)="supprimerArticleParent($event)"></app-affichage-liste>
+</div>

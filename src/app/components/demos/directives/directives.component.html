@@ -1,0 +1,69 @@
+<h1>Démonstrations des directives</h1>
+
+<div>
+    <fieldset>
+        <legend>Directive structurelles</legend>
+        <div>
+            <!-- Utilisation du if -->
+            <h3>If</h3>
+            <button (click)="basculerVisibilite()">Basculer visibilité</button>
+            <div *ngIf="estVisible">
+                <p>Ce paragrphe est visible</p>
+            </div>
+
+            @if (estVisible) {
+                <p>Ce paragrphe est visible</p>
+            }
+        </div>
+
+        <!-- Utulisation du switch -->
+        <h3>Switch</h3>
+        <div>
+            <h4>Sélectionnez une option</h4>
+            <button (click)="selectionnerOption('option1')">Option 1</button>
+            <button (click)="selectionnerOption('option2')">Option 2</button>
+            <button (click)="selectionnerOption('option3')">Option 3</button>
+            <button (click)="reset()">Reset</button>
+
+            @switch (optionSelectionnee) {
+                @case ('option1') {
+                    <p>Vous avez sélectionné l'option 1</p>
+                }
+                @case ('option2') {
+                    <p>Vous avez sélectionné l'option 2</p>
+                }
+                @case ('option3') {
+                    <p>Vous avez sélectionné l'option 3</p>
+                }
+                @default {
+                    <p>Aucune option sélectionnée</p>
+                }
+            }
+        </div>
+
+        <!-- For -->
+        <h3>Boucle For</h3>
+        <ul>
+            @for (element of elements; track $index) {
+                <p>{{element}}</p>
+            }
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Directives d'attribut</legend>
+        <!-- Utilisation de ngClass -->
+        <p [ngClass]="{special : estSpecial}">Ceci est un texte spécial !!!</p>
+
+        <!-- Utilisation du ngStyle -->
+        <p [ngStyle]="{color : peutEnregistrer ? 'green' : 'red'}">
+            peut enregistrer : {{peutEnregistrer ? 'oui' : 'non'}}</p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Custom</legend>
+        <!-- Utilisation de la directive personnalisée -->
+        <a surbrillance href="https://www.google.be/">Test surbrillance navigation vers google</a>
+    </fieldset>
+
+</div>

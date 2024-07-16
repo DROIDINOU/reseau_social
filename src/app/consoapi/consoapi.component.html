@@ -1,0 +1,18 @@
+<div *ngIf="posts">
+    <p>Count: {{ posts.count }}</p>
+  
+    <ul>
+      <li *ngFor="let pokemon of posts.results">
+        <a href="{{ pokemon.url }}">{{ pokemon.name }}</a>
+      </li>
+    </ul>
+  
+    <button (click)="previousPage()" [disabled]="offset === 0">Previous</button>
+    <button (click)="nextPage()" [disabled]="offset === 100">Next</button>
+
+  </div>
+  <button (click)="(getsample())">Next</button>
+
+  <div *ngIf="postbis">
+    <p>Count: {{ postbis.count }}</p>
+  </div>

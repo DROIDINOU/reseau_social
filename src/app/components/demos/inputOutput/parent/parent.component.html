@@ -1,0 +1,9 @@
+<ul>
+    @for (personne of listePersonne; track personne.id) {
+        <app-enfant
+            [personne]="personne"
+            (suppressionEnfantClick)="supprimerEnfantParID($event)"
+            (updateEnfantClick)="updateEnfantPrenom($event)"
+        ></app-enfant>
+    }
+</ul>

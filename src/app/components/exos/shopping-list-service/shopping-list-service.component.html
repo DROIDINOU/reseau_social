@@ -1,0 +1,17 @@
+<div>
+    <h2>Liste de courses (Service)</h2>
+
+    <ul>
+        @for (article of articles; track article.nom) {
+            <li>
+                {{article.nom}} X {{article.quantite}}
+                <button (click)="augmenterQte(article.nom)">➕</button>
+                <button (click)="diminuerQte(article.nom)">➖</button>
+                <button (click)="supprimer(article.nom)">❌</button>
+            </li>
+        }
+    </ul>
+    <input type="text" [(ngModel)]="newArticleNom" placeholder="Nouvel article...">
+    <input type="number" [(ngModel)]="newArticleQte" placeholder="Quantité" min="1" max="99">
+    <button (click)="ajoutArticle()">Ajouter</button>
+</div>

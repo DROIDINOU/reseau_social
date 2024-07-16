@@ -1,0 +1,8 @@
+<ul>
+    @for (article of articlesEnfant; track article.id) {
+        <li>
+            {{article.nom}}
+            <button (click)="supprimerArticleEnfant(article.id)">Supprimer</button>
+        </li>
+    }
+</ul>

@@ -1,0 +1,9 @@
+<li>
+    {{personne.id}} {{personne.prenom}}
+    <button (click)="supprimeMoi(personne.id)">Delete</button>
+    <button (click)="showInput(personne.prenom)">Update prénom</button>
+    @if (triggerUpdate) {
+        <input type="text" [(ngModel)]="newPrenom">
+        <button (click)="sauvegarde(personne.id)">Valider</button>
+    }
+</li>
