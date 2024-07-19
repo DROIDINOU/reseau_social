@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom,  BehaviorSubject } from 'rxjs';
 import { LoginService } from '../login.service';
 import { CommentModalsService } from '../comment-modals.service';
-import { faThumbsUp, faPhotoVideo } from '@fortawesome/free-solid-svg-icons';
-
+import { faThumbsUp, faPhotoVideo, faImage } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from '../user.service';
 @Component({
   selector: 'app-quoideneuf',
   templateUrl: './quoideneuf.component.html',
@@ -21,6 +21,7 @@ export class QuoideneufComponent implements OnInit {
   comments_All: any[] = []  
   pouces = faThumbsUp;
   videos_photos = faPhotoVideo;
+  faImage = faImage;
   id_message: number | null = null;
   currentModal: boolean = false;
   currentModal1: boolean = false;
@@ -45,8 +46,10 @@ export class QuoideneufComponent implements OnInit {
     private login: LoginService,
     private log: CommentModalsService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) { ;
+  }
 
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
@@ -55,9 +58,20 @@ export class QuoideneufComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       this.username = params.get('id');
-      console.log(this.username); 
+
+      // Vérifier si l'ID de l'utilisateur est déjà enregistré dans le UserService
+      const storedUserId = this.userService.getUserId();
+      if (storedUserId) {
+        this.username = storedUserId; // Utiliser l'ID enregistré s'il existe déjà
+      } else {
+        // Si l'ID n'est pas encore enregistré, enregistrer et utiliser celui récupéré de la route
+        this.userService.setUserId(this.username);
+      }
+
+      console.log('Current username:', this.username);
     });
 
+    // Appeler une fonction pour charger les messages après avoir récupéré l'ID de l'utilisateur
     this.loadMessages();
   }
 
@@ -105,14 +119,30 @@ export class QuoideneufComponent implements OnInit {
         console.log('Message créé avec succès', responseCreate);
         this.myForm.reset();
         await this.loadMessages();
-      } catch (error) {
-        console.error('Erreur lors de la création du message', error);
+      } catch (error: any) {
+        if (error.status === 403) {
+          // Erreur 403 indique un problème potentiel avec le token CSRF
+          console.log('Erreur 403, tentative de rafraîchir le token CSRF');
+          try {
+            await firstValueFrom(this.login.refreshCsrfToken());
+            // Retenter la requête après rafraîchissement du token
+            const responseCreateRetry = await firstValueFrom(this.login.createMessage(formData.message));
+            console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
+            this.myForm.reset();
+            await this.loadMessages();
+          } catch (retryError) {
+            console.error('Erreur lors de la création du message après rafraîchissement du token', retryError);
+          }
+        } else {
+          console.error('Erreur lors de la création du message', error);
+        }
       }
     } else {
       console.log('Formulaire invalide');
       this.myForm.reset();
     }
   }
+  
 
   async likeClicked(messageid: number) {
     console.log("Like button clicked for message ID:", messageid);

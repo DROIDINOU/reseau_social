@@ -5,10 +5,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { SearchuserService } from '../../searchuser.service';
-import { User } from '../../user';
+import { UserService } from '../../user.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-
+import { User } from '../../user';
 
 @Component({
   selector: 'app-nav-bar',
@@ -25,12 +25,14 @@ export class NavBarComponent implements OnInit {
   searchTerm : string = ""
   faSearch = faSearch;
   redirect : string|null = null;
+  userId: string | null = null;
 
   protected search_state$ = new BehaviorSubject<User[]>([]);
 
 
 
-  constructor(private authService: AuthService, private searches: SearchuserService,private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private searches: SearchuserService,private router: Router, private route: ActivatedRoute, public UserService: UserService) {   this.userId = this.UserService.getUserId();
+  }
   result : any[] = []
   users : User [] = [];
 
@@ -38,6 +40,7 @@ export class NavBarComponent implements OnInit {
     this.isLoggedInSubscription = this.authService.isLoggedIn$().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       console.log("logggggggggggggggggggggggggggggggggg",isLoggedIn)
+      console.log(this.userId)
     });
   }
 

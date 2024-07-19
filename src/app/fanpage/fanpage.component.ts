@@ -17,7 +17,7 @@ export class FanpageComponent implements OnInit {
   utilisateur : Moninterface | undefined;
   constructor(private activatedRoute : ActivatedRoute,private fanservice: FanService ){
       this.idRecupere = activatedRoute.snapshot.params["nom"]
-      console.log(this.idRecupere);
+      console.log("ahahahahahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",this.idRecupere);
   }
 
 

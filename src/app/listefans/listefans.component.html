@@ -1,14 +1,31 @@
-
     <div class="layout">
         <div class="main-container">
             <div id="profil-container">
-                <img id="profile-picture1" src='assets/photos/IMG_1859.JPG' alt="Profile Picture">
+                <img id="profile-picture1" [src]='profileImageUrl' alt="Profile Picture">
             </div>
             <div id="container-info">
                 <ul>
                     <li><h3 id="name">{{user}}</h3></li>
-                    <li id="mail"></li>
+                    
                     <li class="line"></li>
+                    <li>
+                        -<h2 class="info">Photo de profil</h2>
+                        <div class="container">
+                          <form (ngSubmit)="onSubmit()">
+                            <label for="fileInput" custom-file-upload ></label>
+                            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*, video/*">
+                            <div class="button-row">
+                              <button type="button" class="file-selector-button" (click)="selectFile()">
+                                <fa-icon class="text" [icon]="faFolderOpen"></fa-icon>
+                              </button>
+                              <button type="button" class="upload-button" type="submit">
+                                <fa-icon class="text" [icon]="faUpload"></fa-icon>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                        
+                     </li>
                     <li (click)="photoschats()">
                         <h2 class="info">Photos</h2>
                     </li>

@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     return this.authservice.isLoggedIn$().pipe(
       map(isLoggedIn => {
         if (isLoggedIn) {
-          console.log("tttttttttttttttttttttttttttttttttttttttttttt")
+          console.log("ttttttttttttttttttttttttttttttttttttttttttttfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
           return true;
         } else {
           console.log("salllllllllllo");

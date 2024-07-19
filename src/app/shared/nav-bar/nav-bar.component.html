@@ -3,7 +3,7 @@
         <nav class="nav-bar">
             <div class="nav-bar-left"  class="search-container" >
                 <a href="#" class="logo">MyLogo</a>
-                <input type="text" name="search-bar" class="search-bar" placeholder="Search" [(ngModel)]="searchTerm" (input)="findfriends()">
+                <input type="text" name="search-bar" class="search-bar" placeholder="Search friends" [(ngModel)]="searchTerm" (input)="findfriends()">
                 <div class="dropdown" *ngIf="findfriends">
                     <div 
                       class="dropdown-item" 
@@ -15,8 +15,8 @@
                   </div>
             </div>
             <div class="nav-bar-center">
-                        <a routerLink="/phtochat"><fa-icon [icon]="faHome" size="2x" class="nav-item"></fa-icon></a>
-                        <a routerLink="/fanslist"><fa-icon [icon]="faUserFriends" size="2x" class="nav-item"></fa-icon></a>
+                        <a routerLink="/phtochat" *ngIf="UserService.getUserId()"><fa-icon [icon]="faHome" size="2x" class="nav-item"></fa-icon></a>
+                        <a routerLink="/fanslist" *ngIf="UserService.getUserId()"><fa-icon [icon]="faUserFriends" size="2x" class="nav-item"></fa-icon></a>
 
             </div>
             <div class="nav-bar-right">

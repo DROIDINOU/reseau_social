@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable,throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { catchError } from 'rxjs/operators';
-import { tap } from 'rxjs';
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-
   private apiUrl = 'http://localhost:8000/api/register/';
   private apiUrl1 = 'http://localhost:8000/api/log/';
   private apiurl2 = 'http://localhost:8000/messages/create/';
@@ -19,44 +15,61 @@ export class LoginService {
   private apiurl4 = 'http://localhost:8000/messages/getlikes/';
   private apiurl5 = 'http://localhost:8000/messages/createlikes/';
 
-
-  authtoken : string|null = null
+  authtoken: string | null = null;
   private csrfToken: string | null = null;
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   });
-  
-  
 
-
-  constructor(private http: HttpClient, private auth: AuthService) {     this.getCsrfToken();
+  constructor(private http: HttpClient, private auth: AuthService) {
+    this.getCsrfToken();
   }
+
   getCsrfToken() {
     this.http.get('http://localhost:8000/csrf/', { withCredentials: true }).subscribe((response: any) => {
       this.csrfToken = response.csrfToken;
+      console.log('CSRF Token:', this.csrfToken);
     });
   }
+
+  refreshCsrfToken(): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/csrf/', { withCredentials: true }).pipe(
+      tap(response => {
+        this.csrfToken = response.csrfToken;
+        console.log('Refreshed CSRF Token:', this.csrfToken);
+      })
+    );
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'X-CSRFToken': this.csrfToken || ''
+    });
+  }
+
   registerUser(formData: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, formData);
+    return this.http.post<any>(this.apiUrl, formData, { headers: this.getAuthHeaders(), withCredentials: true });
   }
 
-  login(username: string, password: string) {
-    return this.http.post<any>(this.apiUrl1, { username, password });
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl1, { username, password }, { headers: this.getAuthHeaders(), withCredentials: true });
   }
 
-  logout() {
-    return this.http.post<any>('http://localhost:8000/api/logout/', {});
+  logout(): Observable<any> {
+    return this.http.post<any>('http://localhost:8000/api/logout/', {}, { headers: this.getAuthHeaders(), withCredentials: true });
   }
 
   createMessage(message: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'X-CSRFToken': this.csrfToken || ''
-    });
-    console.log(message)
+    const headers = this.getAuthHeaders();
+    console.log('Creating message:', message);
+    console.log('CSRF Token create message:', this.csrfToken);
+
     return this.http.post<any>(this.apiurl2, { message }, { headers: headers, withCredentials: true }).pipe(
-      tap(() => this.getCsrfToken())  // Rafraîchir le jeton après chaque requête
+      tap(() => this.getCsrfToken()) // Rafraîchir le jeton après chaque requête
     );
   }
 
@@ -64,25 +77,20 @@ export class LoginService {
     return this.http.get<any>(this.apiurl3, { withCredentials: true });
   }
 
-  createlikes(message_id:any): Observable<any> {
-    const headers = new HttpHeaders({
-      'X-CSRFToken': this.csrfToken || ''
-    });
-    const body = {action: 'like' };
-    console.log("salut",body)
+  createlikes(message_id: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const body = { action: 'like' };
+    console.log('Liking message:', message_id);
     const url = `${this.apiurl5}${message_id}/`;
-    return this.http.post<any>(url,body, {headers: headers, withCredentials: true }).pipe(
-      tap(() => this.getCsrfToken())  // Rafraîchir le jeton après chaque requête
+    return this.http.post<any>(url, body, { headers: headers, withCredentials: true }).pipe(
+      tap(() => this.getCsrfToken()) // Rafraîchir le jeton après chaque requête
     );
   }
 
-  getlikes(message_id:any): Observable<any> {
-    console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+  getlikes(message_id: any): Observable<any> {
+    console.log('Getting likes for message:', message_id);
     const url = `${this.apiurl4}${message_id}/`;
-    const headers = new HttpHeaders({
-      'X-CSRFToken': this.csrfToken || ''
-    });
-    return this.http.get<any>(url, {headers: headers, withCredentials: true });
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(url, { headers: headers, withCredentials: true });
   }
-
 }

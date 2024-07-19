@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faVideo, faComment, faImage   } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-phtochat',
   templateUrl: './phtochat.component.html',
@@ -8,4 +8,6 @@ import { faUserFriends, faVideo } from '@fortawesome/free-solid-svg-icons';
 export class PhtochatComponent {
  fauser = faUserFriends
  favideo = faVideo
+ faComment = faComment
+ faImage = faImage
 }

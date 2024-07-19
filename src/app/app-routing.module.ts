@@ -26,12 +26,12 @@ import { QuoideneufComponent } from './quoideneuf/quoideneuf.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth-guard.service';
+import { UserService } from './user.service';
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'routing', component: RoutingComponent},
         { path: 'fanslist', component: ListefansComponent},
         { path: 'friend/:id', component: ListefansComponent},
-
         { path: 'phtochat', component: PhtochatComponent},
         { path: 'photospost', component: PhotospostComponent},
         { path: 'racechat', component: RacechatComponent},
@@ -40,7 +40,6 @@ const routes: Routes = [
         { path: 'register', component: RegisterComponent},
         { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard] },
         { path: 'user-prof/:id', component: PhtochatComponent },
-
         { path: '', redirectTo: 'home', pathMatch: 'full'} // Redirection par défault
 ];
 

@@ -24,10 +24,7 @@
         
         <button type="submit" (click)="onSubmitForm()" 
         [disabled]="is_clicked || snapForm1.invalid" 
-        [ngClass]="{
-          'btn btn-primary btn-block btn-large': !isLoggedIn && snapForm1.valid,
-          'log log-primary log-block log-large': isLoggedIn,
-          'log2 log2-primary log2-block log2-large': snapForm1.invalid && !isLoggedIn
+        [ngClass]="{ 'log log-primary log-block log-large': isLoggedIn, ' btn btn-primary btn-block btn-large': !isLoggedIn 
         }">
         Se connecter
       </button>

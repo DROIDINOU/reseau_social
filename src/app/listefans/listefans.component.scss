@@ -75,7 +75,7 @@ ul li {
 }
 
 .line {
-    width: 80%;
+    width: 97%;
     height: 2px;
     background-color: #999da3;
     margin: 10px auto;
@@ -92,12 +92,7 @@ ul li {
     background-color: #ebebf0;
 }
 
-.info::after {
-    content: '>';
-    position: absolute;
-    right: 15px;
-    font-weight: bold;
-}
+
 
 #home-bar {
     position: absolute;
@@ -117,4 +112,71 @@ ul li {
     width: 80%;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+}
+
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 10px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 300px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+button {
+  background-color: #edf1ed;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #a6a6a7;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.file-selector-button {
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.text {
+  color: #7eff8a;
+  margin-left: 5px;
 }
