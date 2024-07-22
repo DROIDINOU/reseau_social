@@ -26,13 +26,14 @@ import { QuoideneufComponent } from './quoideneuf/quoideneuf.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth-guard.service';
-import { UserService } from './user.service';
+import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
+
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'routing', component: RoutingComponent},
-        { path: 'fanslist', component: ListefansComponent},
+        { path: 'fanslist/:userId', component: ListefansComponent},
         { path: 'friend/:id', component: ListefansComponent},
-        { path: 'phtochat', component: PhtochatComponent},
+        { path: 'phtochat/:userId', component: PhtochatComponent},
         { path: 'photospost', component: PhotospostComponent},
         { path: 'racechat', component: RacechatComponent},
         { path: 'quoideneuf', component: QuoideneufComponent},
@@ -40,6 +41,8 @@ const routes: Routes = [
         { path: 'register', component: RegisterComponent},
         { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard] },
         { path: 'user-prof/:id', component: PhtochatComponent },
+        { path: 'userprofile/:id', component: FriendrequestpageComponent },
+
         { path: '', redirectTo: 'home', pathMatch: 'full'} // Redirection par défault
 ];
 

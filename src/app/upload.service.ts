@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -8,6 +8,10 @@ import { tap } from 'rxjs/operators';
 })
 export class UploadService {
   private apiUrl = 'http://localhost:8000/api/profile/photo/';
+  private apiUrl1 = 'http://localhost:8000/profile/by-username';
+  private apiUrl2 = 'http://localhost:8000/profile/by-username';
+
+
   private csrfToken: string | null = null;
 
   constructor(private http: HttpClient) {
@@ -49,4 +53,12 @@ export class UploadService {
     const headers = this.getAuthHeaders();
     return this.http.get<any>(this.apiUrl, { headers: headers, withCredentials: true });
   }
+
+  getProfileByUsername(username: string): Observable<any> {
+    
+    const headers = this.getAuthHeaders();
+    // Construit les paramètres de requête
+    const params = new HttpParams().set('username', username);
+    // Effectue la requête GET avec les paramètres
+    return this.http.get(`${this.apiUrl1}/`, { headers: headers, params: params, withCredentials: true });  }
 }

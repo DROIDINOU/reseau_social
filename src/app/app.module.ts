@@ -49,7 +49,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalcommentsComponent } from './modalcomments/modalcomments.component';
 import { ModalgeneralComponent } from './modalgeneral/modalgeneral.component';
-
+import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +95,7 @@ import { ModalgeneralComponent } from './modalgeneral/modalgeneral.component';
     PoucesComponent,
     ModalcommentsComponent,
     ModalgeneralComponent,
+    FriendrequestpageComponent,
   ],
   imports: [
     BrowserModule,

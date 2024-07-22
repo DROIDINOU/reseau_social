@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Montserrat, sans-serif;
+    background-color: #9dadc5;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centre le contenu verticalement */
+    min-height: 100vh; /* Prend toute la hauteur de la vue */
+}
+
+.layout {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    width: 100%;
+    height: 100%; /* Prend toute la hauteur disponible */
+}
+
+.main-container {
+    background-color: #fff;
+    width: 400px;
+    height: 500px;
+    border-radius: 40px;
+    padding: 5%;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
+    display: flex; /* Flexbox pour centrer le contenu interne */
+    flex-direction: column; /* Colonne pour centrer verticalement */
+    align-items: center; /* Centre les éléments horizontalement */
+    justify-content: center; /* Centre les éléments verticalement */
+}
+
+#profil-container {
+    position: relative;
+    background-color: #2b3340;
+    width: 63%;
+    height: 44%; /* Ajuste selon les besoins */
+    border-radius: 50%; /* Cercle */
+    overflow: hidden; /* Assure que l'image reste dans le cercle */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 4px solid #7eff8a; /* Bordure verte claire */
+    display: flex; /* Flexbox pour centrer l'image */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+}
+
+#profile-picture1 {
+    width: 100%; /* Ajuste la largeur de l'image pour qu'elle occupe tout le cercle */
+    height: auto; /* Conserve le ratio de l'image */
+}
+
+.icon{
+    position: relative;
+    margin-top: 20px;
+    display: flex; /* Flexbox pour centrer l'image */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    color: #454546; /* Couleur de l'icône par défaut */
+    font-size: 24px; /* Taille de l'icône */
+    transition: color 0.3s ease, transform 0.3s ease; /* Transition douce pour la couleur et la taille */
+    cursor: pointer; 
+
+}
+  .icon.hover-icon:hover {
+    color: #3b5998; /* Couleur de l'icône au survol */
+    transform: scale(1.2); /* Agrandir l'icône au survol */
+    cursor: pointer; 
+  }

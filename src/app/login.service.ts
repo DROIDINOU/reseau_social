@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders , HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -14,6 +14,7 @@ export class LoginService {
   private apiurl3 = 'http://localhost:8000/messages/creates/';
   private apiurl4 = 'http://localhost:8000/messages/getlikes/';
   private apiurl5 = 'http://localhost:8000/messages/createlikes/';
+  private apiurl6 = 'http://localhost:8000/user-by-username/';
 
   authtoken: string | null = null;
   private csrfToken: string | null = null;
@@ -92,5 +93,11 @@ export class LoginService {
     const url = `${this.apiurl4}${message_id}/`;
     const headers = this.getAuthHeaders();
     return this.http.get<any>(url, { headers: headers, withCredentials: true });
+  }
+
+  getUserByName(message_id: any): Observable<any> {
+    const params = new HttpParams().set('username', message_id);
+    const headers = this.getAuthHeaders(); // Vous pouvez ajuster cette méthode selon vos besoins
+    return this.http.get<any>(this.apiurl6, { headers: headers, params: params, withCredentials: true });
   }
 }

@@ -3,6 +3,11 @@
     color: white;
   }
 
+  .nav-item1 {
+    margin: 0 1px; /* Ajustez cette valeur pour l'espacement désiré */
+    color: rgb(247, 245, 245);
+  }
+
   
   .dropdown {
     position: absolute;
@@ -24,3 +29,8 @@
     background-color: #f1f1f1;
   }
   
+  .hidden{display: none;}
+
+  .fa-exclamation-circle {
+    color: #f39c12; /* Couleur pour l'alerte */
+  }

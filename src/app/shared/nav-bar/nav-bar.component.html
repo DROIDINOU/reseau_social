@@ -15,8 +15,14 @@
                   </div>
             </div>
             <div class="nav-bar-center">
-                        <a routerLink="/phtochat" *ngIf="UserService.getUserId()"><fa-icon [icon]="faHome" size="2x" class="nav-item"></fa-icon></a>
-                        <a routerLink="/fanslist" *ngIf="UserService.getUserId()"><fa-icon [icon]="faUserFriends" size="2x" class="nav-item"></fa-icon></a>
+                        <a (click)="navigateToPhotoChat()" *ngIf="UserService.getUserId()"><fa-icon [icon]="faHome" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon></a>
+                        <a  (click)="navigateToFansList()"><fa-icon [icon]="faUserFriends" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon></a>&nbsp;&nbsp;&nbsp;
+                        <a><fa-icon [icon]="faBell" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}" >
+                        </fa-icon></a>
+                        <a><fa-icon [icon]="faExclamationCircle" class="fa-exclamation-circle" [ngClass]="{'hidden': !isLoggedIn}" >
+                        </fa-icon></a>
+                        @if(count_pending){<a class="nav-item1">{{count_pending}} demande(s) d'amitié en attente</a>}
+
 
             </div>
             <div class="nav-bar-right">
@@ -27,5 +33,6 @@
                     <a *ngIf="isLoggedIn" routerLink="/login" (click)="logout()" class="nav-link">Logout</a>
 
             </div>
+  
         </nav>
    
