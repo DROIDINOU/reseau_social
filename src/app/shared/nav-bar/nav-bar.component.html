@@ -21,7 +21,8 @@
                         </fa-icon></a>
                         <a><fa-icon [icon]="faExclamationCircle" class="fa-exclamation-circle" [ngClass]="{'hidden': !isLoggedIn}" >
                         </fa-icon></a>
-                        @if(count_pending){<a class="nav-item1">{{count_pending}} demande(s) d'amitié en attente</a>}
+                        @if(count_pending){<a class="nav-item1" (mouseenter)="showList = true" (mouseleave)="showList = false">{{count_pending}} demande(s) d'amitié en attente</a>}
+                        @if(showList){<p>{{sender}}</p>}
 
 
             </div>

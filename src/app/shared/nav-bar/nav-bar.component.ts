@@ -38,6 +38,9 @@ export class NavBarComponent implements OnInit {
   friend_status : any[] = []
   count_pending :number|null = null
   currentUser: any;
+  sender: any[] = []
+  showList: boolean = false;
+
  
 
   protected search_state$ = new BehaviorSubject<User[]>([]);
@@ -80,18 +83,32 @@ export class NavBarComponent implements OnInit {
     this.friendStatusSubscription = this.FriendService.friendStatus$.subscribe(status => {
       console.log('Friend request status:', status);
       this.friendStatus = status;
-      this.count_pending = this.friendStatus.reduce((acc, current) => {
-        // Vérifiez si le statut courant est 'pending'
-        if (current.status === 'pending' && current.to_user == this.currentUser) {
-          return acc + 1; // Incrémentez l'accumulateur
+
+
+
+
+      const count = this.friendStatus.reduce((acc, current) => {
+        // Vérifiez si le statut courant est 'pending' et si l'utilisateur cible est l'utilisateur actuel
+        if (current.status === 'pending' && current.to_user === this.currentUser) {
+          acc.count += 1; // Incrémentez le nombre de demandes en attente
+          acc.sender.push(current.from_user); // Ajoutez l'expéditeur de la demande
         }
-        return acc; // Sinon, renvoyez l'accumulateur sans modification
-      }, 0); console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",this.count_pending)// La valeur initiale de l'accumulateur est 0)
+        return acc; // Assurez-vous de retourner l'accumulateur dans tous les cas
+      }, { count: 0, sender: [] }); // Valeur initiale de l'accumulateur
+    
+      console.log("Nombre de demandes en attente :", count.count);
+      console.log("Expéditeurs des demandes :", count.sender);
+      this.count_pending = count.count;
+      this.sender = count.sender// La valeur initiale de l'accumulateur est 0)
     });
+
     
     
 
   }
+
+
+  
 
 
   

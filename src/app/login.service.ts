@@ -15,6 +15,7 @@ export class LoginService {
   private apiurl4 = 'http://localhost:8000/messages/getlikes/';
   private apiurl5 = 'http://localhost:8000/messages/createlikes/';
   private apiurl6 = 'http://localhost:8000/user-by-username/';
+  private apiurl7 = 'http://localhost:8000/friendrequest-all/';
 
   authtoken: string | null = null;
   private csrfToken: string | null = null;
@@ -100,4 +101,13 @@ export class LoginService {
     const headers = this.getAuthHeaders(); // Vous pouvez ajuster cette méthode selon vos besoins
     return this.http.get<any>(this.apiurl6, { headers: headers, params: params, withCredentials: true });
   }
+
+
+  getAll(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(this.apiurl7, { headers: headers, withCredentials: true });
+  }
+
+
+
 }
