@@ -25,6 +25,7 @@ export class LocalstorageserviceService implements OnInit {
   }
 
   getToken(): string | null {
+
     return localStorage.getItem('token');
   }
 

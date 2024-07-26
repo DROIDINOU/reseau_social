@@ -19,6 +19,20 @@
     z-index: 1000;
     width: 18%;
   }
+  .dropdown1 {
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
   
   .dropdown-item {
     padding: 8px;
@@ -34,3 +48,43 @@
   .fa-exclamation-circle {
     color: #f39c12; /* Couleur pour l'alerte */
   }
+  
+
+.no-bullets {
+    list-style-type: none; /* Élimine les puces de la liste */
+    padding: 0;
+    margin: 0;
+}
+
+
+
+.flex-item {
+    display: flex;
+    justify-content: space-between; /* Espace le contenu de manière égale */
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    width: 100%; /* Assure que l'élément prend toute la largeur disponible */
+}
+
+.icon-right {
+    display: flex;
+    gap: 10px; /* Espacement entre les icônes */
+    margin-left: auto; /* Pousse le conteneur d'icônes à l'extrême droite */
+}
+
+.icon-action {
+    cursor: pointer; /* Optionnel : change le curseur en pointeur pour indiquer que les icônes sont cliquables */
+}
+
+ .color{color:green}
+
+ .no-items{
+
+color: green
+
+ }
+
+ .profile-picture {
+  width: 24px; /* Correspond à la taille des icônes */
+  height: 24px; /* Correspond à la taille des icônes */
+  border-radius: 50%; /* Optionnel : pour des images rondes */
+}

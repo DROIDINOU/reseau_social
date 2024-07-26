@@ -1,16 +1,15 @@
-
-
-
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UploadService } from '../upload.service';
 import { LoginService } from '../login.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
-import { faSearch,fas, faUpload,faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUpload, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { firstValueFrom } from 'rxjs';
 
 library.add(faSearch, faUpload);
+
 @Component({
   selector: 'app-listefans',
   templateUrl: './listefans.component.html',
@@ -19,21 +18,26 @@ library.add(faSearch, faUpload);
 export class ListefansComponent implements OnInit {
   fileName: string = '';
   profileImageUrl: string | null = null;
-  liste_empty : boolean = false
-  list_fans: { id: number; name: string; birthYear: number; favoriteSeries: string[] }[] =[]
-  is_disabled : boolean = false
-  show_videos : boolean = false
-  show_race : boolean = false
-  bgColor : string = ""
-  show_photos: boolean = false
+  liste_empty: boolean = false;
+  list_fans: { id: number; name: string; birthYear: number; favoriteSeries: string[] }[] = [];
+  is_disabled: boolean = false;
+  show_videos: boolean = false;
+  show_race: boolean = false;
+  bgColor: string = "";
+  show_photos: boolean = false;
   uploadForm!: FormGroup;
-  user :string = ""
-  faSearch = faSearch
-  faUpload = faUpload
-  faFolderOpen = faFolderOpen
+  user: string = "";
+  faSearch = faSearch;
+  faUpload = faUpload;
+  faFolderOpen = faFolderOpen;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private formBuilder: FormBuilder, private upload: UploadService, private login: LoginService, public authService: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private upload: UploadService,
+    private login: LoginService,
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.loadProfileImage();
@@ -41,7 +45,7 @@ export class ListefansComponent implements OnInit {
 
   async loadProfileImage() {
     try {
-      const response = await this.upload.getProfilePhoto().toPromise();
+      const response = await firstValueFrom(this.upload.getProfilePhoto());
       this.profileImageUrl = `http://localhost:8000${response.profile_picture}`;
       console.log('Loaded profile image:', this.profileImageUrl);
     } catch (error) {
@@ -49,8 +53,8 @@ export class ListefansComponent implements OnInit {
       if (error && httpError.status === 403) {
         console.log('Erreur 403, tentative de rafraîchir le token CSRF');
         try {
-          await this.upload.refreshCsrfToken().toPromise();
-          const retryResponse = await this.upload.getProfilePhoto().toPromise();
+          await firstValueFrom(this.upload.refreshCsrfToken());
+          const retryResponse = await firstValueFrom(this.upload.getProfilePhoto());
           this.profileImageUrl = `http://localhost:8000${retryResponse.profile_picture}`;
           console.log('Loaded profile image after refreshing CSRF token:', this.profileImageUrl);
         } catch (refreshError) {
@@ -83,7 +87,7 @@ export class ListefansComponent implements OnInit {
       formData.append('profile_picture', file);
 
       try {
-        const response = await this.upload.createPhotoProfile(formData).toPromise();
+        const response = await firstValueFrom(this.upload.createPhotoProfile(formData));
         console.log('Enregistrement réussi', response);
         this.profileImageUrl = `http://localhost:8000/${response.profile_picture}`;
       } catch (error) {
@@ -94,31 +98,26 @@ export class ListefansComponent implements OnInit {
     }
   }
 
-  videoschats():void{
+  videoschats(): void {
     console.log("ddddddddddddddddddddddddddddddddddddd");
-     this.show_videos = true;
-     this.bgColor = "green"
-     console.log(this.videoschats)
-     this.show_photos = false; // Réinitialiser l'état des photos
-     this.show_race = false; // Réinitialiser l'état des photos
-  
+    this.show_videos = true;
+    this.bgColor = "green";
+    console.log(this.videoschats);
+    this.show_photos = false; // Réinitialiser l'état des photos
+    this.show_race = false; // Réinitialiser l'état des photos
   }
-  
-  photoschats():void{
+
+  photoschats(): void {
     console.log("ddddddddddddddddddddddddddddddddddddd");
-     this.show_photos = true;
-     this.show_videos = false; // Réinitialiser l'état des photos
-     this.show_race = false; // Réinitialiser l'état des photos
-  
+    this.show_photos = true;
+    this.show_videos = false; // Réinitialiser l'état des photos
+    this.show_race = false; // Réinitialiser l'état des photos
   }
-  
-  race():void{
+
+  race(): void {
     console.log("ddddddddddddddddddddddddddddddddddddd");
-     this.show_race = true;
-     this.show_videos = false; // Réinitialiser l'état des photos
-     this.show_photos = false; // Réinitialiser l'état des photos
-  
-  
+    this.show_race = true;
+    this.show_videos = false; // Réinitialiser l'état des photos
+    this.show_photos = false; // Réinitialiser l'état des photos
   }
-  
 }

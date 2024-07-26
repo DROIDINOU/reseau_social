@@ -1,0 +1,64 @@
+/* Assurez-vous que le conteneur de la modal couvre toute la vue */
+/* Conteneur de la modal qui couvre la vue entière */
+.modal-container {
+    display: none;
+    justify-content: center;
+    align-items: center; /* Centre la modal verticalement */
+    position: fixed; /* Fixe la modal à la vue */
+    top: 10;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Prend toute la hauteur de la vue */
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    overflow: hidden; /* Évite le défilement du reste de la page */
+  }
+  
+  /* La modal elle-même avec défilement interne */
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 400px; /* Largeur maximale de la modal */
+    max-height: 100vh; /* Hauteur maximale de la modal */
+    overflow: auto; /* Permet le défilement vertical si le contenu dépasse */
+    position: relative; /* Pour le positionnement du bouton de fermeture */
+  }
+  
+  /* Positionne le bouton de fermeture */
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  /* Contenu de la modal avec défilement vertical interne si nécessaire */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .user-name {
+    flex: 1; /* Prend tout l'espace disponible sauf celui de l'image */
+    margin-right: 10px; /* Espace entre le texte et l'image */
+  }
+  
+  .user-photo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    width: 40px; /* Taille de l'image */
+    height: 40px; /* Taille de l'image */
+    border-radius: 50%; /* Forme circulaire */
+  }
+  

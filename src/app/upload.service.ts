@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -10,8 +10,8 @@ export class UploadService {
   private apiUrl = 'http://localhost:8000/api/profile/photo/';
   private apiUrl1 = 'http://localhost:8000/profile/by-username';
   private apiUrl2 = 'http://localhost:8000/profile/by-username';
-
-
+  private apiUrl3 = 'http://localhost:8000/api/profilid/';
+  
   private csrfToken: string | null = null;
 
   constructor(private http: HttpClient) {
@@ -35,13 +35,21 @@ export class UploadService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({
+    let headers = new HttpHeaders({
+      'Accept': 'application/json',
       'X-CSRFToken': this.csrfToken || ''
     });
+
+    // Si vous envoyez des données en JSON
+    headers = headers.append('Content-Type', 'application/json');
+
+    return headers;
   }
 
   createPhotoProfile(formData: FormData): Observable<any> {
-    const headers = this.getAuthHeaders();
+    const headers = new HttpHeaders({
+      'X-CSRFToken': this.csrfToken || ''
+    });
     console.log("FormData pour l'upload :", formData);  // Vérifiez le contenu de formData
 
     return this.http.put<any>(this.apiUrl, formData, { headers: headers, withCredentials: true }).pipe(
@@ -54,11 +62,21 @@ export class UploadService {
     return this.http.get<any>(this.apiUrl, { headers: headers, withCredentials: true });
   }
 
+  getProfilePhoto1(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(this.apiUrl3, { headers: headers, withCredentials: true });
+  }
+
+  // Convertir Observable en Promise
+  getProfilePhoto1AsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getProfilePhoto1());
+  }
+
   getProfileByUsername(username: string): Observable<any> {
-    
     const headers = this.getAuthHeaders();
     // Construit les paramètres de requête
     const params = new HttpParams().set('username', username);
     // Effectue la requête GET avec les paramètres
-    return this.http.get(`${this.apiUrl1}/`, { headers: headers, params: params, withCredentials: true });  }
+    return this.http.get(`${this.apiUrl1}/`, { headers: headers, params: params, withCredentials: true });
+  }
 }

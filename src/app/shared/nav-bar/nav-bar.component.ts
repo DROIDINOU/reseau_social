@@ -1,192 +1,230 @@
-import { Component, OnInit } from '@angular/core';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { faUserFriends, faSearch, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { faStar,faBell, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { faHome, faUserFriends, faSearch, faUserPlus, faStar, faBell, faExclamationCircle, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { SearchuserService } from '../../searchuser.service';
 import { UserService } from '../../user.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../user';
 import { FriendsService } from '../../friends.service';
 import { UploadService } from '../../upload.service';
-import { switchMap } from 'rxjs/operators';
 import { LoginService } from '../../login.service';
-
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.scss',
-
+  styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavBarComponent implements OnInit {
-  faHome = faHome; // Déclarez une variable pour votre icône
+export class NavBarComponent implements OnInit, OnDestroy {
+  faHome = faHome;
   faUserFriends = faUserFriends;
-  fas_Star = faStar;
-  faBell = faBell
-  faExclamationCircle = faExclamationCircle
+  faStar = faStar;
+  faBell = faBell;
+  faExclamationCircle = faExclamationCircle;
+  faTrash=faTrash;
 
   isLoggedIn = false;
-  isLoggedInSubscription: Subscription= new Subscription();
-  searchTerm : string = ""
+  isLoggedInSubscription: Subscription = new Subscription();
+  searchTerm: string = "";
   faSearch = faSearch;
+  faCheck = faCheck;
   faUserPlus = faUserPlus;
-  redirect : string|null = null;
   userId: string | null = null;
-  friend_status : any[] = []
-  count_pending :number|null = null
-  currentUser: any;
-  sender: any[] = []
+  countPending: number = 0;
+  currentUser: { id: number, username: string } | null = null;
+  sender: any[] = [];
   showList: boolean = false;
-
- 
+  allUsers: any[] = [];
+  searchResults: User[] = [];
+  senders_id: number[] = []
+  photos_list: any[] = []
 
   protected search_state$ = new BehaviorSubject<User[]>([]);
   friendStatusSubscription: Subscription = new Subscription();
+
   friendStatus: any[] = [];
 
-
-  constructor(private login: LoginService, private FriendService: FriendsService,private upload: UploadService, private authService: AuthService, private searches: SearchuserService,private router: Router, private route: ActivatedRoute, public UserService: UserService) {
-  }
-  result : any[] = []
-  users : User [] = [];
+  constructor(
+    private login: LoginService,
+    private friendService: FriendsService,
+    private upload: UploadService,
+    private authService: AuthService,
+    private searches: SearchuserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.isLoggedInSubscription = this.authService.isLoggedIn$().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
-      console.log("Logged in status:", isLoggedIn);
+      console.log("iciiiiiiiiiiiiiiiiiiiii",this.isLoggedIn)
       if (isLoggedIn) {
-        this.userId = this.UserService.getUserId();
-        console.log("Current user ID:", this.userId);
+        console.log("salut")
+        this.userId = this.userService.getUserId();
         this.friend();
+        this.loadCurrentUserFromStorage();
+        this.updatePendingRequests();
       }
     });
 
-    this.authService.getCurrentUser$().pipe(
-      switchMap(async user => {
-        this.currentUser = user;
-        console.log("Current user:", this.currentUser);
-        if (this.currentUser) {
-          try {
-            const result = await this.login.getUserByName(this.currentUser).toPromise();
-            console.log("Profile result:", result);
-            this.currentUser = result.id;
-          } catch (error) {
-            console.error("Error fetching profile:", error);
-          }
-        }
-      })
-    ).subscribe();
+    this.login.getAll().subscribe(all => {
+      console.log("ici")
+      this.cdr.detectChanges(); // Force la détection des changements
 
-    this.friendStatusSubscription = this.FriendService.friendStatus$.subscribe(status => {
-      console.log('Friend request status:', status);
-      this.friendStatus = status;
+      this.allUsers = all;
+      console.log("usssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssser", this.allUsers)
+      console.log("usssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssser", this.isLoggedIn)
 
 
-
-
-      const count = this.friendStatus.reduce((acc, current) => {
-        // Vérifiez si le statut courant est 'pending' et si l'utilisateur cible est l'utilisateur actuel
-        if (current.status === 'pending' && current.to_user === this.currentUser) {
-          acc.count += 1; // Incrémentez le nombre de demandes en attente
-          acc.sender.push(current.from_user); // Ajoutez l'expéditeur de la demande
-        }
-        return acc; // Assurez-vous de retourner l'accumulateur dans tous les cas
-      }, { count: 0, sender: [] }); // Valeur initiale de l'accumulateur
-    
-      console.log("Nombre de demandes en attente :", count.count);
-      console.log("Expéditeurs des demandes :", count.sender);
-      this.count_pending = count.count;
-      this.sender = count.sender// La valeur initiale de l'accumulateur est 0)
     });
 
-    
-    
-
+    this.friendStatusSubscription = this.friendService.friendStatus$.subscribe(status => {
+      this.friendStatus = status;
+      this.updatePendingRequests();
+      this.cdr.detectChanges();
+    });
   }
 
+  loadCurrentUserFromStorage(): void {
+    this.currentUser = this.login.getCurrentUserFromStorage();
+  }
 
+  updatePendingRequests(): void {
+    try {
+      if (!this.currentUser || !this.currentUser.id) {
+        console.log(this.currentUser)
+        throw new Error("currentUser is not properly defined or missing id");
+      }
+
+      const count = this.friendStatus.reduce((acc, current) => {
+        if (current.status === 'pending' && this.currentUser && current.to_user === this.currentUser.id) {
+          acc.count += 1;
+          acc.sender.push(current.from_user);
+        }
+        return acc
+      }, { count: 0, sender: [] });
+
+      this.countPending = count.count;
+      this.sender = count.sender;
+      console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", this.sender)
+    } catch (error) {
+      console.error("Error in updatePendingRequests:", error);
+    }
+  }
+
+  async mouseentering(): Promise<void> {
+    this.showList = !this.showList;
+    try {
+      const list = await this.upload.getProfilePhoto1().toPromise();
+      this.photos_list = list;
+      console.log("voici la liste de la table profil", this.photos_list);
+    } catch (error) {
+      console.error("Error in mouseentering:", error);
+    }
+  }
   
-
-
-  
-
-
-
-
-
-
-
 
   ngOnDestroy(): void {
     if (this.isLoggedInSubscription) {
       this.isLoggedInSubscription.unsubscribe();
     }
-  }
+    if (this.friendStatusSubscription) {
+      this.friendStatusSubscription.unsubscribe();
 
+    }
+  }
 
   logout() {
     this.authService.logout();
+    this.login.logout().subscribe(() => {
+      this.currentUser = null;
+      localStorage.removeItem('currentUser');
+      this.router.navigate(['/login']); // Redirect to login page
+    });
   }
 
   findfriends(): void {
     if (this.searchTerm && this.searchTerm.length >= 1) {
-      console.log(this.searchTerm);
       this.searches.searchFriends(this.searchTerm).subscribe(users => {
+        this.searchResults = users;
         this.search_state$.next(users);
-        console.log("??????????????????????????????????????????",this.search_state$.value);
-        const entries = this.search_state$.value.filter(user => user.username.includes(this.searchTerm));
-        console.log("entries", entries);
-        if (entries.length > 0) {
-          console.log("Au moins un utilisateur trouvé");
-          return true
-        } else {
-          console.log("Aucun utilisateur trouvé");
-          return false
-          // Faire quelque chose si aucun utilisateur n'est trouvé
-        }
       });
     } else {
+      this.searchResults = [];
       this.search_state$.next([]);
     }
   }
 
-  redirectToUserProfile(user:User): void {
-    // Snapshot de la route actuelle
-    const snapshot: ActivatedRouteSnapshot = this.route.snapshot;
+  trackByUserId(index: number, user: any): number {
+    return user.id;
+  }
 
-    // Supposons que nous avons un paramètre d'URL nommé 'userId'
-    const userId = user
-    console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",userId)
-
+  redirectToUserProfile(user: User): void {
     if (user) {
-      // Redirection vers une autre route en utilisant le paramètre 'userId'
       this.search_state$.next([]);
-      this.searchTerm =""
+      this.searchTerm = "";
       this.router.navigate(['/userprofile', user.username]);
     }
   }
 
-
-  navigateToPhotoChat(): void {
-    this.userId = this.UserService.getUserId(); // Assurez-vous que userId est à jour
+  async navigateToPhotoChat(): Promise<void> {
+    console.log(this.userId);
+    this.userId = await this.userService.getUserId();
     this.router.navigate(['/phtochat', this.userId]);
-    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrr",this.userId)
   }
 
-  navigateToFansList(): void {
-    this.userId = this.UserService.getUserId(); // Assurez-vous que userId est à jour
+  async navigateToFansList(): Promise<void> {
+    this.userId = await this.userService.getUserId();
     this.router.navigate(['/fanslist', this.userId]);
-    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrr",this.userId)
-
   }
+  
   async friend(): Promise<void> {
     try {
-      this.FriendService.updateFriendStatus();
+      await this.friendService.updateFriendStatus();
     } catch (error) {
       console.error('Error receiving friend requests:', error);
     }
   }
+
+
+  async acceptFriendRequest(id:number){
+      const request_id = this.friendStatus.find(status => status.from_user === id && this.currentUser && status.to_user === this.currentUser.id);
+      console.log("request_id:", request_id)
+      if (request_id) {
+        console.log("yes")
+        const statusValue = 'accept'; // Définir le statut à 'accepted'
+        
+        // Appeler la méthode du service avec les paramètres
+        this.friendService.acceptFriendRequest(statusValue, request_id.id).subscribe({
+          next: response => {
+            console.log('Friend request accepted successfully:', response);
+            this.senders_id.push(id)
+            // Ajouter ici le code pour mettre à jour l'interface utilisateur
+          },
+          error: error => {
+            console.error('Error accepting friend request:', error);
+          }
+        });
+      } else {
+        console.error('Friend request not found');
+      }
     }
+
+
+
+refuseFriendRequest(){
+
+
+
+}
+
+
+
+
+
+
+
+
+}

@@ -45,6 +45,10 @@ export class AuthService {
   logout() {
     // Implémentez votre logique de déconnexion ici
     this.isLoggedIn.next(false);
+    this.currentUser.next(null);
+    this.router.navigate(['/login']);
+
+
   }
   
 }

@@ -1,39 +1,81 @@
-
-    <header>
-        <nav class="nav-bar">
-            <div class="nav-bar-left"  class="search-container" >
-                <a href="#" class="logo">MyLogo</a>
-                <input type="text" name="search-bar" class="search-bar" placeholder="Search friends" [(ngModel)]="searchTerm" (input)="findfriends()">
-                <div class="dropdown" *ngIf="findfriends">
-                    <div 
-                      class="dropdown-item" 
-                      *ngFor="let user of search_state$ |async"
-                      (click)="redirectToUserProfile(user)" 
-                    > 
+<header>
+    <nav class="nav-bar">
+        <!-- Section gauche de la barre de navigation -->
+        <div class="nav-bar-left search-container">
+            <a href="#" class="logo">MyLogo</a>
+            <input 
+                type="text" 
+                name="search-bar" 
+                class="search-bar" 
+                placeholder="Search friends" 
+                [(ngModel)]="searchTerm" 
+                (input)="findfriends()"
+            />
+            <div class="dropdown" *ngIf="searchResults.length > 0">
+                <div 
+                    class="dropdown-item" 
+                    *ngFor="let user of search_state$ | async"
+                    (click)="redirectToUserProfile(user)"
+                >
                     <fa-icon [icon]="faSearch"></fa-icon>&nbsp;&nbsp; {{ user.username }}
-                    </div>
-                  </div>
+                </div>
             </div>
-            <div class="nav-bar-center">
-                        <a (click)="navigateToPhotoChat()" *ngIf="UserService.getUserId()"><fa-icon [icon]="faHome" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon></a>
-                        <a  (click)="navigateToFansList()"><fa-icon [icon]="faUserFriends" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon></a>&nbsp;&nbsp;&nbsp;
-                        <a><fa-icon [icon]="faBell" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}" >
-                        </fa-icon></a>
-                        <a><fa-icon [icon]="faExclamationCircle" class="fa-exclamation-circle" [ngClass]="{'hidden': !isLoggedIn}" >
-                        </fa-icon></a>
-                        @if(count_pending){<a class="nav-item1" (mouseenter)="showList = true" (mouseleave)="showList = false">{{count_pending}} demande(s) d'amitié en attente</a>}
-                        @if(showList){<p>{{sender}}</p>}
+        </div>
 
-
+        <!-- Section centrale de la barre de navigation -->
+        <div class="nav-bar-center">
+            <a 
+                *ngIf="isLoggedIn && userService.getUserId()" 
+                (click)="navigateToPhotoChat()"
+            >
+                <fa-icon [icon]="faHome" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
+            </a>
+            <a (click)="navigateToFansList()">
+                <fa-icon [icon]="faUserFriends" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
+            </a>&nbsp;&nbsp;&nbsp;
+            <a (click)="mouseentering()">
+                <fa-icon [icon]="faBell" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
+            </a>
+            <a>
+                <fa-icon [icon]="faExclamationCircle" class="fa-exclamation-circle" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
+            </a>
+            <a *ngIf="countPending > 0 && isLoggedIn " class="nav-item1">
+                {{ countPending }} demande(s) d'amitié en attente
+            </a>
+            
+            <div *ngIf="showList && isLoggedIn " class="dropdown1">
+                
+                <ng-container *ngFor="let user of allUsers; trackBy: trackByUserId">
+                    <ng-container *ngIf="sender.includes(user.id)">
+                        <div class="dropdown_item">
+                            <ul class="no-bullets">
+                                <li class="flex-item">
+                                    Demande de connexion de : <strong>{{ user.username }}</strong>&nbsp; <div class="icon-action" *ngFor="let photo of photos_list">
+                                        <img *ngIf="photo?.user==user.id" [src]="photo?.profile_picture" alt="Profile Picture" class="profile-picture" >
+                                    </div >
+                                    <div class="icon-right">
+                                        <fa-icon [icon]="faUserPlus" class="icon-action color" (click)="acceptFriendRequest(user.id)"></fa-icon>
+                                        <fa-icon [icon]="faTrash" class="icon-action" (click)="refuseFriendRequest()"></fa-icon>
+                                    </div>
+                                </li>
+                                <li class="no-items" *ngIf="senders_id.includes(user.id)">
+                                    Vous êtes amis ou il n'y a pas de demandes en attente !
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
-            <div class="nav-bar-right">
-                <a href="#" class="nav-link">Account</a>
-                <a routerLink="/login" class="nav-link">Se connecter</a>
-                <a routerLink="/register" class="nav-link">S'enregistrer</a>
-                 
-                    <a *ngIf="isLoggedIn" routerLink="/login" (click)="logout()" class="nav-link">Logout</a>
+        </div>
 
-            </div>
-  
-        </nav>
-   
+        <!-- Section droite de la barre de navigation -->
+        <div class="nav-bar-right">
+            <a href="#" class="nav-link">Account</a>
+            <a routerLink="/login" class="nav-link">Se connecter</a>
+            <a routerLink="/register" class="nav-link">S'enregistrer</a>
+            <a *ngIf="isLoggedIn" routerLink="/login" (click)="logout()" class="nav-link">
+                Logout
+            </a>
+        </div>
+    </nav>
+</header>

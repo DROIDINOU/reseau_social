@@ -16,7 +16,7 @@
         <tr>
             <td>
                 <img src="assets/photos/chat2.jpg" />
-            </td>
+         S   </td>
         </tr>
         <tr>
             <td>
@@ -36,8 +36,12 @@
     </div>
     <div class ="right1-container">
         <div class ='align-right'>
-        <fa-icon  [icon]="fauser" size="2x"></fa-icon>;
-        <p class ='align-right' class="typo">Ami(e)s</p><br><br>
+        <fa-icon (click)="liaison_click_modal1()"  [icon]="fauser" size="2x"></fa-icon>;
+        <p  class ='align-right' class="typo">Ami(e)s</p><br><br>
+        <app-modallistfriends 
+        [modal11]="currentModal1" 
+        (modalClosed1)="handleModalClosed1()"
+      ></app-modallistfriends>
         <fa-icon  [icon]="faImage" size="2x"></fa-icon>;
         <p class ='align-right' class="typo">Photo(s)</p>
         <fa-icon  [icon]="favideo" size="2x"></fa-icon>

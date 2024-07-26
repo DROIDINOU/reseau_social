@@ -50,6 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalcommentsComponent } from './modalcomments/modalcomments.component';
 import { ModalgeneralComponent } from './modalgeneral/modalgeneral.component';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
+import { ModallistfriendsComponent } from './modallistfriends/modallistfriends.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpag
     ModalcommentsComponent,
     ModalgeneralComponent,
     FriendrequestpageComponent,
+    ModallistfriendsComponent,
   ],
   imports: [
     BrowserModule,
