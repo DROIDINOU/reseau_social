@@ -1,89 +1,10 @@
-
-	    <table>
-	        <tbody>
-	            <tr>
-	                <td>
-	                    <img src="http://image.shutterstock.com/display_pic_with_logo/1116935/293482145/stock-photo-young-couple-planning-honeymoon-vacation-trip-with-map-top-view-pointing-to-europe-rome-293482145.jpg"/>
-						<div class="like-action">
-							<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-							<p class="like">0</p>
-							<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-						  </div>
-					</td>
-	                <td>
-	                    <img src="http://image.shutterstock.com/display_pic_with_logo/439315/166193831/stock-photo-woman-traveling-by-boat-at-sunset-among-the-islands-166193831.jpg"/>
-						<div class="like-action">
-							<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-							<p class="like">0</p>
-							<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-						  </div>
-
-
-					</td>
-	                <td>
-	                     <img src="http://image.shutterstock.com/display_pic_with_logo/64397/270444074/stock-photo-close-up-photo-of-man-s-hand-holding-toy-airplane-against-blue-sky-with-clouds-filtered-image-270444074.jpg"/>
-						 <div class="like-action">
-							<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-							<p class="like">0</p>
-							<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-						  </div>
-						</td>
-	            </tr>
-	                <td>
-	                    <img  src="http://image.shutterstock.com/display_pic_with_logo/2227586/321194426/stock-photo-instagram-looking-image-of-travelling-concept-retro-effect-filters-color-toning-selective-focus-321194426.jpg"/>
-						<div class="like-action">
-							<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-							<p class="like">0</p>
-							<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-						  </div>
-					</td>
-	                <td>
-	                   <img src="http://image.shutterstock.com/display_pic_with_logo/1116935/293481968/stock-photo-travel-trip-vacation-tourism-mockup-close-up-of-compass-glass-of-water-note-pad-pen-and-toy-293481968.jpg"/>
-					   <div class="like-action">
-						<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-						<p class="like">0</p>
-						<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-					  </div>
-					</td>
-	                <td>
-	                   <img src="http://image.shutterstock.com/display_pic_with_logo/1495706/345901550/stock-photo-back-side-of-traveler-girl-looking-at-the-flying-plane-above-the-sea-travel-and-active-lifestyle-345901550.jpg"/>
-					   <div class="like-action">
-						<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-						<p class="like">0</p>
-						<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-					  </div>
-					</td>
-	            <tr>
-	            </tr>
-	            <tr>
-	                <td>
-	                   <img  src="http://image.shutterstock.com/display_pic_with_logo/998189/247816603/stock-photo-text-the-world-awaits-and-book-travel-tour-tourism-concept-247816603.jpg"/>
-					   <div class="like-action">
-						<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-						<p class="like">0</p>
-						<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-					  </div>
-					</td>
-	                <td>    
-	                   <img src="http://image.shutterstock.com/display_pic_with_logo/439315/199696376/stock-photo-woman-traveler-looking-at-batur-volcano-indonesia-199696376.jpg"/>
-					   <div class="like-action">
-						<fa-icon class="like" [icon]="fathumbsup"></fa-icon>
-						<p class="like">0</p>
-						<fa-icon class="like" class="nbvue" [icon]="faeye"></fa-icon>
-					  </div>
-					</td>
-	                <td>    
-	                   <img   src="http://image.shutterstock.com/display_pic_with_logo/1615823/140455537/stock-photo-woman-s-bedroom-full-of-things-ready-to-be-taken-on-summer-holiday-140455537.jpg"/>
-					   <div class="like-action">
-						<fa-icon  class="like" [icon]="fathumbsup" (click)="meslikes()"></fa-icon>
-						<p class="like">{{likes}}</p>
-						<fa-icon class="like"  class="nbvue" [icon]="faeye" (click)="mesviews()"></fa-icon>
-						<p class="like" class="re">{{views}}</p>
-						<fa-icon class="like"  class="nbvue" [icon]="trophy" (click)="mesviews()"></fa-icon>
-
-					  </div>
-					</td>
-	            </tr>
-	        </tbody>
-	    </table>
-    
+<div class="photo-gallery">
+    <div class="photo-item" *ngFor="let photo of liste_photos;let i = index">
+        <img [src]="'http://localhost:8000' + photo?.photo" />
+        <div class="like-action">
+            <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(photo.id)"></fa-icon>
+            <p class="like">{{ photo.likes.length }}</p>
+            <fa-icon class="like nbvue" [icon]="faeye"></fa-icon>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@
                         <div class="container">
                           <form (ngSubmit)="onSubmit()">
                             <label for="fileInput" custom-file-upload ></label>
-                            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*, video/*">
+                            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*">
                             <div class="button-row">
                               <button type="button" class="file-selector-button" (click)="selectFile()">
                                 <fa-icon class="text" [icon]="faFolderOpen"></fa-icon>
@@ -26,11 +26,39 @@
                         </div>
                         
                      </li>
-                    <li (click)="photoschats()">
-                        <h2 class="info">Photos</h2>
+                    <li>
+                        <h2 class="info" (click)="photoschats()">Photos</h2>
+                        <div class="container">
+                            <form (ngSubmit)="onSubmit1()">
+                              <label for="fileInput" custom-file-upload ></label>
+                              <input type="file" #fileInput (change)="onFileSelected1($event)" accept="image/*">
+                              <div class="button-row">
+                                <button type="button" class="file-selector-button" (click)="selectFile1()">
+                                  <fa-icon class="text" [icon]="faFolderOpen"></fa-icon>
+                                </button>
+                                <button type="button" class="upload-button" type="submit">
+                                  <fa-icon class="text" [icon]="faUpload"></fa-icon>
+                                </button>
+                              </div>
+                            </form>
+                          </div>
                     </li>
                     <li (click)="videoschats()">
                         <h2 class="info" >Vidéos</h2>
+                        <div class="container">
+                            <form (ngSubmit)="onSubmit2()">
+                              <label for="fileInput" custom-file-upload ></label>
+                              <input type="file" #fileInput (change)="onFileSelected2($event)" accept="video/*">
+                              <div class="button-row">
+                                <button type="button" class="file-selector-button" (click)="selectFile2()">
+                                  <fa-icon class="text" [icon]="faFolderOpen"></fa-icon>
+                                </button>
+                                <button type="button" class="upload-button" type="submit">
+                                  <fa-icon class="text" [icon]="faUpload"></fa-icon>
+                                </button>
+                              </div>
+                            </form>
+                          </div>
                     </li>
                     <li>
                         <h2 class="info">Caractère</h2>
@@ -56,7 +84,7 @@
                 <app-videochat></app-videochat> <!-- Intégration du composant enfant -->
             }
             @else if(show_photos){
-                <app-photospost></app-photospost> <!-- Intégration du composant enfant -->
+                <app-photospost [liste_photos]="photosTest" (photosUpdated)="onPhotosUpdated($event)"></app-photospost> <!-- Intégration du composant enfant -->
             }
             @else if(show_race){
                 <app-racechat></app-racechat> <!-- Intégration du composant enfant -->

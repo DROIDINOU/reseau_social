@@ -2,7 +2,7 @@
     <div class="modal">
       <fa-icon [icon]="faTimes" size="2x" (click)="closeModal()" class="close-button"></fa-icon>
       <div class="modal-content">
-        <div *ngIf="entries[2][1]">
+        <div *ngIf="entries && entries[2][1]">
           <div *ngFor="let datas of entries[2][1]">
             <div *ngFor="let dat of all_users">
               <div *ngIf="datas === dat.id" class="user-container">

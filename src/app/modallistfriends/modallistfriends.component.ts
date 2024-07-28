@@ -35,7 +35,6 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
   console.log("voici....................................photos", this.photos_list);
   console.log("voici....................................friends", this.friends_list);
   await this.getallusers()
-  console.log("voici....................................entries", this.entries);
   console.log("voici....................................allusers", this.all_users);
   }
 

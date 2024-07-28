@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, firstValueFrom } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, firstValueFrom, throwError } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +11,13 @@ export class UploadService {
   private apiUrl1 = 'http://localhost:8000/profile/by-username';
   private apiUrl2 = 'http://localhost:8000/profile/by-username';
   private apiUrl3 = 'http://localhost:8000/api/profilid/';
-  
+  private apiUrl4 = 'http://localhost:8000/api/photosupload/';
+  private apiUrl5 = 'http://localhost:8000/api/photosuploadbis/';
+  private apiUrl6 = 'http://localhost:8000/photos/by-username/';
+
   private csrfToken: string | null = null;
 
-  constructor(private http: HttpClient) {
-    this.getCsrfToken();
-  }
-
-  getCsrfToken() {
-    this.http.get('http://localhost:8000/csrf/', { withCredentials: true }).subscribe((response: any) => {
-      this.csrfToken = response.csrfToken;
-      console.log('CSRF Token:', this.csrfToken);
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   refreshCsrfToken(): Observable<any> {
     return this.http.get<any>('http://localhost:8000/csrf/', { withCredentials: true }).pipe(
@@ -35,36 +29,49 @@ export class UploadService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    let headers = new HttpHeaders({
-      'Accept': 'application/json',
+    return new HttpHeaders({
       'X-CSRFToken': this.csrfToken || ''
     });
+  }
 
-    // Si vous envoyez des données en JSON
-    headers = headers.append('Content-Type', 'application/json');
-
-    return headers;
+  private performRequest<T>(request: () => Observable<T>): Observable<T> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => request()),
+      catchError(error => {
+        console.error('Request failed', error);
+        return throwError(error);
+      })
+    );
   }
 
   createPhotoProfile(formData: FormData): Observable<any> {
-    const headers = new HttpHeaders({
-      'X-CSRFToken': this.csrfToken || ''
-    });
-    console.log("FormData pour l'upload :", formData);  // Vérifiez le contenu de formData
+    return this.performRequest(() => 
+      this.http.put<any>(this.apiUrl, formData, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
 
-    return this.http.put<any>(this.apiUrl, formData, { headers: headers, withCredentials: true }).pipe(
-      tap(() => this.getCsrfToken())  // Rafraîchir le jeton après chaque requête
+  createPhoto(formData1: FormData): Observable<any> {
+    return this.performRequest(() => 
+      this.http.post<any>(this.apiUrl4, formData1, { headers: this.getAuthHeaders(), withCredentials: true })
     );
   }
 
   getProfilePhoto(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(this.apiUrl, { headers: headers, withCredentials: true });
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
+  getPhoto(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl4, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
   }
 
   getProfilePhoto1(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(this.apiUrl3, { headers: headers, withCredentials: true });
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl3, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
   }
 
   // Convertir Observable en Promise
@@ -72,11 +79,28 @@ export class UploadService {
     return firstValueFrom(this.getProfilePhoto1());
   }
 
+  getPhoto1(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl5, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
+  // Convertir Observable en Promise
+  getPhoto1AsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getPhoto1());
+  }
+
   getProfileByUsername(username: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    // Construit les paramètres de requête
-    const params = new HttpParams().set('username', username);
-    // Effectue la requête GET avec les paramètres
-    return this.http.get(`${this.apiUrl1}/`, { headers: headers, params: params, withCredentials: true });
+    return this.performRequest(() => {
+      const params = new HttpParams().set('username', username);
+      return this.http.get<any>(`${this.apiUrl1}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+    });
+  }
+
+  getPhotosByUsername(username: string): Observable<any> {
+    return this.performRequest(() => {
+      const params = new HttpParams().set('username', username);
+      return this.http.get<any>(`${this.apiUrl6}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+    });
   }
 }

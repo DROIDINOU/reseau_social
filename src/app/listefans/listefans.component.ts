@@ -7,6 +7,8 @@ import { faSearch, faUpload, faFolderOpen } from '@fortawesome/free-solid-svg-ic
 import { AuthService } from '../auth.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 library.add(faSearch, faUpload);
 
@@ -18,6 +20,9 @@ library.add(faSearch, faUpload);
 export class ListefansComponent implements OnInit {
   fileName: string = '';
   profileImageUrl: string | null = null;
+  photosUrl: string ="";
+  photosTest: any [] = [];
+
   liste_empty: boolean = false;
   list_fans: { id: number; name: string; birthYear: number; favoriteSeries: string[] }[] = [];
   is_disabled: boolean = false;
@@ -30,17 +35,39 @@ export class ListefansComponent implements OnInit {
   faSearch = faSearch;
   faUpload = faUpload;
   faFolderOpen = faFolderOpen;
+  username: string | null = null;
+
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
     private upload: UploadService,
     private login: LoginService,
-    public authService: AuthService
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private userService: UserService,
+
   ) { }
 
   ngOnInit() {
-    this.loadProfileImage();
+    this.route.paramMap.subscribe(params => {
+      this.username = params.get('id');
+
+      // Vérifier si l'ID de l'utilisateur est déjà enregistré dans le UserService
+      const storedUserId = this.userService.getUserId();
+      if (storedUserId) {
+        this.username = storedUserId; // Utiliser l'ID enregistré s'il existe déjà
+      } else {
+        // Si l'ID n'est pas encore enregistré, enregistrer et utiliser celui récupéré de la route
+        this.userService.setUserId(this.username);
+      }
+
+      console.log('salut staré:', this.username);
+      
+      // Appeler les fonctions de chargement après avoir obtenu les paramètres de la route
+      this.loadProfileImage();
+      this.loadphotos();
+    });
   }
 
   async loadProfileImage() {
@@ -66,11 +93,65 @@ export class ListefansComponent implements OnInit {
     }
   }
 
+  async loadphotos() {
+    try {
+      const response = await firstValueFrom(this.upload.getPhoto());
+      this.photosUrl = `http://localhost:8000${response.photo}`;
+      console.log('Loaded photo:', this.photosUrl);
+    } catch (error) {
+      const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
+      if (error && httpError.status === 403) {
+        console.log('Erreur 403, tentative de rafraîchir le token CSRF');
+        try {
+          await firstValueFrom(this.upload.refreshCsrfToken());
+          const retryResponse = await firstValueFrom(this.upload.getPhoto());
+          this.photosUrl = `http://localhost:8000${retryResponse.photo}`;
+          console.log('Loaded photo after refreshing CSRF token:', this.profileImageUrl);
+        } catch (refreshError) {
+          console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
+        }
+      } else {
+        console.error('Erreur lors du chargement de l\'image de profil', error);
+      }
+    }
+  }
+
+
   selectFile(): void {
     this.fileInput.nativeElement.click();
   }
 
+  selectFile1(): void {
+    this.show_photos = true;
+    this.fileInput.nativeElement.click();
+
+  }
+
+  selectFile2(): void {
+    this.show_photos = true;
+    this.fileInput.nativeElement.click();
+
+  }
+
   onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+    } else {
+      console.error('No file selected or invalid file.');
+    }
+  }
+
+  onFileSelected1(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+    } else {
+      console.error('No file selected or invalid file.');
+    }
+  }
+
+  onFileSelected2(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       this.fileName = file.name;
@@ -90,12 +171,38 @@ export class ListefansComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createPhotoProfile(formData));
         console.log('Enregistrement réussi', response);
         this.profileImageUrl = `http://localhost:8000/${response.profile_picture}`;
+
       } catch (error) {
         console.error('Erreur de connexion', error);
       }
     } else {
       console.error('Aucun fichier sélectionné.');
     }
+  }
+
+  async onSubmit1(): Promise<void> {
+    const fileInputElement = this.fileInput.nativeElement;
+    const file: File | null = fileInputElement.files?.[0] || null;
+    if (file) {
+      const formData1 = new FormData();
+      formData1.append('photo', file);
+
+      try {
+        console.log("salut mon gros")
+        const response = await firstValueFrom(this.upload.createPhoto(formData1));
+        console.log('Enregistrement réussi', response);
+        this.photosUrl= `http://localhost:8000/${response.photo}`;
+        
+      } catch (error) {
+        console.error('Erreur de connexion', error);
+      }
+    } else {
+      console.error('Aucun fichier sélectionné.');
+    }
+  }
+
+  onSubmit2() {
+    
   }
 
   videoschats(): void {
@@ -107,8 +214,21 @@ export class ListefansComponent implements OnInit {
     this.show_race = false; // Réinitialiser l'état des photos
   }
 
-  photoschats(): void {
-    console.log("ddddddddddddddddddddddddddddddddddddd");
+  async photoschats(): Promise<void> {
+
+    try {
+    const response = await firstValueFrom(this.upload.getPhoto());
+    console.log("t",response);    
+    this.photosTest = response
+    console.log("chevauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",this.photosTest)
+    
+  
+    
+  } 
+    catch (error) {
+      console.error('Erreur de connexion', error);
+    }
+  
     this.show_photos = true;
     this.show_videos = false; // Réinitialiser l'état des photos
     this.show_race = false; // Réinitialiser l'état des photos
@@ -119,5 +239,10 @@ export class ListefansComponent implements OnInit {
     this.show_race = true;
     this.show_videos = false; // Réinitialiser l'état des photos
     this.show_photos = false; // Réinitialiser l'état des photos
+  }
+
+
+  onPhotosUpdated(updatedPhotos: any[]): void {
+    this.photosTest = updatedPhotos;
   }
 }

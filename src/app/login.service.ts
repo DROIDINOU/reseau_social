@@ -18,6 +18,13 @@ export class LoginService {
   private apiurl7 = 'http://localhost:8000/friendrequest-all/';
   private apiurl8 = 'http://localhost:8000/UserrequestAll/';
   private apiurl9 = 'http://localhost:8000/api/logout/';
+  private apiurl10 = 'http://localhost:8000/photos/getlikes/';
+  private apiurl11 = 'http://localhost:8000/photos/createlikes/';
+  private apiurl12 = 'http://localhost:8000/photos/all/';
+
+  
+  
+
 
   authtoken: string | null = null;
   private csrfToken: string | null = null;
@@ -44,8 +51,6 @@ export class LoginService {
 
   private getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       'X-CSRFToken': this.csrfToken || ''
     });
   }
@@ -125,6 +130,30 @@ export class LoginService {
     );
   }
 
+
+  createlikesphotos(photo_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const headers = this.getAuthHeaders();
+        const body = { action: 'like' };
+        const url = `${this.apiurl11}${photo_id}/`;
+        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
+      })
+    );
+  }
+
+  getlikesphotos(photo_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl10}${photo_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
+
+
+
   getUserByName(message_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
@@ -138,6 +167,14 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
         this.http.get<any>(this.apiurl8, { headers: this.getAuthHeaders(), withCredentials: true })
+      )
+    );
+  }
+
+  getAllPhotos(): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() =>
+        this.http.get<any>(this.apiurl12, { headers: this.getAuthHeaders(), withCredentials: true })
       )
     );
   }

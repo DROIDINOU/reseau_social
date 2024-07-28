@@ -27,6 +27,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth-guard.service';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
+import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
 
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
@@ -42,7 +43,7 @@ const routes: Routes = [
         { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard] },
         { path: 'user-prof/:id', component: PhtochatComponent },
         { path: 'userprofile/:id', component: FriendrequestpageComponent },
-
+        { path: 'access', component: AccessphotosfromprofileComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full'} // Redirection par défault
 ];
 

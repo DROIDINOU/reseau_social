@@ -3,6 +3,8 @@ import { UploadService } from '../upload.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
 import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { UserService } from '../user.service';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FriendsService } from '../friends.service';
@@ -16,7 +18,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
   styleUrl: './friendrequestpage.component.scss'
 })
 export class FriendrequestpageComponent implements OnInit{
-  constructor(private upload: UploadService,private authService: AuthService, private login:LoginService, private route: ActivatedRoute,public UserService: UserService, private FriendService:FriendsService
+  constructor(private upload: UploadService,private authService: AuthService, private login:LoginService,private router: Router, private route: ActivatedRoute,public UserService: UserService, private FriendService:FriendsService
     ){}
   profileImageUrl: string | null = null;
   userId: string | null = null;
@@ -24,6 +26,7 @@ export class FriendrequestpageComponent implements OnInit{
   actual_user: {id: number | null, user: string | null} = {id: null, user: null};
   sender_user :string | null = null;
   friends_status:any
+  
 
 
 
@@ -121,6 +124,7 @@ export class FriendrequestpageComponent implements OnInit{
       }
     }
   }
+
 
 
    async friend(){

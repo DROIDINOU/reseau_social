@@ -51,6 +51,7 @@ import { ModalcommentsComponent } from './modalcomments/modalcomments.component'
 import { ModalgeneralComponent } from './modalgeneral/modalgeneral.component';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 import { ModallistfriendsComponent } from './modallistfriends/modallistfriends.component';
+import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { ModallistfriendsComponent } from './modallistfriends/modallistfriends.c
     ModalgeneralComponent,
     FriendrequestpageComponent,
     ModallistfriendsComponent,
+    AccessphotosfromprofileComponent,
   ],
   imports: [
     BrowserModule,

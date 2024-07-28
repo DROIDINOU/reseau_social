@@ -10,7 +10,7 @@ import { UserService } from '../user.service';
   selector: 'app-quoideneuf',
   templateUrl: './quoideneuf.component.html',
   styleUrls: ['./quoideneuf.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class QuoideneufComponent implements OnInit {
