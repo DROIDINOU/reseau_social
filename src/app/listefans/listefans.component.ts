@@ -21,7 +21,9 @@ export class ListefansComponent implements OnInit {
   fileName: string = '';
   profileImageUrl: string | null = null;
   photosUrl: string ="";
+  videosUrl: string ="";
   photosTest: any [] = [];
+  videosTest: any [] = [];
 
   liste_empty: boolean = false;
   list_fans: { id: number; name: string; birthYear: number; favoriteSeries: string[] }[] = [];
@@ -128,7 +130,7 @@ export class ListefansComponent implements OnInit {
   }
 
   selectFile2(): void {
-    this.show_photos = true;
+    this.show_videos = true;
     this.fileInput.nativeElement.click();
 
   }
@@ -201,18 +203,47 @@ export class ListefansComponent implements OnInit {
     }
   }
 
-  onSubmit2() {
+  async onSubmit2(): Promise <void>  {
+    const fileInputElement = this.fileInput.nativeElement;
+    const file: File | null = fileInputElement.files?.[0] || null;
+    if (file) {
+      const formData1 = new FormData();
+      formData1.append('video', file);
+
+      try {
+        console.log("salut mon gros")
+        const response = await firstValueFrom(this.upload.createVideo(formData1));
+        console.log('Enregistrement réussi', response);
+        this.photosUrl= `http://localhost:8000/${response.video}`;
+        
+      } catch (error) {
+        console.error('Erreur de connexion', error);
+      }
+    } else {
+      console.error('Aucun fichier sélectionné.');
+    }
     
   }
 
-  videoschats(): void {
-    console.log("ddddddddddddddddddddddddddddddddddddd");
-    this.show_videos = true;
-    this.bgColor = "green";
-    console.log(this.videoschats);
-    this.show_photos = false; // Réinitialiser l'état des photos
+  async videoschats(): Promise<void> {
+
+    try {
+    const response = await firstValueFrom(this.upload.getVideo());
+    console.log("t",response);    
+    this.videosTest = response
+    console.log("chevauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",this.videosTest)
+    
+  
+    
+  } 
+    catch (error) {
+      console.error('Erreur de connexion', error);
+    }
+    this.show_videos = true; // Réinitialiser l'état des photos
+    this.show_photos = false;
     this.show_race = false; // Réinitialiser l'état des photos
   }
+
 
   async photoschats(): Promise<void> {
 
@@ -244,5 +275,9 @@ export class ListefansComponent implements OnInit {
 
   onPhotosUpdated(updatedPhotos: any[]): void {
     this.photosTest = updatedPhotos;
+  }
+
+  onVideosUpdated(updatedVideos: any[]): void {
+    this.videosTest = updatedVideos;
   }
 }

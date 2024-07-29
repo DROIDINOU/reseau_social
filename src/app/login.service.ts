@@ -21,6 +21,11 @@ export class LoginService {
   private apiurl10 = 'http://localhost:8000/photos/getlikes/';
   private apiurl11 = 'http://localhost:8000/photos/createlikes/';
   private apiurl12 = 'http://localhost:8000/photos/all/';
+  private apiurl13 = 'http://localhost:8000/videos/all/';
+  private apiurl14 = 'http://localhost:8000/videos/getlikes/';
+  private apiurl15 = 'http://localhost:8000/videos/createlikes/';
+
+
 
   
   
@@ -147,6 +152,27 @@ export class LoginService {
       switchMap(() => {
         const url = `${this.apiurl10}${photo_id}/`;
         return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
+  getlikesvideos(videos_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl14}${videos_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
+
+  createlikesvideos(videos_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const headers = this.getAuthHeaders();
+        const body = { action: 'like' };
+        const url = `${this.apiurl15}${videos_id}/`;
+        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
       })
     );
   }

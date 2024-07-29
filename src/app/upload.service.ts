@@ -14,6 +14,12 @@ export class UploadService {
   private apiUrl4 = 'http://localhost:8000/api/photosupload/';
   private apiUrl5 = 'http://localhost:8000/api/photosuploadbis/';
   private apiUrl6 = 'http://localhost:8000/photos/by-username/';
+  private apiUrl7 = 'http://localhost:8000/api/videosupload/';
+  private apiUrl8 = 'http://localhost:8000/api/videosuploadbis/';
+  private apiUrl9 = 'http://localhost:8000/videos/by-username/';
+
+
+  
 
   private csrfToken: string | null = null;
 
@@ -56,6 +62,12 @@ export class UploadService {
     );
   }
 
+  createVideo(formData1: FormData): Observable<any> {
+    return this.performRequest(() => 
+      this.http.post<any>(this.apiUrl7, formData1, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
   getProfilePhoto(): Observable<any> {
     return this.performRequest(() => 
       this.http.get<any>(this.apiUrl, { headers: this.getAuthHeaders(), withCredentials: true })
@@ -68,16 +80,26 @@ export class UploadService {
     );
   }
 
+  getVideo(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl7, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
   getProfilePhoto1(): Observable<any> {
     return this.performRequest(() => 
       this.http.get<any>(this.apiUrl3, { headers: this.getAuthHeaders(), withCredentials: true })
     );
   }
 
+  
+
   // Convertir Observable en Promise
   getProfilePhoto1AsPromise(): Promise<any[]> {
     return firstValueFrom(this.getProfilePhoto1());
   }
+
+  
 
   getPhoto1(): Observable<any> {
     return this.performRequest(() => 
@@ -88,6 +110,18 @@ export class UploadService {
   // Convertir Observable en Promise
   getPhoto1AsPromise(): Promise<any[]> {
     return firstValueFrom(this.getPhoto1());
+  }
+
+
+  getVideo1(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl8, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
+  // Convertir Observable en Promise
+  getVideoAsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getVideo1());
   }
 
   getProfileByUsername(username: string): Observable<any> {
@@ -101,6 +135,14 @@ export class UploadService {
     return this.performRequest(() => {
       const params = new HttpParams().set('username', username);
       return this.http.get<any>(`${this.apiUrl6}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+    });
+  }
+
+
+  getVideosByUsername(username: string): Observable<any> {
+    return this.performRequest(() => {
+      const params = new HttpParams().set('username', username);
+      return this.http.get<any>(`${this.apiUrl9}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
     });
   }
 }

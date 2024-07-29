@@ -81,7 +81,7 @@
         </div>
         <div class="right-container">
             @if(show_videos){
-                <app-videochat></app-videochat> <!-- Intégration du composant enfant -->
+                <app-videochat [liste_videos]="videosTest" (videosUpdated)="onVideosUpdated($event)"></app-videochat> <!-- Intégration du composant enfant -->
             }
             @else if(show_photos){
                 <app-photospost [liste_photos]="photosTest" (photosUpdated)="onPhotosUpdated($event)"></app-photospost> <!-- Intégration du composant enfant -->
