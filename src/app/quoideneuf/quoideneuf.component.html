@@ -1,82 +1,105 @@
 <div class="form-container">
   <div class="post-form">
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="myForm">
       <div class="form-group">
         <label for="message">Quoi de neuf {{username}}</label>
         <textarea id="message" name="message" placeholder="Exprimez-vous ici..." formControlName="message"></textarea>
       </div>
-      <button type="submit">Publier</button>&nbsp;&nbsp;
-      <button class="photos" type="submit"><fa-icon  [icon]="videos_photos"></fa-icon>Photos/Videos</button>
+      <div class="form-buttons">
+        <button type="button" (click)="onSubmit()">Publier</button>
+        <button type="button" (click)="triggerFileInputClick()">
+          <fa-icon [icon]="videos_photos"></fa-icon> Photos/Vidéos
+        </button>
+      </div>
     </form>
+    <input type="file" class="form-group" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
   </div>
 </div>
+
 <div class="feed">
+  <!-- Section Messages -->
   <div *ngIf="(messages$ | async) as messages">
-  <div *ngFor="let message of messages; let idx = index" class="message-card">
-    <div class="message-header">
-      <div class="author-avatar">
-        <img src="" alt="User Avatar">
+    <div *ngFor="let message of messages; let idx = index" class="message-card">
+      <div class="message-header">
+        <div class="author-avatar">
+          <img src="" alt="User Avatar">
+        </div>
+        <div class="author-info">
+          <span class="author-name"></span>
+          <span class="timestamp"></span>
+        </div>
       </div>
-      <div class="author-info">
-        <span class="author-name"></span>
-        <span class="timestamp"></span>
+      <div class="message-content">
+        {{ message?.message }}
       </div>
-    </div>
-    <div class="message-content">
-      {{ message?.message }}
-    </div>
-    <div class="comments-action">
-      <p>J'aime</p>&nbsp;&nbsp;
-      <app-coeur [messagecontent]="message.id" (likeClicked)="likeClicked(message.id)"></app-coeur>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button class="nostyle" (click)="liaison_click_modal(message.id)">Commenter&nbsp;
-      </button>
-      <app-comments></app-comments>
-      <app-modalcomments 
-        [modal]="currentModal" 
-        [message_id]="message.id" 
-        [id_comment]="id_commentaire"
-        (modalClosed)="handleModalClosed()"
-        (commentAdded)="handleCommentAdded()"
-
-
-
-      ></app-modalcomments>
-      <button (click)="liaison_click_modal1(message.id)" class="nostyle align-right typo">Commentaires&nbsp;<span>{{ message.comments.length }}</span>&nbsp;
-        <app-pouces class="disabled"></app-pouces>&nbsp;
-        <span>{{ message?.likes_count }}</span>
-      </button>
-    </div>
-    <app-modalgeneral 
+      <div class="comments-action">
+        <p>J'aime</p>&nbsp;&nbsp;
+        <app-coeur [messagecontent]="message.id" (likeClicked)="likeClicked(message.id)"></app-coeur>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="nostyle" (click)="liaison_click_modal(message.id)">Commenter&nbsp;</button>
+        <app-comments></app-comments>
+        <app-modalcomments 
+          [modal]="currentModal" 
+          [message_id]="message.id" 
+          [id_comment]="id_commentaire"
+          (modalClosed)="handleModalClosed()"
+          (commentAdded)="handleCommentAdded()"
+        ></app-modalcomments>
+        <button (click)="liaison_click_modal1(message.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ message.comments.length }}</span>&nbsp;
+          <app-pouces class="disabled"></app-pouces>&nbsp;
+          <span>{{ message?.likes_count }}</span>
+        </button>
+      </div>
+      <app-modalgeneral 
         [modal1]="currentModal1" 
         [message_id1]="message.id" 
         [id_comment1]="id_commentaire1"
         (modalClosed1)="handleModalClosed1()"
         [dataObservable]="messages$"
-
       ></app-modalgeneral>
+    </div>
   </div>
- </div>
+
+  <!-- Section Photos -->
+  <div *ngIf="(photos$ | async) as photos">
+    <div *ngFor="let photo of photos; let idx = index" class="message-card">
+      <div class="message-header">
+        <div class="author-info">
+          <span class="author-name"></span>
+          <span class="timestamp"></span>
+        </div>
+      </div>
+      <div class="message-content">
+        <img [src]="'http://localhost:8000' + photo?.photo" class="photo-resize"/>
+      <div class="comments-action">
+        <p>J'aime</p>&nbsp;&nbsp;
+        <app-coeurphoto [photocontent]="photo.id" (likeClickedphoto)="likeClickedphoto(photo.id)"></app-coeurphoto>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="nostyle" (click)="liaison_click_modal2(photo.id)">Commenter&nbsp;</button>
+        <app-comments></app-comments>
+        <app-modalphoto
+          [modal2]="currentModal2" 
+          [photo_id2]="photo.id" 
+          [id_comment2]="id_commentaire2"
+          (modalClosed2)="handleModalClosed2()"
+          (commentAdded1)="handleCommentPhotosAdded()"
+        ></app-modalphoto>
+        <button (click)="liaison_click_modal3(photo.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ photo.comments.length }}</span>&nbsp;
+          <app-pouces class="disabled"></app-pouces>&nbsp;
+          <span>{{ photo?.likes_count }}</span>
+        </button>
+      </div>
+      <app-modalgeneralphoto 
+        [modal3]="currentModal3" 
+        [photo_id3]="photo.id" 
+        [id_comment3]="id_commentaire3"
+        (modalClosed3)="handleModalClosed3()"
+        [dataObservable1]="photos$"
+      ></app-modalgeneralphoto>
+    </div>
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 

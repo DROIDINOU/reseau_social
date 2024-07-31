@@ -1,7 +1,6 @@
 
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { faEye,faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faEye,faTrophy,  faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../login.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -12,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class VideochatComponent implements OnInit {
    fathumbsup = faThumbsUp;
-   faeye = faEye;
+   faEye = faEye;
    id_photo: number|null = null
    id_video: number|null = null
 

@@ -24,6 +24,8 @@ export class LoginService {
   private apiurl13 = 'http://localhost:8000/videos/all/';
   private apiurl14 = 'http://localhost:8000/videos/getlikes/';
   private apiurl15 = 'http://localhost:8000/videos/createlikes/';
+  private apiurl16 = 'http://localhost:8000/photos/getlikes/photo';
+  private apiurl17 = 'http://localhost:8000/photo/getlikestest/';
 
 
 
@@ -41,6 +43,7 @@ export class LoginService {
   getCsrfToken() {
     this.http.get('http://localhost:8000/csrf/', { withCredentials: true }).subscribe((response: any) => {
       this.csrfToken = response.csrfToken;
+      console.log(this.csrfToken)
       console.log('CSRF Token:', this.csrfToken);
     });
   }
@@ -103,6 +106,7 @@ export class LoginService {
     );
   }
 
+  // MESSAGES
   createMessage(message: string): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
@@ -135,37 +139,7 @@ export class LoginService {
     );
   }
 
-
-  createlikesphotos(photo_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const headers = this.getAuthHeaders();
-        const body = { action: 'like' };
-        const url = `${this.apiurl11}${photo_id}/`;
-        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
-      })
-    );
-  }
-
-  getlikesphotos(photo_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl10}${photo_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
-      })
-    );
-  }
-
-  getlikesvideos(videos_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl14}${videos_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
-      })
-    );
-  }
-
-
+  
   createlikesvideos(videos_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
@@ -197,6 +171,59 @@ export class LoginService {
     );
   }
 
+  
+
+  getCurrentUserFromStorage(): any {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
+  }
+
+
+
+
+  // PHOTOS
+
+  getlikesphotostest(photo_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl17}${photo_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
+  
+
+
+  createlikesphotos(photo_id: number): Observable<any> {
+    console.log("id photo",photo_id)
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const headers = this.getAuthHeaders();
+        const body = { action: 'like' };
+        const url = `${this.apiurl11}${photo_id}/`;
+        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
+      })
+    );
+  }
+
+  getlikesphotos(photo_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl10}${photo_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
+  getlikesvideos(videos_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl14}${videos_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
   getAllPhotos(): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
@@ -205,8 +232,4 @@ export class LoginService {
     );
   }
 
-  getCurrentUserFromStorage(): any {
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
-  }
 }

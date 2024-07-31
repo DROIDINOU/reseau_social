@@ -52,6 +52,13 @@ import { ModalgeneralComponent } from './modalgeneral/modalgeneral.component';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 import { ModallistfriendsComponent } from './modallistfriends/modallistfriends.component';
 import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
+import { ModalphotoComponent } from './modalphoto/modalphoto.component';
+import { ModalgeneralphotoComponent } from './modalgeneralphoto/modalgeneralphoto.component';
+import { CoeurphotoComponent } from './coeurphoto/coeurphoto.component';
+import { ModalvideoComponent } from './modalvideo/modalvideo.component';
+import { ModalgeneralvideoComponent } from './modalgeneralvideo/modalgeneralvideo.component';
+import { VideopostComponent } from './videopost/videopost.component';
+import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +107,13 @@ import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/acce
     FriendrequestpageComponent,
     ModallistfriendsComponent,
     AccessphotosfromprofileComponent,
+    ModalgeneralphotoComponent,
+    ModalphotoComponent,
+    CoeurphotoComponent,
+    ModalvideoComponent,
+    ModalgeneralvideoComponent,
+    VideopostComponent,
+    CoeurvideoComponent,
   ],
   imports: [
     BrowserModule,

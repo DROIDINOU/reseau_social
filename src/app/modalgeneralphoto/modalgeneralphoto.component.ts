@@ -6,26 +6,27 @@ import { firstValueFrom } from 'rxjs';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 
+
 @Component({
-  selector: 'app-modalgeneral',
-  templateUrl: './modalgeneral.component.html',
-  styleUrl: './modalgeneral.component.scss'
+  selector: 'app-modalgeneralphoto',
+  templateUrl: './modalgeneralphoto.component.html',
+  styleUrl: './modalgeneralphoto.component.scss'
 })
-export class ModalgeneralComponent implements OnInit{
+export class ModalgeneralphotoComponent implements OnInit{
   myForm!: FormGroup;
   username: string | null = null;
   content: string = "";
   comments_list: any[] = [];
-  id_message: number | null = null;
+  id_photo: number | null = null;
   totalcomments: number | null = null;
   faTimes = faTimes;
   data: any[] = [];
 
-  @Input() message_id1: number | null = null;
-  @Input() modal1: boolean = false;
-  @Input() id_comment1: number | null = null;
-  @Input() dataObservable!: Observable<any[]>;
-  @Output() modalClosed1 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
+  @Input() photo_id3: number | null = null;
+  @Input() modal3: boolean = false;
+  @Input() id_comment3: number | null = null;
+  @Input() dataObservable1!: Observable<any[]>;
+  @Output() modalClosed3 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
 
   constructor(private log: CommentModalsService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
     this.myForm = this.formBuilder.group({
@@ -39,10 +40,10 @@ export class ModalgeneralComponent implements OnInit{
 
 
   ngOnInit() {
-    this.dataObservable.subscribe(value => {
+    this.dataObservable1.subscribe(value => {
       this.data = value;
-      console.log("final!!!!!",this.data)
-      console.log("final!!!!!",this.id_comment1)
+      console.log("finalement!!!!!",this.data)
+      console.log("finalement!!!!!",this.id_comment3)
 
     });
   }
@@ -50,11 +51,11 @@ export class ModalgeneralComponent implements OnInit{
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['modal1'] && !changes['modal1'].firstChange) {
-      if (this.modal1) {
+    if (changes['modal3'] && !changes['modal3'].firstChange) {
+      if (this.modal3) {
         this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
         console.log("finalement!!!!!",this.data);
-        console.log("finalement!!!!!",this.id_comment1)
+        console.log("finalement!!!!!",this.id_comment3)
 
 
       } else {
@@ -65,9 +66,9 @@ export class ModalgeneralComponent implements OnInit{
 
   openModal() {
     // Logique pour ouvrir la fenêtre modale
-    const modals = document.getElementById('myModal1');
-    if (modals && this.modal1) {
-      modals.style.display = 'block';
+    const modals33 = document.getElementById('myModal3');
+    if (modals33 && this.modal3) {
+      modals33.style.display = 'block';
       console.log("ehqweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.data)
       console.log('Modal ouvert');
     }
@@ -77,14 +78,14 @@ export class ModalgeneralComponent implements OnInit{
     if (this.myForm.valid) {
       const formData = this.myForm.value;
       try {
-        if (this.id_comment1){
-        this.log.createComment(formData.content, this.id_comment1).subscribe(responseCreate => {
-          console.log("debut des emmerdes",this.message_id1)
-          console.log("debut des emmerdes",this.id_comment1)
+        if (this.id_comment3){
+        this.log.createComment(formData.content, this.id_comment3).subscribe(responseCreate => {
+          console.log("debut des emmerdes",this.photo_id3)
+          console.log("debut des emmerdes",this.id_comment3)
 
           console.log('Message créé avec succès', responseCreate);
           this.myForm.reset();
-          this.modalClosed1.emit(); // Émettre l'événement lorsque le modal est fermé
+          this.modalClosed3.emit(); // Émettre l'événement lorsque le modal est fermé
         }, error => {
           console.error('Erreur lors de la création du message', error);
         });}
@@ -99,15 +100,16 @@ export class ModalgeneralComponent implements OnInit{
 
   closeModal() {
     // Logique pour fermer la fenêtre modale
-    const modal = document.getElementById('myModal1');
-    if (modal) {
-      modal.style.display = 'none';
-      this.modal1 = false;
-      this.modalClosed1.emit(); // Émettre l'événement lorsque le modal est fermé
+    const modal33 = document.getElementById('myModal3');
+    if (modal33) {
+      modal33.style.display = 'none';
+      this.modal3 = false;
+      this.modalClosed3.emit(); // Émettre l'événement lorsque le modal est fermé
 
     }
   }
 }
+
 
 
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Observable,throwError,tap } from 'rxjs';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,111 +13,99 @@ export class CommentModalsService {
   private apiurl4 = 'http://localhost:8000/messages/comments/link/';
   private apiurl5 = 'http://localhost:8000/comments/createlikes/';
   private apiurl6 = 'http://localhost:8000/comments/all/';
-  private apiurl7 ='http://localhost:8000/comments/commentsbymessage/link/'
-
+  private apiurl7 = 'http://localhost:8000/comments/commentsbymessage/link/';
+  private apiurl8 = 'http://localhost:8000/comments/commentsbyphoto/link/';
+  private apiurl9 = 'http://localhost:8000/comments/trytry/';
 
   
 
-  authtoken : string|null = null
   private csrfToken: string | null = null;
-  content : string|null = ''
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
-  
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient, private auth: AuthService) {this.getCsrfToken() }
+  refreshCsrfToken(): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/csrf/', { withCredentials: true }).pipe(
+      tap(response => {
+        this.csrfToken = response.csrfToken;
+        console.log('Refreshed CSRF Token:', this.csrfToken);
+      })
+    );
+  }
 
+  private getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'X-CSRFToken': this.csrfToken || ''
+    });
+  }
 
-getCsrfToken() {
-  this.http.get('http://localhost:8000/csrf/', { withCredentials: true }).subscribe((response: any) => {
-    this.csrfToken = response.csrfToken;
-    console.log(this.csrfToken )
-  });
-}
+  private performRequest<T>(request: () => Observable<T>): Observable<T> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => request()),
+      catchError(error => {
+        console.error('Request failed', error);
+        return throwError(error);
+      })
+    );
+  }
 
+  createComment(content: string, message_id: number): Observable<any> {
+    return this.performRequest(() => {
+      const headers = this.getAuthHeaders();
+      return this.http.post<any>(this.apiurl2, { content, message_id }, { headers: headers, withCredentials: true });
+    });
+  }
 
-createComment(content: string,message_id:number): Observable<any> {
-  const headers = new HttpHeaders({
-    'X-CSRFToken': this.csrfToken || ''
-  });
-  console.log("create commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",message_id)
-  return this.http.post<any>(this.apiurl2, { content, message_id }, { headers: headers, withCredentials: true }).pipe(
-    tap(() => this.getCsrfToken())  // Rafraîchir le jeton après chaque requête
-  );
-}
+  createComment1(content: string, photo_id: number): Observable<any> {
+    return this.performRequest(() => {
+      const headers = this.getAuthHeaders();
+      return this.http.post<any>(this.apiurl9, { content, photo_id }, { headers: headers, withCredentials: true });
+    });
+  }
 
-getComment(): Observable<any> {
-  console.log("bien ici")
-  return this.http.get<any>(this.apiurl3, { withCredentials: true });
-}
+  getComment(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiurl3, { withCredentials: true })
+    );
+  }
 
-createLikesComment(comments_id:any): Observable<any> {
-  const headers = new HttpHeaders({
-    'X-CSRFToken': this.csrfToken || ''
-  });
-  const body = {action: 'like' };
-  console.log("salut",body)
-  const url = `${this.apiurl5}${comments_id}/`;
-  return this.http.post<any>(url,body, {headers: headers, withCredentials: true }).pipe(
-    tap(() => this.getCsrfToken())  // Rafraîchir le jeton après chaque requête
-  );
-}
+  createLikesComment(comments_id: any): Observable<any> {
+    return this.performRequest(() => {
+      const headers = this.getAuthHeaders();
+      const body = { action: 'like' };
+      const url = `${this.apiurl5}${comments_id}/`;
+      return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
+    });
+  }
 
-getLikesComment(comments_id:any): Observable<any> {
-  console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-  const url = `${this.apiurl4}${comments_id}/`;
-  console.log("url",url);
-  const headers = new HttpHeaders({
-    'X-CSRFToken': this.csrfToken || ''
-  });
-  return this.http.get<any>(url, {headers: headers, withCredentials: true });
-}
+  getLikesComment(comments_id: any): Observable<any> {
+    return this.performRequest(() => {
+      const url = `${this.apiurl4}${comments_id}/`;
+      const headers = this.getAuthHeaders();
+      return this.http.get<any>(url, { headers: headers, withCredentials: true });
+    });
+  }
 
-get_All_Comments(): Observable<any> {
-  console.log("bien ici")
-  return this.http.get<any>(this.apiurl6, { withCredentials: true });
-}
+  get_All_Comments(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiurl6, { withCredentials: true })
+    );
+  }
 
-getCommentsByMessage(message_id:any): Observable<any> {
-  const params = { message: message_id };
-  console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-  const url = `${this.apiurl7}${message_id}/`;
-  console.log("url",url);
-  const headers = new HttpHeaders({
-    'X-CSRFToken': this.csrfToken || ''
-  });
-  return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
+  getCommentsByMessage(message_id: any): Observable<any> {
+    return this.performRequest(() => {
+      const params = { message: message_id };
+      const url = `${this.apiurl7}${message_id}/`;
+      const headers = this.getAuthHeaders();
+      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
+    });
+  }
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  getCommentsByPhoto(photo_id: any): Observable<any> {
+    return this.performRequest(() => {
+      const params = { photo: photo_id };
+      const url = `${this.apiurl8}${photo_id}/`;
+      const headers = this.getAuthHeaders();
+      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
+    });
+  }
 }
