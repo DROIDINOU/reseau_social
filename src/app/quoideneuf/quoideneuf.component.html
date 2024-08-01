@@ -10,9 +10,14 @@
         <button type="button" (click)="triggerFileInputClick()">
           <fa-icon [icon]="videos_photos"></fa-icon> Photos/Vidéos
         </button>
+        <button type="button" (click)="triggerFileInputClick1()">
+          <fa-icon [icon]="videos_photos"></fa-icon> Photos/Vidéos
+        </button>
       </div>
     </form>
     <input type="file" class="form-group" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+    <input type="file" class="form-group" #fileInput1 (change)="onFileSelectedvideo($event)" accept="video/*" style="display: none;">
+
   </div>
 </div>
 
@@ -98,6 +103,44 @@
         (modalClosed3)="handleModalClosed3()"
         [dataObservable1]="photos$"
       ></app-modalgeneralphoto>
+    </div>
+  </div>
+    <div *ngIf="(videos$ | async) as videos">
+    <div *ngFor="let video of videos; let idx = index" class="message-card">
+      <div class="message-header">
+        <div class="author-info">
+          <span class="author-name"></span>
+          <span class="timestamp"></span>
+        </div>
+      </div>
+      <div class="message-content">
+        <video [src]="'http://localhost:8000' + video?.video" controls  class="video-resize"></video>
+      <div class="comments-action">
+        <p>J'aime</p>&nbsp;&nbsp;
+        <app-coeurvideo [videocontent]="video.id" (likeClickedvideo)="likeClickedvideo(video.id)"></app-coeurvideo>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="nostyle" (click)="liaison_click_modal4(video.id)">Commenter&nbsp;</button>
+        <app-comments></app-comments>
+        <app-modalvideo
+          [modal4]="currentModal4" 
+          [video_id4]="video.id" 
+          [id_comment4]="id_commentaire4"
+          (modalClosed4)="handleModalClosed4()"
+          (commentAdded2)="handleCommentVideosAdded()"
+        ></app-modalvideo>
+        <button (click)="liaison_click_modal5(video.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ video.comments.length }}</span>&nbsp;
+          <app-pouces class="disabled"></app-pouces>&nbsp;
+          <span>{{ video?.likes_count }}</span>
+        </button>
+      </div>
+      <app-modalgeneralvideo 
+        [modal5]="currentModal5" 
+        [video_id5]="video.id" 
+        [id_comment5]="id_commentaire5"
+        (modalClosed5)="handleModalClosed5()"
+        [dataObservable2]="videos$"
+      ></app-modalgeneralvideo>
     </div>
   </div>
 </div>

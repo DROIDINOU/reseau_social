@@ -54,9 +54,7 @@ export class ModalgeneralphotoComponent implements OnInit{
     if (changes['modal3'] && !changes['modal3'].firstChange) {
       if (this.modal3) {
         this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
-        console.log("finalement!!!!!",this.data);
-        console.log("finalement!!!!!",this.id_comment3)
-
+        console.log("modal3");
 
       } else {
         this.closeModal(); // Fermer le modal si modal est false
@@ -69,8 +67,10 @@ export class ModalgeneralphotoComponent implements OnInit{
     const modals33 = document.getElementById('myModal3');
     if (modals33 && this.modal3) {
       modals33.style.display = 'block';
+      this.modal3 = true
+
       console.log("ehqweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.data)
-      console.log('Modal ouvert');
+      console.log('Modal 3 ouvert');
     }
   }
 

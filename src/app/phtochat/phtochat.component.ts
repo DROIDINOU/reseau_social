@@ -10,20 +10,20 @@ export class PhtochatComponent {
  favideo = faVideo
  faComment = faComment
  faImage = faImage
- currentModal1: boolean = false;
+ currentModal100: boolean = false;
 
 
 
 
 
- liaison_click_modal1() {
-  this.currentModal1 = true; 
+ liaison_click_modal100() {
+  this.currentModal100 = true; 
 
 }
 
-handleModalClosed1() {
+handleModalClosed100() {
   console.log('Modal fermé');
-  this.currentModal1 = false;
+  this.currentModal100 = false;
 }
 
 }

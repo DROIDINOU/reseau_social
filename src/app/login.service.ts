@@ -26,6 +26,9 @@ export class LoginService {
   private apiurl15 = 'http://localhost:8000/videos/createlikes/';
   private apiurl16 = 'http://localhost:8000/photos/getlikes/photo';
   private apiurl17 = 'http://localhost:8000/photo/getlikestest/';
+  private apiurl18 = 'http://localhost:8000/video/getlikesvideostest/';
+
+ 
 
 
 
@@ -192,6 +195,16 @@ export class LoginService {
     );
   }
 
+
+  getlikesvideostest(video_id: any): Observable<any> {
+    return this.refreshCsrfToken().pipe(
+      switchMap(() => {
+        const url = `${this.apiurl18}${video_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+      })
+    );
+  }
+
   
 
 
@@ -216,10 +229,10 @@ export class LoginService {
     );
   }
 
-  getlikesvideos(videos_id: any): Observable<any> {
+  getlikesvideos(video_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
-        const url = `${this.apiurl14}${videos_id}/`;
+        const url = `${this.apiurl14}${video_id}/`;
         return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
       })
     );

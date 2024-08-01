@@ -18,6 +18,7 @@ export class QuoideneufComponent implements OnInit {
   myForm!: FormGroup;
   username: string | null = null;
   photos_Url: string | null = "";
+   videos_Url:  string | null = ""; 
 
   pouces = faThumbsUp;
   videos_photos = faPhotoVideo;
@@ -25,32 +26,48 @@ export class QuoideneufComponent implements OnInit {
 
   id_message: number | null = null;
   id_photo: number | null = null;
+   id_video: number | null = null
   
   currentModal: boolean = false;
   currentModal1: boolean = false;
   currentModal2: boolean = false;
   currentModal3: boolean = false;
+  currentModal4: boolean = false;
+  currentModal5: boolean = false;
 
   id_commentaire: number | null = null;
   id_commentaire1: number | null = null;
   id_commentaire2: number | null = null;
   id_commentaire3: number | null = null;
+  id_commentaire4: number | null = null;
+  id_commentaire5: number | null = null;
 
   number_comments: any = {};
   number_comments1: any = {};
   number_comments2: any = {};
   number_comments3: any = {};
+  number_comments4: any = {};
+  number_comments5: any = {};
+
 
   listing_comment: boolean = false;
   listing_commentphoto: boolean = false;
+   listing_commentvideo: boolean = false;
+
 
   messages$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   photos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  videos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+
   countcomments$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   countcommentsphotos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  countcommentsvideos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+
 
   @Output() modalClosed = new EventEmitter<void>();
   @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('fileInput1') fileInput1!: ElementRef;
+
   selectedFile: File | null = null;
 
   constructor(
@@ -68,27 +85,50 @@ export class QuoideneufComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       message: ['', Validators.required],
     });
-
+  
     this.route.paramMap.subscribe(params => {
-      this.username = params.get('id') || null;
-
-      if (!this.username) {
-        this.username = this.userService.getUserId();
+      const paramUsername = params.get('id');
+      
+      if (paramUsername) {
+        this.username = paramUsername;
+      } else {
+        // Essayez de récupérer l'utilisateur actuel
+        const userId = this.userService.getUserId();
+        this.username = userId || 'defaultUsername'; // Remplacez 'defaultUsername' par une valeur par défaut appropriée
       }
-
+  
       if (this.username) {
         this.userService.setUserId(this.username);
       }
-
+  
       console.log('Current username:', this.username);
+  
+      // Charger les données après avoir obtenu l'identifiant de l'utilisateur
+      this.loadData();
     });
-
-    this.loadMessages();
-    this.loadPhotos();
+  }
+  
+  async loadData() {
+    try {
+      await Promise.all([
+        this.loadMessages(),
+        this.loadPhotos(),
+        this.loadVideos()
+      ]);
+    } catch (error) {
+      console.error('Erreur lors du chargement des données', error);
+    }
+  }
+  
+  // reste le trigger a faire je pense
+  triggerFileInputClick(): void {
+    console.log("photo is triggered")
+    this.fileInput.nativeElement.click();
   }
 
-  triggerFileInputClick(): void {
-    this.fileInput.nativeElement.click();
+  triggerFileInputClick1(): void {
+    console.log("video is triggered")
+    this.fileInput1.nativeElement.click();
   }
 
   async loadMessages() {
@@ -141,6 +181,31 @@ export class QuoideneufComponent implements OnInit {
     }
   }
 
+   async loadVideos() {
+    try {
+      const videosResponse = await firstValueFrom(this.upload.getVideofilactu());
+      if (Array.isArray(videosResponse)) {
+        const videos = await Promise.all(videosResponse.map(async video => {
+          const [likesResponse, commentsResponse] = await Promise.all([
+            firstValueFrom(this.login.getlikesvideos(video.id)),
+            firstValueFrom(this.log.getCommentsByVideo(video.id))
+          ]);
+          return {
+            ...video,
+            likes_count: likesResponse.likes_count,
+            comments: commentsResponse,
+          };
+        }));
+        console.log("videos chargées :", videos);
+        this.videos$.next(videos);
+      } else {
+        console.error('Réponse inattendue de getVideofilactu()', videosResponse);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des videos', error);
+    }
+  }
+
   async liaison_click_modal(message_id: number) {
     this.id_commentaire = message_id;
     this.number_comments = await this.getComments(message_id);
@@ -148,6 +213,10 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal1 = false;
     this.currentModal2 = false;
     this.currentModal3 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   async liaison_click_modal1(message_id: number) {
@@ -157,6 +226,10 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal2 = false;
     this.currentModal3 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   async liaison_click_modal2(photo_id: number) {
@@ -166,6 +239,10 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal3 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   async liaison_click_modal3(photo_id: number) {
@@ -175,7 +252,42 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal2 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
+
   }
+
+   async liaison_click_modal4(video_id: number) {
+    console.log("j ai bien cliqué ici!!!!!!!!!!!!!!!")
+    this.id_commentaire4 = video_id;
+    this.number_comments4 = await this.getCommentsVideo(video_id);
+    this.currentModal4 = true;
+    this.currentModal = false;
+    this.currentModal1 = false;
+    this.currentModal3 = false;
+      this.currentModal2 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
+
+  }
+
+  async liaison_click_modal5(video_id: number) {
+    console.log("click 555555555555555555555555555555555555555555555555555555555555555555")
+    this.id_commentaire5 = video_id;
+    this.number_comments5 = await this.getCommentsVideo(video_id);
+    this.currentModal5 = true;
+    this.currentModal = false;
+    this.currentModal1 = false;
+    this.currentModal2 = false;
+      this.currentModal3 = false;
+    this.currentModal4 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
+
+  } 
 
   async onSubmit() {
     if (this.myForm.valid) {
@@ -227,6 +339,28 @@ export class QuoideneufComponent implements OnInit {
       console.error('Aucun fichier sélectionné.');
     }
   }
+   async onFileSelectedvideo(event: any): Promise<void> {
+    const file = event.target.files[0];
+    console.log("onfileselected", file);
+    if (file) {
+      this.selectedFile = file;
+      console.log("Fichier sélectionné :", this.selectedFile);
+      const formData1 = new FormData();
+      formData1.append('video', file);
+
+      try {
+        const response = await firstValueFrom(this.upload.createVideofil(formData1));
+        console.log('Enregistrement réussi', response);
+        this.videos_Url = `http://localhost:8000/${response.video}`;
+        await this.loadVideos(); // Recharger les photos après ajout
+      } catch (error) {
+        console.error('Erreur de connexion', error);
+      }
+    } else {
+      console.error('Aucun fichier sélectionné.');
+    }
+  }
+ 
 
   async likeClicked(messageid: number) {
     console.log("Like button clicked for message ID:", messageid);
@@ -260,10 +394,34 @@ export class QuoideneufComponent implements OnInit {
     }
   }
 
+
+    async likeClickedvideo(video_id: number) {
+    console.log("Like button clicked for video ID:", video_id);
+    try {
+      const response = await firstValueFrom(this.login.getlikesvideostest(video_id));
+      console.log('Likes récupérés avec succès', response);
+      const videos = this.videos$.getValue();
+      console.log(videos);
+      const video = videos.find(vi => vi.id === video_id);
+      if (video) {
+        video.likes_count = response.videos_count;
+        this.videos$.next([...videos]);
+      }
+    } catch (error) {
+      console.error('Erreur lors du processus de like', error);
+    }
+  }
+ 
+
   handleModalClosed() {
     console.log('Modal fermé');
     this.currentModal = false;
+    this.currentModal1 = false;
     this.currentModal2 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   handleModalClosed1() {
@@ -272,6 +430,10 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal2 = false;
     this.currentModal3 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   handleModalClosed2() {
@@ -280,6 +442,10 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal1 = false;
     this.currentModal3 = false;
     this.currentModal = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
 
   handleModalClosed3() {
@@ -288,7 +454,35 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal2 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
   }
+
+   handleModalClosed4() {
+    console.log('Modal fermé');
+    this.currentModal2 = false;
+    this.currentModal1 = false;
+    this.currentModal3 = false;
+    this.currentModal = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
+  }
+
+  handleModalClosed5() {
+    console.log('Modal fermé');
+    this.currentModal3 = false;
+    this.currentModal = false;
+    this.currentModal1 = false;
+    this.currentModal2 = false;
+    this.currentModal4 = false;
+    this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
+  } 
 
   async getComments(message_id: number) {
     try {
@@ -312,6 +506,18 @@ export class QuoideneufComponent implements OnInit {
     }
   }
 
+    async getCommentsVideo(video_id: number) {
+    try {
+      const response = await firstValueFrom(this.log.getCommentsByVideo(video_id));
+      console.log("Commentaires videos récupérés :", response);
+      this.countcommentsvideos$.next([...response]);
+      return response;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des commentaires videos', error);
+    }
+  }
+ 
+
   handleCommentAdded() {
     this.loadMessages();
   }
@@ -319,6 +525,10 @@ export class QuoideneufComponent implements OnInit {
   handleCommentPhotosAdded() {
     this.loadPhotos();
   }
+
+  handleCommentVideosAdded() {
+    this.loadVideos();
+  } 
 
   list_comments(messageid: number) {
     console.log("Affichage des commentaires pour le message ID:", messageid);
@@ -333,4 +543,12 @@ export class QuoideneufComponent implements OnInit {
     this.listing_commentphoto = !this.listing_commentphoto;
     this.loadPhotos();
   }
+
+  
+  list_commentsvideos(videoid: number) {
+    console.log("Affichage des commentaires videos pour le video ID:", videoid);
+    this.id_commentaire4 = videoid;
+    this.listing_commentvideo = !this.listing_commentvideo;
+    this.loadVideos();
+  } 
 }

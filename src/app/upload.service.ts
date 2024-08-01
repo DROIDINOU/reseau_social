@@ -18,6 +18,8 @@ export class UploadService {
   private apiUrl8 = 'http://localhost:8000/api/videosuploadbis/';
   private apiUrl9 = 'http://localhost:8000/videos/by-username/';
   private apiUrl10 = 'http://localhost:8000/api/photosuploadfilactu/';
+  private apiUrl11 = 'http://localhost:8000/api/videosuploadfilactu/';
+
 
 
   
@@ -51,7 +53,6 @@ export class UploadService {
     );
   }
 
-  //PHOTOS
   createPhotoProfile(formData: FormData): Observable<any> {
     return this.performRequest(() => 
       this.http.put<any>(this.apiUrl, formData, { headers: this.getAuthHeaders(), withCredentials: true })
@@ -67,6 +68,12 @@ export class UploadService {
   createPhotofil(formData1: FormData): Observable<any> {
     return this.performRequest(() => 
       this.http.post<any>(this.apiUrl10, formData1, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
+  createVideofil(formData1: FormData): Observable<any> {
+    return this.performRequest(() => 
+      this.http.post<any>(this.apiUrl11, formData1, { headers: this.getAuthHeaders(), withCredentials: true })
     );
   }
 
@@ -100,13 +107,44 @@ export class UploadService {
     );
   }
 
+  getVideofilactu(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl11, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
   getVideo(): Observable<any> {
     return this.performRequest(() => 
       this.http.get<any>(this.apiUrl7, { headers: this.getAuthHeaders(), withCredentials: true })
     );
   }
 
+  getProfilePhoto1(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl3, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
   
+
+  // Convertir Observable en Promise
+  getProfilePhoto1AsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getProfilePhoto1());
+  }
+
+  
+
+  getPhoto1(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl5, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
+  // Convertir Observable en Promise
+  getPhoto1AsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getPhoto1());
+  }
+
 
   getVideo1(): Observable<any> {
     return this.performRequest(() => 

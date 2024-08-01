@@ -1,0 +1,47 @@
+.btn-container {
+    width: 25px; /* Réduire la largeur à un quart de l'original */
+    height: 25px; /* Réduire la hauteur à un quart de l'original */
+    position: relative;
+    background: -webkit-radial-gradient(transparent, transparent 35%, #F00);
+    background: -o-radial-gradient(transparent, transparent 35%, #F00);
+    background: -moz-radial-gradient(transparent, transparent 35%, #F00);
+    background: radial-gradient(transparent, transparent 35%, #F00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .btn-container:hover {
+    border-radius: 0; /* Effet de transition pour modifier le border-radius */
+  }
+  
+  .btn-content {
+    width: 12.5px; /* Réduire la largeur du contenu à la moitié de .btn-container */
+    height: 12.5px; /* Réduire la hauteur du contenu à la moitié de .btn-container */
+    background-color: red;
+    position: absolute;
+    left: 6.25px; /* Centrer le contenu horizontalement */
+    top: 6.25px; /* Centrer le contenu verticalement */
+    color: white;
+    line-height: 12.5px; /* Centrer le texte verticalement */
+    text-align: center;
+    border-radius: 50%;
+    transition: 0.3s ease-in-out;
+    border: 2px solid #EA442B; /* Ajouter un contour initial rouge */
+  }
+  
+  .btn-container:not(:hover) .btn-content {
+    border-color: rgb(247, 28, 28); /* Modifier la couleur du contour à noir */
+  }
+  
+  .btn-container:hover .btn-content {
+    top: 0;
+    left: 0;
+    width: 100%; /* Agrandir le contenu pour remplir le conteneur */
+    height: 100%; /* Agrandir le contenu pour remplir le conteneur */
+    line-height: 25px; /* Centrer le texte verticalement */
+    font-size: 10px; /* Réduire la taille du texte */
+  }
+  

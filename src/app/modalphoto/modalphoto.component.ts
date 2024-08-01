@@ -56,6 +56,7 @@ export class ModalphotoComponent implements OnChanges, OnInit, OnDestroy {
   openModal2() {
     const modals22 = document.getElementById('myModal10');
     if (modals22 && this.modal2) {
+      this.modal2 = true
       console.log("ohhhhhh yejhhhhhhhhhhhhhhhhhhhhhhhh")
       modals22.style.display = 'block';
     }

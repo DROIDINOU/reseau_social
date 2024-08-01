@@ -57,6 +57,8 @@ export class ModalcommentsComponent implements OnChanges {
     const modals = document.getElementById('myModal');
     if (modals && this.modal) {
       modals.style.display = 'block';
+      this.modal = true
+
       console.log('Modal ouvert');
     }
   }

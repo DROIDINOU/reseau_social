@@ -53,8 +53,7 @@ export class ModalgeneralComponent implements OnInit{
     if (changes['modal1'] && !changes['modal1'].firstChange) {
       if (this.modal1) {
         this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
-        console.log("finalement!!!!!",this.data);
-        console.log("finalement!!!!!",this.id_comment1)
+        console.log("modal1")
 
 
       } else {
@@ -68,8 +67,10 @@ export class ModalgeneralComponent implements OnInit{
     const modals = document.getElementById('myModal1');
     if (modals && this.modal1) {
       modals.style.display = 'block';
+      this.modal1 = true
+
       console.log("ehqweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.data)
-      console.log('Modal ouvert');
+      console.log('Modal 1 ouvert');
     }
   }
 

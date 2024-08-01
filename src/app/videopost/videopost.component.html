@@ -1,1 +1,10 @@
-<p>videopost works!</p>
+<div class="photo-gallery">
+    <div class="photo-item" *ngFor="let video of liste_videos;let i = index">
+        <img [src]="'http://localhost:8000' + video?.video" />
+        <div class="like-action">
+            <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(video.id)"></fa-icon>
+            <p class="like">{{ video.likes.length }}</p>
+            <fa-icon class="like nbvue" [icon]="faeye"></fa-icon>
+        </div>
+    </div>
+</div>

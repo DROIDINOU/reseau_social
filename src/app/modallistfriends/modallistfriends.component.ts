@@ -17,8 +17,8 @@ import { firstValueFrom } from 'rxjs';
 export class ModallistfriendsComponent implements OnInit, OnChanges {
   constructor( private login:LoginService, private upload: UploadService, private friends: FriendsService)
   {}
-  @Output() modalClosed1 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
-  @Input() modal11: boolean = false;
+  @Output() modalClosed100 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
+  @Input() modal100: boolean = false;
   faTimes = faTimes;
   actual_user: {id: number | null, user: string | null} = {id: null, user: null};
   photos_list : any[] = []
@@ -43,8 +43,8 @@ this.actual_user = this.login.getCurrentUserFromStorage()  }
     
 
 ngOnChanges(changes: SimpleChanges): void {
-      if (changes['modal11'] && !changes['modal11'].firstChange) {
-        if (this.modal11) {
+      if (changes['modal100'] && !changes['modal100'].firstChange) {
+        if (this.modal100) {
           this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
   
   
@@ -84,15 +84,15 @@ ngOnChanges(changes: SimpleChanges): void {
       const modal = document.getElementById('myModal11');
       if (modal) {
         modal.style.display = 'none';
-        this.modal11 = false;
-        this.modalClosed1.emit(); // Émettre l'événement lorsque le modal est fermé
+        this.modal100 = false;
+        this.modalClosed100.emit(); // Émettre l'événement lorsque le modal est fermé
   
       }}
 
       openModal() {
         // Logique pour ouvrir la fenêtre modale
         const modals = document.getElementById('myModal11');
-        if (modals && this.modal11) {
+        if (modals && this.modal100) {
           modals.style.display = 'block';
           console.log('Modal ouvert');
           console.log("voici....................................photos", this.photos_list);

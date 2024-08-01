@@ -8,7 +8,10 @@
     color: rgb(247, 245, 245);
   }
 
-  
+  .logo-img {
+    width: 50px;  /* Changez la largeur à la taille souhaitée */
+    height: auto; /* Conserve le ratio d'aspect original de l'image */
+}
   .dropdown {
     position: absolute;
     top: 100%;

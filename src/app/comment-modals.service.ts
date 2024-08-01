@@ -16,6 +16,9 @@ export class CommentModalsService {
   private apiurl7 = 'http://localhost:8000/comments/commentsbymessage/link/';
   private apiurl8 = 'http://localhost:8000/comments/commentsbyphoto/link/';
   private apiurl9 = 'http://localhost:8000/comments/trytry/';
+  private apiurl10 = 'http://localhost:8000/comments/commentsbyvideo/link/';
+  private apiurl11 = 'http://localhost:8000/comments/trytrytry/';
+
 
   
 
@@ -62,6 +65,13 @@ export class CommentModalsService {
     });
   }
 
+  createComment2(content: string, video_id: number): Observable<any> {
+    return this.performRequest(() => {
+      const headers = this.getAuthHeaders();
+      return this.http.post<any>(this.apiurl11, { content, video_id }, { headers: headers, withCredentials: true });
+    });
+  }
+
   getComment(): Observable<any> {
     return this.performRequest(() => 
       this.http.get<any>(this.apiurl3, { withCredentials: true })
@@ -104,6 +114,15 @@ export class CommentModalsService {
     return this.performRequest(() => {
       const params = { photo: photo_id };
       const url = `${this.apiurl8}${photo_id}/`;
+      const headers = this.getAuthHeaders();
+      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
+    });
+  }
+
+  getCommentsByVideo(video_id: any): Observable<any> {
+    return this.performRequest(() => {
+      const params = { video: video_id };
+      const url = `${this.apiurl10}${video_id}/`;
       const headers = this.getAuthHeaders();
       return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
     });
