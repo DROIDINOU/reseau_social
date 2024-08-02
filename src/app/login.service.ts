@@ -27,6 +27,10 @@ export class LoginService {
   private apiurl16 = 'http://localhost:8000/photos/getlikes/photo';
   private apiurl17 = 'http://localhost:8000/photo/getlikestest/';
   private apiurl18 = 'http://localhost:8000/video/getlikesvideostest/';
+  private apiurl19 = 'http://localhost:8000/api/friends/messages/';
+  private apiurl20 = 'http://localhost:8000/api/friends/photos/';
+  private apiurl21 = 'http://localhost:8000/api/friends/videos/';
+
 
  
 
@@ -243,6 +247,22 @@ export class LoginService {
         this.http.get<any>(this.apiurl12, { headers: this.getAuthHeaders(), withCredentials: true })
       )
     );
+  }
+
+
+
+  //FRIENDS
+
+  getMessagesFriends(): Observable<any> {
+    return this.http.get<any>(this.apiurl19, { withCredentials: true });
+  }
+
+  getPhotosFriends(): Observable<any> {
+    return this.http.get<any>(this.apiurl20, { withCredentials: true });
+  }
+
+  getVideosFriends(): Observable<any> {
+    return this.http.get<any>(this.apiurl20, { withCredentials: true });
   }
 
 }

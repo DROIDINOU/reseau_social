@@ -4,7 +4,7 @@
   justify-content: center; /* Centre le conteneur du formulaire */
   gap: 2rem; /* Espace entre les formulaires */
   margin-bottom: 2rem; /* Espace sous les formulaires */
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }
 
@@ -209,21 +209,22 @@ input[type="file"] {
   padding: 15px;
 
   align-items: center;
-  margin: 20px auto;
-  min-width: 529.8px; /* Définir la largeur maximale */
+  margin: 0px auto;
+  min-width: 729.8px; /* Définir la largeur maximale */
   min-height: 128px;
 }
 
 /* Message card styling */
 .message-card {
+  
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
-  width: 130%;
-  max-width: 529.8px; /* Définir la largeur maximale */
+  width: 350%;
+  max-width: 629.8px; /* Définir la largeur maximale */
   max-height: 128px; /* Définir la hauteur maximale */
-  padding: 15px;
+  margin-right: 250px;
   box-sizing: border-box;
 
 }

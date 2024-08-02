@@ -52,7 +52,11 @@ export class QuoideneufComponent implements OnInit {
 
   listing_comment: boolean = false;
   listing_commentphoto: boolean = false;
-   listing_commentvideo: boolean = false;
+  listing_commentvideo: boolean = false;
+
+  
+  friendsMessages: any[] = []; // Pour stocker les messages récupérés
+
 
 
   messages$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -113,7 +117,10 @@ export class QuoideneufComponent implements OnInit {
       await Promise.all([
         this.loadMessages(),
         this.loadPhotos(),
-        this.loadVideos()
+        this.loadVideos(),
+        this.messagesfriends(),
+        this.photosfriends(),
+        this.videosfriends(),
       ]);
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
@@ -131,7 +138,9 @@ export class QuoideneufComponent implements OnInit {
     this.fileInput1.nativeElement.click();
   }
 
-  async loadMessages() {
+
+  
+  async loadMessages(): Promise<any[]> {
     try {
       const messagesResponse = await firstValueFrom(this.login.getMessages());
       if (Array.isArray(messagesResponse)) {
@@ -146,16 +155,49 @@ export class QuoideneufComponent implements OnInit {
             comments: commentsResponse,
           };
         }));
-        this.messages$.next(messages);
-        console.log('Valeur actuelle de messages$: ', this.messages$.getValue());
+        return messages; // Retourne les messages pour les utiliser dans test()
       } else {
         console.error('Réponse inattendue de getMessages()', messagesResponse);
+        return [];
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des messages', error);
+      return [];
+    }
+  }
+  
+  async messagesfriends() {
+    try {
+      console.log('Avant d\'appeler getMessagesFriends');
+      
+      // Récupère les messages des amis
+      const messagesFriendsResponse = await firstValueFrom(this.login.getMessagesFriends());
+      console.log('Réponse des messages des amis:', messagesFriendsResponse);
+      
+      // Récupère les messages normaux
+      const messagesResponse = await this.loadMessages();
+      
+      // Si les réponses sont des tableaux, combinez-les
+      if (Array.isArray(messagesFriendsResponse) && Array.isArray(messagesResponse)) {
+        // Combine les messages des amis et les messages normaux
+        const combinedMessages = [...messagesFriendsResponse, ...messagesResponse];
+        
+        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
+        const uniqueMessages = Array.from(new Set(combinedMessages.map(message => message.id)))
+          .map(id => combinedMessages.find(message => message.id === id));
+        
+        // Met à jour messages$ avec les données combinées
+        this.messages$.next(uniqueMessages);
+        console.log('Valeur actuelle de messages$: ', this.messages$.getValue());
+        
+      } else {
+        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', messagesFriendsResponse, messagesResponse);
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des messages', error);
     }
   }
-
+  
   async loadPhotos() {
     try {
       const photosResponse = await firstValueFrom(this.upload.getPhotofilactu());
@@ -178,6 +220,37 @@ export class QuoideneufComponent implements OnInit {
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des photos', error);
+    }
+  }
+
+  async photosfriends() {
+    try {
+      console.log('Avant d\'appeler getMessagesFriends');
+      
+      // Récupère les messages des amis
+      const photosFriendsResponse = await firstValueFrom(this.login.getPhotosFriends());
+      
+      // Récupère les messages normaux
+      const photosResponse = await this.loadPhotos();
+      
+      // Si les réponses sont des tableaux, combinez-les
+      if (Array.isArray(photosFriendsResponse) && Array.isArray(photosResponse)) {
+        // Combine les messages des amis et les messages normaux
+        const combinedMessages = [...photosFriendsResponse, ...photosResponse];
+        
+        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
+        const uniquePhotos = Array.from(new Set(combinedMessages.map(photo => photo.id)))
+          .map(id => combinedMessages.find(photo => photo.id === id));
+        
+        // Met à jour messages$ avec les données combinées
+        this.photos$.next(uniquePhotos);
+        console.log('Valeur actuelle de photos§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§$: ', this.messages$.getValue());
+        
+      } else {
+        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', photosFriendsResponse, photosResponse);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des messages', error);
     }
   }
 
@@ -205,6 +278,40 @@ export class QuoideneufComponent implements OnInit {
       console.error('Erreur lors de la récupération des videos', error);
     }
   }
+
+
+  async videosfriends() {
+    try {
+      console.log('Avant d\'appeler getVideosFriends');
+      
+      // Récupère les messages des amis
+      const videosFriendsResponse = await firstValueFrom(this.login.getVideosFriends());
+      console.log('Réponse des photos des amis:', videosFriendsResponse);
+      
+      // Récupère les messages normaux
+      const videosResponse = await this.loadPhotos();
+      
+      // Si les réponses sont des tableaux, combinez-les
+      if (Array.isArray(videosFriendsResponse) && Array.isArray(videosResponse)) {
+        // Combine les messages des amis et les messages normaux
+        const combinedMessages = [...videosFriendsResponse, ...videosResponse];
+        
+        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
+        const uniqueVideos = Array.from(new Set(combinedMessages.map(photo => photo.id)))
+          .map(id => combinedMessages.find(photo => photo.id === id));
+        
+        // Met à jour messages$ avec les données combinées
+        this.videos$.next(uniqueVideos);
+        console.log('Valeur actuelle de photos§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§$: ', this.videos$.getValue());
+        
+      } else {
+        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', videosFriendsResponse, videosResponse);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des messages', error);
+    }
+  }
+
 
   async liaison_click_modal(message_id: number) {
     this.id_commentaire = message_id;

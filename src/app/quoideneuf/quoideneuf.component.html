@@ -8,10 +8,10 @@
       <div class="form-buttons">
         <button type="button" (click)="onSubmit()">Publier</button>
         <button type="button" (click)="triggerFileInputClick()">
-          <fa-icon [icon]="videos_photos"></fa-icon> Photos/Vidéos
+          <fa-icon [icon]="videos_photos"></fa-icon> Photos
         </button>
         <button type="button" (click)="triggerFileInputClick1()">
-          <fa-icon [icon]="videos_photos"></fa-icon> Photos/Vidéos
+          <fa-icon [icon]="videos_photos"></fa-icon>Vidéos
         </button>
       </div>
     </form>
@@ -51,7 +51,7 @@
           (commentAdded)="handleCommentAdded()"
         ></app-modalcomments>
         <button (click)="liaison_click_modal1(message.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ message.comments.length }}</span>&nbsp;
+          Commentaires&nbsp;<span>{{ message?.comments?.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
           <span>{{ message?.likes_count }}</span>
         </button>
