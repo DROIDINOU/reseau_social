@@ -10,8 +10,9 @@
 
 /* Style du formulaire */
 .post-form {
-  width: 70%;
+  width: 100%;
   background: #fff;
+  max-width: 800px;
   padding: 1rem;
   border-radius: 7px;
   border: 3px solid #eee;
@@ -19,6 +20,7 @@
   flex-direction: column; /* Aligne les éléments verticalement */
   gap: 1rem; /* Espace entre les éléments du formulaire */
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Style pour les groupes de formulaire */
@@ -38,6 +40,7 @@
   padding: 0.2rem;
   border: 1px solid #ddd;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 /* Style pour les boutons */
@@ -209,23 +212,23 @@ input[type="file"] {
   padding: 15px;
 
   align-items: center;
-  margin: 0px auto;
-  min-width: 729.8px; /* Définir la largeur maximale */
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+  min-width: 529.8px; /* Définir la largeur maximale */
   min-height: 128px;
 }
 
 /* Message card styling */
 .message-card {
-  
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
-  width: 350%;
+  width: 100%;
   max-width: 629.8px; /* Définir la largeur maximale */
-  max-height: 128px; /* Définir la hauteur maximale */
-  margin-right: 250px;
   box-sizing: border-box;
+  padding: 1rem;
 
 }
 
@@ -384,24 +387,24 @@ input[type="file"] {
 }
 
 .photo-resize {
-  max-width: 80%;  /* Ensures the image is responsive */
-  max-height: 90px;  /* Sets a maximum height for the images */
+  max-width: 100%;  /* Ensures the image is responsive */
+  max-height: 400px;  /* Sets a maximum height for the images */
   object-fit: contain;  /* Maintains the aspect ratio */
   display: block;  /* Ensures that any extra space is not left around the image */
   margin: auto;  /* Centers the image horizontally */
-  margin-top: -10px;  /* Ajustez cette valeur pour remonter l'image */
+  margin-top: 10px;  /* Ajustez cette valeur pour remonter l'image */
 
 }
 
 
 /* Style pour les vidéos */
 .video-resize {
-  max-width: 80%;
-  max-height: 90px;
+  max-width: 100%;
+  max-height: 400px;
   object-fit: contain;
   display: block;
   margin: auto;
-  margin-top: -10px;
+  margin-top: 10px;
 }
 
 

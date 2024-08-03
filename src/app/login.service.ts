@@ -262,7 +262,7 @@ export class LoginService {
   }
 
   getVideosFriends(): Observable<any> {
-    return this.http.get<any>(this.apiurl20, { withCredentials: true });
+    return this.http.get<any>(this.apiurl21, { withCredentials: true });
   }
 
 }

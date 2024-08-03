@@ -143,6 +143,7 @@ export class QuoideneufComponent implements OnInit {
   async loadMessages(): Promise<any[]> {
     try {
       const messagesResponse = await firstValueFrom(this.login.getMessages());
+      console.log("reponse 1", messagesResponse)
       if (Array.isArray(messagesResponse)) {
         const messages = await Promise.all(messagesResponse.map(async message => {
           const [likesResponse, commentsResponse] = await Promise.all([
@@ -155,6 +156,8 @@ export class QuoideneufComponent implements OnInit {
             comments: commentsResponse,
           };
         }));
+        this.messages$.next(messages); // Met à jour l'observable
+        this.cdr.detectChanges(); // Ajout de detectChanges
         return messages; // Retourne les messages pour les utiliser dans test()
       } else {
         console.error('Réponse inattendue de getMessages()', messagesResponse);
@@ -165,6 +168,7 @@ export class QuoideneufComponent implements OnInit {
       return [];
     }
   }
+  
   
   async messagesfriends() {
     try {
@@ -236,11 +240,11 @@ export class QuoideneufComponent implements OnInit {
       // Si les réponses sont des tableaux, combinez-les
       if (Array.isArray(photosFriendsResponse) && Array.isArray(photosResponse)) {
         // Combine les messages des amis et les messages normaux
-        const combinedMessages = [...photosFriendsResponse, ...photosResponse];
+        const combinedPhotos = [...photosFriendsResponse, ...photosResponse];
         
         // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
-        const uniquePhotos = Array.from(new Set(combinedMessages.map(photo => photo.id)))
-          .map(id => combinedMessages.find(photo => photo.id === id));
+        const uniquePhotos = Array.from(new Set(combinedPhotos.map(photo => photo.id)))
+          .map(id => combinedPhotos.find(photo => photo.id === id));
         
         // Met à jour messages$ avec les données combinées
         this.photos$.next(uniquePhotos);
@@ -289,16 +293,16 @@ export class QuoideneufComponent implements OnInit {
       console.log('Réponse des photos des amis:', videosFriendsResponse);
       
       // Récupère les messages normaux
-      const videosResponse = await this.loadPhotos();
+      const videosResponse = await this.loadVideos();
       
       // Si les réponses sont des tableaux, combinez-les
       if (Array.isArray(videosFriendsResponse) && Array.isArray(videosResponse)) {
         // Combine les messages des amis et les messages normaux
-        const combinedMessages = [...videosFriendsResponse, ...videosResponse];
+        const combinedVideos= [...videosFriendsResponse, ...videosResponse];
         
         // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
-        const uniqueVideos = Array.from(new Set(combinedMessages.map(photo => photo.id)))
-          .map(id => combinedMessages.find(photo => photo.id === id));
+        const uniqueVideos = Array.from(new Set(combinedVideos.map(video => video.id)))
+          .map(id => combinedVideos.find(video => video.id === id));
         
         // Met à jour messages$ avec les données combinées
         this.videos$.next(uniqueVideos);
@@ -413,6 +417,8 @@ export class QuoideneufComponent implements OnInit {
             console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
             this.myForm.reset();
             await this.loadMessages();
+            this.cdr.detectChanges(); // Forcer la détection des changements
+
           } catch (retryError) {
             console.error('Erreur lors de la création du message après rafraîchissement du token', retryError);
           }
@@ -460,6 +466,8 @@ export class QuoideneufComponent implements OnInit {
         console.log('Enregistrement réussi', response);
         this.videos_Url = `http://localhost:8000/${response.video}`;
         await this.loadVideos(); // Recharger les photos après ajout
+        this.cdr.detectChanges(); // Forcer la détection des changements
+
       } catch (error) {
         console.error('Erreur de connexion', error);
       }
