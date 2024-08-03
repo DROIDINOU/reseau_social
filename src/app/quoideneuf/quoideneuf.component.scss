@@ -1,4 +1,6 @@
-
+* {
+  box-sizing: border-box;
+}
 .form-container {
   display: flex;
   justify-content: center; /* Centre le conteneur du formulaire */
@@ -217,6 +219,8 @@ input[type="file"] {
   max-width: 800px;
   min-width: 529.8px; /* Définir la largeur maximale */
   min-height: 128px;
+  overflow-x: hidden; /* Empêche le débordement horizontal */
+
 }
 
 /* Message card styling */
@@ -226,9 +230,14 @@ input[type="file"] {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
   width: 100%;
+  max-width: 100%;
+  width: 100%; /* Assurez-vous que la carte utilise toute la largeur disponible */
+
   max-width: 629.8px; /* Définir la largeur maximale */
   box-sizing: border-box;
   padding: 1rem;
+  overflow: hidden; /* Cache les débordements */
+
 
 }
 
@@ -269,6 +278,8 @@ input[type="file"] {
   color: #333;
   line-height: 1.5;
   margin-bottom: 5px; /* Espacement sous le contenu du message */
+  overflow-wrap: break-word; /* Permet de couper les mots longs */
+  word-break: break-word; /* Coupe les mots si nécessaire */
 }
 
 /* Comments action styling */
