@@ -7,6 +7,8 @@ import { CommentModalsService } from '../comment-modals.service';
 import { faThumbsUp, faPhotoVideo, faImage } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '../user.service';
 import { UploadService } from '../upload.service';
+import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
+
 
 @Component({
   selector: 'app-quoideneuf',
@@ -23,6 +25,9 @@ export class QuoideneufComponent implements OnInit {
   pouces = faThumbsUp;
   videos_photos = faPhotoVideo;
   faImage = faImage;
+
+  profileImageUrl: string | null = null;
+
 
   id_message: number | null = null;
   id_photo: number | null = null;
@@ -109,6 +114,8 @@ export class QuoideneufComponent implements OnInit {
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
       this.loadData();
+      this.loadProfileImage();
+
     });
   }
   
@@ -138,6 +145,28 @@ export class QuoideneufComponent implements OnInit {
     this.fileInput1.nativeElement.click();
   }
 
+  async loadProfileImage() {
+    try {
+      const response = await firstValueFrom(this.upload.getProfilePhoto());
+      this.profileImageUrl = `http://localhost:8000${response.profile_picture}`;
+      console.log('Loaded profile image:', this.profileImageUrl);
+    } catch (error) {
+      const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
+      if (error && httpError.status === 403) {
+        console.log('Erreur 403, tentative de rafraîchir le token CSRF');
+        try {
+          await firstValueFrom(this.upload.refreshCsrfToken());
+          const retryResponse = await firstValueFrom(this.upload.getProfilePhoto());
+          this.profileImageUrl = `http://localhost:8000${retryResponse.profile_picture}`;
+          console.log('Loaded profile image after refreshing CSRF token:', this.profileImageUrl);
+        } catch (refreshError) {
+          console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
+        }
+      } else {
+        console.error('Erreur lors du chargement de l\'image de profil', error);
+      }
+    }
+  }
 
   
   async loadMessages(): Promise<any[]> {

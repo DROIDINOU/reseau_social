@@ -287,6 +287,8 @@ input[type="file"] {
   display: flex;
   align-items: center;
   margin-top: 10px; /* Espacement au-dessus des actions de commentaire */
+  justify-content: flex-end; /* Assurez-vous que les actions sont alignées à droite */
+
 }
 
 .comments-action p {
@@ -305,9 +307,13 @@ input[type="file"] {
 }
 
 .comments-action .align-right {
-  margin-left: auto;
+  display: flex; /* Assurez-vous que le bouton utilise le modèle de boîte flex */
+  justify-content: flex-end; /* Aligne le texte à droite */
+  overflow: hidden; /* Assurez-vous que le texte ne déborde pas */
+  text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
+  white-space: nowrap; /* Empêche le texte de se casser en plusieurs lignes */
+  max-width: calc(100% - 1rem); /* Assurez-vous que le texte reste dans le conteneur */
 }
-
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
