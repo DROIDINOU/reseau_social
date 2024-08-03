@@ -19,7 +19,7 @@ export class UploadService {
   private apiUrl9 = 'http://localhost:8000/videos/by-username/';
   private apiUrl10 = 'http://localhost:8000/api/photosuploadfilactu/';
   private apiUrl11 = 'http://localhost:8000/api/videosuploadfilactu/';
-
+  private apiUrl12 = 'http://localhost:8000/profile-picture-all/';
 
 
   
@@ -39,7 +39,8 @@ export class UploadService {
 
   private getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'X-CSRFToken': this.csrfToken || ''
+      'X-CSRFToken': this.csrfToken || '',
+
     });
   }
 
@@ -119,6 +120,13 @@ export class UploadService {
     );
   }
 
+
+  getphotoprofileall(): Observable<any> {
+    return this.performRequest(() => 
+      this.http.get<any>(this.apiUrl12, { headers: this.getAuthHeaders(), withCredentials: true })
+    );
+  }
+
   getProfilePhoto1(): Observable<any> {
     return this.performRequest(() => 
       this.http.get<any>(this.apiUrl3, { headers: this.getAuthHeaders(), withCredentials: true })
@@ -163,6 +171,9 @@ export class UploadService {
       return this.http.get<any>(`${this.apiUrl1}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
     });
   }
+
+
+
 
   getPhotosByUsername(username: string): Observable<any> {
     return this.performRequest(() => {

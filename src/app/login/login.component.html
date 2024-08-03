@@ -19,9 +19,16 @@
       <form [formGroup]="snapForm1" method="post">
         <label for="nu"></label>
         <input type="text" id="nu" name="username" placeholder="Nom d'utilisateur" required="required" formControlName="username" />
+        <div *ngIf="snapForm1.get('username')?.invalid && (snapForm1.get('username')?.touched || snapForm1.get('username')?.dirty)">
+          <div *ngIf="snapForm1.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</div>
+        </div>
         <label for="mp"></label>
         <input type="password" id="mp" name="password" placeholder="Mot de passe (min 10 caractères)" required="required" formControlName="password" />
-        
+        <div *ngIf="snapForm1.get('password')?.invalid && (snapForm1.get('password')?.touched || snapForm1.get('password')?.dirty)">
+          <div *ngIf="snapForm1.get('password')?.errors?.['required']">Le mot de passe est requis.</div>
+          <div *ngIf="snapForm1.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 10 caractères.</div>
+        </div>
+  
         <button type="submit" (click)="onSubmitForm()" 
         [disabled]="is_clicked || snapForm1.invalid" 
         [ngClass]="{ 'log log-primary log-block log-large': isLoggedIn, ' btn btn-primary btn-block btn-large': !isLoggedIn 

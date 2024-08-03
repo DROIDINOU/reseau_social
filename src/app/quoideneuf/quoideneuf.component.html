@@ -27,7 +27,9 @@
     <div *ngFor="let message of messages; let idx = index" class="message-card">
       <div class="message-header">
         <div class="author-avatar">
-          <img src="" alt="User Avatar">
+          <ng-container *ngIf="(profilePictures$ | async) as profilePictures">
+            <img id="profile-picture1" [src]="'http://localhost:8000' + (profilePictures[message.auteur] || defaultProfileImageUrl)" alt="Profile Picture">
+          </ng-container>
         </div>
         <div class="author-info">
           <span class="author-name"></span>

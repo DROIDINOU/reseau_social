@@ -8,7 +8,12 @@ import { faThumbsUp, faPhotoVideo, faImage } from '@fortawesome/free-solid-svg-i
 import { UserService } from '../user.service';
 import { UploadService } from '../upload.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
+import { Observable, of, map, catchError , tap} from 'rxjs';
 
+interface Profile {
+  userId: number;
+  photoUrl: string;
+}
 
 @Component({
   selector: 'app-quoideneuf',
@@ -27,7 +32,8 @@ export class QuoideneufComponent implements OnInit {
   faImage = faImage;
 
   profileImageUrl: string | null = null;
-
+  profilePictures$: Observable<{ [key: string]: string }> = of({});
+  defaultProfileImageUrl = 'path/to/default/profile/image.png';  // URL par défaut pour les photos de profil
 
   id_message: number | null = null;
   id_photo: number | null = null;
@@ -53,6 +59,9 @@ export class QuoideneufComponent implements OnInit {
   number_comments3: any = {};
   number_comments4: any = {};
   number_comments5: any = {};
+
+
+  
 
 
   listing_comment: boolean = false;
@@ -115,9 +124,14 @@ export class QuoideneufComponent implements OnInit {
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
       this.loadData();
       this.loadProfileImage();
-
+      this.loadProfilePictures();
+      this.profilePictures$.subscribe(profilePictures => {
+        console.log('Profile Pictures:', profilePictures);
+      });
     });
   }
+
+ 
   
   async loadData() {
     try {
@@ -145,6 +159,8 @@ export class QuoideneufComponent implements OnInit {
     this.fileInput1.nativeElement.click();
   }
 
+  
+
   async loadProfileImage() {
     try {
       const response = await firstValueFrom(this.upload.getProfilePhoto());
@@ -168,6 +184,44 @@ export class QuoideneufComponent implements OnInit {
     }
   }
 
+
+  loadProfilePictures() {
+    this.profilePictures$ = this.upload.getphotoprofileall().pipe(
+      tap(profiles => {
+        // Affiche les données reçues de l'API
+        console.log('Données reçues de getphotoprofileall:', profiles);
+      }),
+      map((profiles: { user: number; profile_picture: string | null }[]) => {
+        // Convertir la liste des profils en un objet avec userId comme clé
+        const profileMap = profiles.reduce((acc, profile) => {
+          // Assurez-vous que 'user' est un nombre et 'profile_picture' est une chaîne
+          if (profile.user != null && profile.profile_picture != null) {
+            acc[profile.user] = profile.profile_picture;
+          }
+          return acc;
+        }, {} as { [key: number]: string });
+        
+        // Affiche les données après transformation
+        console.log('Profile map après transformation:', profileMap);
+        
+        return profileMap;
+      }),
+      catchError(err => {
+        console.error('Erreur lors du chargement des photos de profil', err);
+        return of({});  // Retourne un objet vide en cas d'erreur
+      })
+    );
+  }
+
+  getProfilePictureUrl(userId: string): Observable<string> {
+    return this.profilePictures$.pipe(
+      map(profilePictures => profilePictures[userId] || this.defaultProfileImageUrl)
+    );
+  }
+
+
+
+  
   
   async loadMessages(): Promise<any[]> {
     try {
@@ -186,6 +240,7 @@ export class QuoideneufComponent implements OnInit {
           };
         }));
         this.messages$.next(messages); // Met à jour l'observable
+        console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",this.messages$.getValue())
         this.cdr.detectChanges(); // Ajout de detectChanges
         return messages; // Retourne les messages pour les utiliser dans test()
       } else {

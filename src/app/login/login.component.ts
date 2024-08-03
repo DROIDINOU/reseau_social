@@ -41,10 +41,19 @@ onSubmitForm() {
       },
       error => {
         console.error('Erreur de connexion', error);
+        this.isLoggedIn = false;
+        this.message = 'Erreur de connexion. Veuillez réessayer.';
+        console.log(this.isLoggedIn)
+        console.log(this.message)
+
       }
     );
   } else {
     console.log('Formulaire invalide');
+    this.isLoggedIn = 'invalid';
+    this.message = 'Formulaire invalide. Veuillez vérifier les champs.';
+    console.log(this.isLoggedIn)
+        console.log(this.message)
   }
 }
 
