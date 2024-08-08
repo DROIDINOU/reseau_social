@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnIni
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommentModalsService } from '../comment-modals.service';
-import { Observable, Subscription,firstValueFrom } from 'rxjs';
+import { Observable, Subscription,firstValueFrom, take } from 'rxjs';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -38,9 +38,10 @@ export class ModalvideoComponent  implements OnChanges, OnInit, OnDestroy {
       content: ['', Validators.required],
     });
 
-    this.routeSubscription = this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(
+      take(1) // Ne prend que la première valeur émise et se désabonne automatiquement
+    ).subscribe(params => {
       this.username = params.get('id');
-      console.log(this.username); // Assurez-vous que 'id' est correctement récupéré
     });
   }
 

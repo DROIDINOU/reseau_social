@@ -51,6 +51,29 @@
   gap: 1rem; /* Espace entre les boutons */
 }
 
+/* Ajout de styles par défaut pour les icônes */
+.fa-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Prévenir les redimensionnements temporaires */
+.form-buttons fa-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  transition: none; /* Désactiver les transitions si nécessaire */
+}
+
+/* Assurer que les icônes ne s'affichent pas brièvement en grand */
+.fa-icon.large {
+  width: 24px;
+  height: 24px;
+}
+
 .form-buttons button {
   padding: .5rem 1rem;
   background: #454cad;
@@ -207,20 +230,24 @@ input[type="file"] {
   background: #393f90;
 }
 
-/* Container for the feed */
 .feed {
   display: flex;
   flex-direction: column;
-  padding: 15px;
-
+  padding: 2px;
   align-items: center;
   margin: 0 auto;
   width: 100%;
   max-width: 800px;
-  min-width: 529.8px; /* Définir la largeur maximale */
+  min-width: 529.8px; /* Définir la largeur minimale */
   min-height: 128px;
   overflow-x: hidden; /* Empêche le débordement horizontal */
+}
 
+/* Wrapper for message cards */
+.message-card-wrapper {
+  width: 100%; /* Prend toute la largeur disponible dans le conteneur parent */
+  padding: 0 20px; /* Ajoute de l'espace sur les côtés */
+  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
 /* Message card styling */
@@ -229,16 +256,10 @@ input[type="file"] {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
-  width: 100%;
-  max-width: 100%;
-  width: 100%; /* Assurez-vous que la carte utilise toute la largeur disponible */
-
-  max-width: 629.8px; /* Définir la largeur maximale */
+  width: 100%; /* Utilise toute la largeur du conteneur wrapper */
   box-sizing: border-box;
   padding: 1rem;
   overflow: hidden; /* Cache les débordements */
-
-
 }
 
 /* Header styling */
@@ -307,13 +328,10 @@ input[type="file"] {
 }
 
 .comments-action .align-right {
-  display: flex; /* Assurez-vous que le bouton utilise le modèle de boîte flex */
-  justify-content: flex-end; /* Aligne le texte à droite */
-  overflow: hidden; /* Assurez-vous que le texte ne déborde pas */
+  margin-left: auto; /* Pousse l'élément à droite */
+  overflow: hidden; /* Évite les débordements */
   text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
-  white-space: nowrap; /* Empêche le texte de se casser en plusieurs lignes */
-  max-width: calc(100% - 1rem); /* Assurez-vous que le texte reste dans le conteneur */
-}
+  white-space: nowrap; /* Évite que le texte se casse en plusieurs lignes */}
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;

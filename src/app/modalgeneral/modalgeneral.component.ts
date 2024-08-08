@@ -109,6 +109,3 @@ export class ModalgeneralComponent implements OnInit{
     }
   }
 }
-
-
-

@@ -26,7 +26,6 @@ import { ProfilUtilisateurComponent } from './components/demos/routing/profil-ut
 import { RoutingComponent } from './components/demos/routing/routing/routing.component';
 import { FormulairecrudComponent } from './formulairecrud/formulairecrud.component';
 import { ListefansComponent } from './listefans/listefans.component';
-import { FanpageComponent } from './fanpage/fanpage.component';
 import { ConsoapiComponent } from './consoapi/consoapi.component';
 import { HttpClientModule, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { VideochatComponent } from './videochat/videochat.component';
@@ -59,6 +58,8 @@ import { ModalvideoComponent } from './modalvideo/modalvideo.component';
 import { ModalgeneralvideoComponent } from './modalgeneralvideo/modalgeneralvideo.component';
 import { VideopostComponent } from './videopost/videopost.component';
 import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
+import { AnimatedRopeComponent } from './animated-rope/animated-rope.component';
+import { PrivatechatComponent } from './privatechat/privatechat.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,6 @@ import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
     RoutingComponent,
     FormulairecrudComponent,
     ListefansComponent,
-    FanpageComponent,
     ConsoapiComponent,
     VideochatComponent,
     PhtochatComponent,
@@ -114,6 +114,8 @@ import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
     ModalgeneralvideoComponent,
     VideopostComponent,
     CoeurvideoComponent,
+    AnimatedRopeComponent,
+    PrivatechatComponent,
   ],
   imports: [
     BrowserModule,

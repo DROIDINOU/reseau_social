@@ -1,6 +1,6 @@
-<div class="photo-gallery">
-    <div class="photo-item" *ngFor="let photo of liste_photos;let i = index">
-        <img [src]="'http://localhost:8000' + photo?.photo" />
+<div *ngIf="liste_photos.length > 0" class="photo-gallery">
+    <div class="photo-item" *ngFor="let photo of liste_photos; let i = index">
+        <img [src]="'http://localhost:8000' + photo?.photo" loading="lazy" />
         <div class="like-action">
             <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(photo.id)"></fa-icon>
             <p class="like">{{ photo.likes.length }}</p>

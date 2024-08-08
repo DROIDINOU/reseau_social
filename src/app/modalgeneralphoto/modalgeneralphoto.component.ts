@@ -109,7 +109,3 @@ export class ModalgeneralphotoComponent implements OnInit{
     }
   }
 }
-
-
-
-

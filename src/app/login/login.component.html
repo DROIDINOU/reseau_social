@@ -25,8 +25,8 @@
         <label for="mp"></label>
         <input type="password" id="mp" name="password" placeholder="Mot de passe (min 10 caractères)" required="required" formControlName="password" />
         <div *ngIf="snapForm1.get('password')?.invalid && (snapForm1.get('password')?.touched || snapForm1.get('password')?.dirty)">
-          <div *ngIf="snapForm1.get('password')?.errors?.['required']">Le mot de passe est requis.</div>
-          <div *ngIf="snapForm1.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 10 caractères.</div>
+          <div *ngIf="snapForm1.get('password')?.errors?.['required']"></div>
+          <div *ngIf="snapForm1.get('password')?.errors?.['minlength']"></div>
         </div>
   
         <button type="submit" (click)="onSubmitForm()" 

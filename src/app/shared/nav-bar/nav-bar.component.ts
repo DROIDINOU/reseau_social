@@ -62,16 +62,16 @@ export class NavBarComponent implements OnInit, OnDestroy {
       console.log("iciiiiiiiiiiiiiiiiiiiii",this.isLoggedIn)
       if (isLoggedIn) {
         console.log("salut")
-        this.userId = this.userService.getUserId();
+        console.log("10", this.userId)
         this.friend();
         this.loadCurrentUserFromStorage();
+        console.log("11",this.loadCurrentUserFromStorage)
         this.updatePendingRequests();
       }
     });
 
     this.login.getAll().subscribe(all => {
       console.log("ici")
-      this.cdr.detectChanges(); // Force la détection des changements
 
       this.allUsers = all;
       console.log("usssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssser", this.allUsers)
@@ -83,7 +83,6 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.friendStatusSubscription = this.friendService.friendStatus$.subscribe(status => {
       this.friendStatus = status;
       this.updatePendingRequests();
-      this.cdr.detectChanges();
     });
   }
 

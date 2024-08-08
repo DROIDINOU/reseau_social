@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges,OnInit
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommentModalsService } from '../comment-modals.service';
-import { firstValueFrom,Observable } from 'rxjs';
+import { firstValueFrom,Observable, take } from 'rxjs';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -33,10 +33,12 @@ export class ModalcommentsComponent implements OnChanges {
       content: ['', Validators.required],
     });
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(
+      take(1) // Ne prend que la première valeur émise et se désabonne automatiquement
+    ).subscribe(params => {
       this.username = params.get('id');
-      console.log(this.username); // Assurez-vous que 'id' est correctement récupéré
     });
+  
   }
 
   

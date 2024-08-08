@@ -121,6 +121,7 @@ export class ListefansComponent implements OnInit {
 
   selectFile(): void {
     this.fileInput.nativeElement.click();
+
   }
 
   selectFile1(): void {
@@ -194,7 +195,8 @@ export class ListefansComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createPhoto(formData1));
         console.log('Enregistrement réussi', response);
         this.photosUrl= `http://localhost:8000/${response.photo}`;
-        
+        await this.photoschats();
+
       } catch (error) {
         console.error('Erreur de connexion', error);
       }
@@ -215,6 +217,8 @@ export class ListefansComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createVideo(formData1));
         console.log('Enregistrement réussi', response);
         this.photosUrl= `http://localhost:8000/${response.video}`;
+        await this.videoschats();
+
         
       } catch (error) {
         console.error('Erreur de connexion', error);

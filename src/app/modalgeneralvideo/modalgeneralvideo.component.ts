@@ -113,7 +113,3 @@ export class ModalgeneralvideoComponent implements OnInit,OnChanges{
     }
   }
 }
-
-
-
-

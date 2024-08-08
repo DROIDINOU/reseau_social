@@ -23,12 +23,16 @@
 
 <div class="feed">
   <!-- Section Messages -->
-  <div *ngIf="(messages$ | async) as messages">
+  <div *ngIf="messages">
+    <div class="message-card-wrapper">
+
     <div *ngFor="let message of messages; let idx = index" class="message-card">
       <div class="message-header">
         <div class="author-avatar">
           <ng-container *ngIf="(profilePictures$ | async) as profilePictures">
             <img id="profile-picture1" [src]="'http://localhost:8000' + (profilePictures[message.auteur] || defaultProfileImageUrl)" alt="Profile Picture">
+            <p>publié le : {{message.timestamp| date:'short'}}</p>
+
           </ng-container>
         </div>
         <div class="author-info">
@@ -67,9 +71,10 @@
       ></app-modalgeneral>
     </div>
   </div>
+  </div>
 
   <!-- Section Photos -->
-  <div *ngIf="(photos$ | async) as photos">
+  <div *ngIf="photos">
     <div *ngFor="let photo of photos; let idx = index" class="message-card">
       <div class="message-header">
         <div class="author-info">
@@ -107,7 +112,7 @@
       ></app-modalgeneralphoto>
     </div>
   </div>
-    <div *ngIf="(videos$ | async) as videos">
+    <div *ngIf="videos">
     <div *ngFor="let video of videos; let idx = index" class="message-card">
       <div class="message-header">
         <div class="author-info">
@@ -147,4 +152,10 @@
   </div>
 </div>
 </div>
+
+
+
+
+
+
 

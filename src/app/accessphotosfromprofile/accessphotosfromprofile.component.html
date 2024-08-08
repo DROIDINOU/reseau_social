@@ -1,5 +1,4 @@
 <div class="photo-gallery">
-    <fa-icon  [icon]="faArrowLeft" size="2x" (click)="goBack()"></fa-icon>
 
     <div class="photo-item" *ngFor="let photo of listPhotos_forfriends$ | async">
       <img [src]="photo.photo" alt="Photo">

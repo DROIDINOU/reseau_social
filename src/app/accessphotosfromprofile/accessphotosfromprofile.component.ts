@@ -19,7 +19,7 @@ export class AccessphotosfromprofileComponent implements OnInit{
 
 fathumbsup = faThumbsUp;
 faeye = faEye;
-faArrowLeft = faArrowLeft;
+//faArrowLeft = faArrowLeft;
 
 listPhotos_forfriends$: Observable<any[]> | undefined;
 

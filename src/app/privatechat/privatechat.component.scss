@@ -1,0 +1,28 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  color: red;
+  display: flex;
+  flex-direction: column-reverse;  // Affiche les messages du bas vers le haut
+}
+
+input {
+  width: calc(100% - 60px);  // Réduit la largeur pour faire de la place pour le bouton
+  margin-right: 10px;
+}
+
+button {
+  width: 50px;
+}

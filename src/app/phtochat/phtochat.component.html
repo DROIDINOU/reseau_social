@@ -10,22 +10,21 @@
     <tbody>
         <tr>
             <td>
-                <img  src="assets/photos/chat3.jpg" />
+                <img  loading="lazy" />
             </td>
         </tr>
         <tr>
             <td>
-                <img src="assets/photos/chat2.jpg" />
-         S   </td>
-        </tr>
-        <tr>
-            <td>
-                <img src="assets/photos/chat5.png" />
+                <img  loading="lazy"/>
             </td>
         </tr>
         <tr>
             <td>
-                <img  src="assets/photos/chat4.jpg" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img loading="lazy" />
             </td>
         </tr>
     </tbody>
@@ -47,7 +46,7 @@
         <fa-icon  [icon]="favideo" size="2x"></fa-icon>
         <p class ='align-right' class="typo">Video(s)</p>
         <fa-icon  [icon]="faComment" size="2x"></fa-icon>
-        <p class ='align-right' class="'typo">Messagerie</p>
+        <p class ='align-right' class="typo" (click)="navigateToChat()">Messagerie</p>
         </div>
 </div>
 

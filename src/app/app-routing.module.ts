@@ -16,7 +16,6 @@ import { RoutingComponent } from './components/demos/routing/routing/routing.com
 import { ProfilUtilisateurComponent } from './components/demos/routing/profil-utilisateur/profil-utilisateur.component';
 import { authGuard } from './tools/guards/auth.guard';
 import { FormulairecrudComponent } from './formulairecrud/formulairecrud.component'; 
-import { FanpageComponent } from './fanpage/fanpage.component';
 import { ConsoapiComponent } from './consoapi/consoapi.component';
 import { VideochatComponent } from './videochat/videochat.component';
 import { PhtochatComponent } from './phtochat/phtochat.component';
@@ -28,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth-guard.service';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
+import { PrivatechatComponent } from './privatechat/privatechat.component';
 
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
@@ -44,7 +44,9 @@ const routes: Routes = [
         { path: 'user-prof/:id', component: PhtochatComponent },
         { path: 'userprofile/:id', component: FriendrequestpageComponent },
         { path: 'access', component: AccessphotosfromprofileComponent },
-        { path: '', redirectTo: 'home', pathMatch: 'full'} // Redirection par défault
+        { path: '', redirectTo: 'home', pathMatch: 'full'},
+        { path: 'privatechat', component: PrivatechatComponent},
+
 ];
 
 @NgModule({

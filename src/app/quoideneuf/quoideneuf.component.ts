@@ -15,11 +15,32 @@ interface Profile {
   photoUrl: string;
 }
 
+interface Message {
+  id: number;
+  message: string;
+  timestamp: string;
+}
+
+interface Photo {
+  id: number;
+  photo: string;
+  timestamp: string;
+}
+
+interface Video {
+  id: number;
+  video: string;
+  timestamp: string;
+}
+
+
+type Result = Message | Photo | Video;
+
+
 @Component({
   selector: 'app-quoideneuf',
   templateUrl: './quoideneuf.component.html',
   styleUrls: ['./quoideneuf.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuoideneufComponent implements OnInit {
   myForm!: FormGroup;
@@ -67,6 +88,13 @@ export class QuoideneufComponent implements OnInit {
   listing_comment: boolean = false;
   listing_commentphoto: boolean = false;
   listing_commentvideo: boolean = false;
+  messages: any[] = [];
+  messagesfromfriends: any[] = [];
+
+  photos: any[] = [];
+  videos: any[] = [];
+  results: any[] = [];
+  results1: any[] = [];
 
   
   friendsMessages: any[] = []; // Pour stocker les messages récupérés
@@ -76,6 +104,8 @@ export class QuoideneufComponent implements OnInit {
   messages$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   photos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   videos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  test$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+
 
   countcomments$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   countcommentsphotos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -123,15 +153,13 @@ export class QuoideneufComponent implements OnInit {
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
       this.loadData();
+     
       this.loadProfileImage();
       this.loadProfilePictures();
-      this.profilePictures$.subscribe(profilePictures => {
-        console.log('Profile Pictures:', profilePictures);
-      });
     });
   }
 
- 
+  
   
   async loadData() {
     try {
@@ -142,7 +170,8 @@ export class QuoideneufComponent implements OnInit {
         this.messagesfriends(),
         this.photosfriends(),
         this.videosfriends(),
-      ]);
+      ]);    this.concatData();
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", this.concatData)
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
     }
@@ -220,11 +249,40 @@ export class QuoideneufComponent implements OnInit {
   }
 
 
-
+  concatData() {
+    const messages = this.messages$.getValue() as Message[];
+    const photos = this.photos$.getValue() as Photo[];
+    const videos = this.videos$.getValue() as Video[];
+  
+    console.log("Messages:", messages);
+    console.log("Photos:", photos);
+    console.log("Videos:", videos);
+    
+    // Concaténation des messages, photos et vidéos
+    this.results1 = [...messages, ...photos, ...videos] as Result[];
+  
+    console.log("Avant le tri:", this.results1);
+    
+    try {
+      // Tri des résultats par timestamp
+      this.results1.sort((a, b) => {
+        const dateA = new Date(a.timestamp).getTime();
+        const dateB = new Date(b.timestamp).getTime();
+        console.log("Comparing:", dateA, dateB);
+        return dateB - dateA;
+      });
+    } catch (error) {
+      console.error("Erreur pendant le tri:", error);
+    }
+  
+    // Affichage du tableau trié
+    console.log("Après le tri:", this.results1);
+  }
   
   
   async loadMessages(): Promise<any[]> {
     try {
+      "?????????????????????????????????"
       const messagesResponse = await firstValueFrom(this.login.getMessages());
       console.log("reponse 1", messagesResponse)
       if (Array.isArray(messagesResponse)) {
@@ -239,10 +297,11 @@ export class QuoideneufComponent implements OnInit {
             comments: commentsResponse,
           };
         }));
+        this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
-        console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",this.messages$.getValue())
-        this.cdr.detectChanges(); // Ajout de detectChanges
-        return messages; // Retourne les messages pour les utiliser dans test()
+        console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",this.messages)
+        
+        return messages
       } else {
         console.error('Réponse inattendue de getMessages()', messagesResponse);
         return [];
@@ -273,11 +332,11 @@ export class QuoideneufComponent implements OnInit {
         // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
         const uniqueMessages = Array.from(new Set(combinedMessages.map(message => message.id)))
           .map(id => combinedMessages.find(message => message.id === id));
-        
+          this.results = [...uniqueMessages];
         // Met à jour messages$ avec les données combinées
         this.messages$.next(uniqueMessages);
+        this.messages = uniqueMessages
         console.log('Valeur actuelle de messages$: ', this.messages$.getValue());
-        
       } else {
         console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', messagesFriendsResponse, messagesResponse);
       }
@@ -303,6 +362,8 @@ export class QuoideneufComponent implements OnInit {
         }));
         console.log("Photos chargées :", photos);
         this.photos$.next(photos);
+        this.photos = photos
+
       } else {
         console.error('Réponse inattendue de getPhotofilactu()', photosResponse);
       }
@@ -329,10 +390,10 @@ export class QuoideneufComponent implements OnInit {
         // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
         const uniquePhotos = Array.from(new Set(combinedPhotos.map(photo => photo.id)))
           .map(id => combinedPhotos.find(photo => photo.id === id));
-        
+
         // Met à jour messages$ avec les données combinées
         this.photos$.next(uniquePhotos);
-        console.log('Valeur actuelle de photos§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§$: ', this.messages$.getValue());
+        this.photos = uniquePhotos;
         
       } else {
         console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', photosFriendsResponse, photosResponse);
@@ -358,7 +419,10 @@ export class QuoideneufComponent implements OnInit {
           };
         }));
         console.log("videos chargées :", videos);
+
         this.videos$.next(videos);
+        this.videos = videos
+
       } else {
         console.error('Réponse inattendue de getVideofilactu()', videosResponse);
       }
@@ -387,11 +451,11 @@ export class QuoideneufComponent implements OnInit {
         // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
         const uniqueVideos = Array.from(new Set(combinedVideos.map(video => video.id)))
           .map(id => combinedVideos.find(video => video.id === id));
-        
+
         // Met à jour messages$ avec les données combinées
+        this.videos = uniqueVideos;
+
         this.videos$.next(uniqueVideos);
-        console.log('Valeur actuelle de photos§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§$: ', this.videos$.getValue());
-        
       } else {
         console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', videosFriendsResponse, videosResponse);
       }
@@ -410,7 +474,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal3 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -423,7 +486,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal3 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -436,7 +498,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal3 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -449,7 +510,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
 
   }
@@ -464,7 +524,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal3 = false;
       this.currentModal2 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
 
   }
@@ -479,7 +538,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
       this.currentModal3 = false;
     this.currentModal4 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
 
   } 
@@ -488,10 +546,12 @@ export class QuoideneufComponent implements OnInit {
     if (this.myForm.valid) {
       const formData = this.myForm.value;
       try {
+        console.log("hello du formulaire")
         const responseCreate = await firstValueFrom(this.login.createMessage(formData.message));
         console.log('Message créé avec succès', responseCreate);
-        this.myForm.reset();
         await this.loadMessages();
+
+        this.myForm.reset();
       } catch (error: any) {
         if (error.status === 403) {
           console.log('Erreur 403, tentative de rafraîchir le token CSRF');
@@ -499,9 +559,9 @@ export class QuoideneufComponent implements OnInit {
             await firstValueFrom(this.login.refreshCsrfToken());
             const responseCreateRetry = await firstValueFrom(this.login.createMessage(formData.message));
             console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
-            this.myForm.reset();
             await this.loadMessages();
-            this.cdr.detectChanges(); // Forcer la détection des changements
+            this.myForm.reset();
+
 
           } catch (retryError) {
             console.error('Erreur lors de la création du message après rafraîchissement du token', retryError);
