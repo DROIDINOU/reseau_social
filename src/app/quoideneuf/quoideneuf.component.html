@@ -22,128 +22,107 @@
 </div>
 
 <div class="feed">
-  <!-- Section Messages -->
-  <div *ngIf="messages">
-    <div class="message-card-wrapper">
-
-    <div *ngFor="let message of messages; let idx = index" class="message-card">
-      <div class="message-header">
-        <div class="author-avatar">
-          <ng-container *ngIf="(profilePictures$ | async) as profilePictures">
-            <img id="profile-picture1" [src]="'http://localhost:8000' + (profilePictures[message.auteur] || defaultProfileImageUrl)" alt="Profile Picture">
-            <p>publié le : {{message.timestamp| date:'short'}}</p>
-
-          </ng-container>
-        </div>
-        <div class="author-info">
-          <span class="author-name"></span>
-          <span class="timestamp"></span>
-        </div>
+  <div *ngFor="let item of results1; let idx = index" class="message-card">
+    <div class="message-header">
+      <div class="author-avatar">
+        <ng-container *ngIf="item.auteur && (profilePictures$ | async) as profilePictures">
+          <img id="profile-picture1" [src]="'http://localhost:8000' + (profilePictures[item.auteur] || defaultProfileImageUrl)" alt="Profile Picture">
+          <p>publié le : {{item.timestamp | date:'short'}}</p>
+        </ng-container>
       </div>
-      <div class="message-content">
-        {{ message?.message }}
+      <div class="author-info">
+        <span class="author-name"></span>
+        <span class="timestamp"></span>
       </div>
+    </div>
+
+    <!-- Section Messages -->
+    <div *ngIf="item.message" class="message-content">
+      {{ item.message }}
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
-        <app-coeur [messagecontent]="message.id" (likeClicked)="likeClicked(message.id)"></app-coeur>
+        <app-coeur [messagecontent]="item.id" (likeClicked)="likeClicked(item.id)"></app-coeur>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="nostyle" (click)="liaison_click_modal(message.id)">Commenter&nbsp;</button>
+        <button class="nostyle" (click)="liaison_click_modal(item.id)">Commenter&nbsp;</button>
         <app-comments></app-comments>
         <app-modalcomments 
           [modal]="currentModal" 
-          [message_id]="message.id" 
+          [message_id]="item.id" 
           [id_comment]="id_commentaire"
           (modalClosed)="handleModalClosed()"
           (commentAdded)="handleCommentAdded()"
         ></app-modalcomments>
-        <button (click)="liaison_click_modal1(message.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ message?.comments?.length }}</span>&nbsp;
+        <button (click)="liaison_click_modal1(item.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ item?.comments?.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ message?.likes_count }}</span>
+          <span>{{ item?.likes_count }}</span>
         </button>
       </div>
       <app-modalgeneral 
         [modal1]="currentModal1" 
-        [message_id1]="message.id" 
+        [message_id1]="item.id" 
         [id_comment1]="id_commentaire1"
         (modalClosed1)="handleModalClosed1()"
         [dataObservable]="messages$"
       ></app-modalgeneral>
     </div>
-  </div>
-  </div>
 
-  <!-- Section Photos -->
-  <div *ngIf="photos">
-    <div *ngFor="let photo of photos; let idx = index" class="message-card">
-      <div class="message-header">
-        <div class="author-info">
-          <span class="author-name"></span>
-          <span class="timestamp"></span>
-        </div>
-      </div>
-      <div class="message-content">
-        <img [src]="'http://localhost:8000' + photo?.photo" class="photo-resize"/>
+    <!-- Section Photos -->
+    <div *ngIf="item.photo" class="message-content">
+      <img [src]="'http://localhost:8000' + item.photo" class="photo-resize"/>
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
-        <app-coeurphoto [photocontent]="photo.id" (likeClickedphoto)="likeClickedphoto(photo.id)"></app-coeurphoto>
+        <app-coeurphoto [photocontent]="item.id" (likeClickedphoto)="likeClickedphoto(item.id)"></app-coeurphoto>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="nostyle" (click)="liaison_click_modal2(photo.id)">Commenter&nbsp;</button>
+        <button class="nostyle" (click)="liaison_click_modal2(item.id)">Commenter&nbsp;</button>
         <app-comments></app-comments>
         <app-modalphoto
           [modal2]="currentModal2" 
-          [photo_id2]="photo.id" 
+          [photo_id2]="item.id" 
           [id_comment2]="id_commentaire2"
           (modalClosed2)="handleModalClosed2()"
           (commentAdded1)="handleCommentPhotosAdded()"
         ></app-modalphoto>
-        <button (click)="liaison_click_modal3(photo.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ photo.comments.length }}</span>&nbsp;
+        <button (click)="liaison_click_modal3(item.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ item.comments.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ photo?.likes_count }}</span>
+          <span>{{ item?.likes_count }}</span>
         </button>
       </div>
       <app-modalgeneralphoto 
         [modal3]="currentModal3" 
-        [photo_id3]="photo.id" 
+        [photo_id3]="item.id" 
         [id_comment3]="id_commentaire3"
         (modalClosed3)="handleModalClosed3()"
         [dataObservable1]="photos$"
       ></app-modalgeneralphoto>
     </div>
-  </div>
-    <div *ngIf="videos">
-    <div *ngFor="let video of videos; let idx = index" class="message-card">
-      <div class="message-header">
-        <div class="author-info">
-          <span class="author-name"></span>
-          <span class="timestamp"></span>
-        </div>
-      </div>
-      <div class="message-content">
-        <video [src]="'http://localhost:8000' + video?.video" controls  class="video-resize"></video>
+
+    <!-- Section Vidéos -->
+    <div *ngIf="item.video" class="message-content">
+      <video [src]="'http://localhost:8000' + item.video" controls class="video-resize"></video>
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
-        <app-coeurvideo [videocontent]="video.id" (likeClickedvideo)="likeClickedvideo(video.id)"></app-coeurvideo>
+        <app-coeurvideo [videocontent]="item.id" (likeClickedvideo)="likeClickedvideo(item.id)"></app-coeurvideo>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="nostyle" (click)="liaison_click_modal4(video.id)">Commenter&nbsp;</button>
+        <button class="nostyle" (click)="liaison_click_modal4(item.id)">Commenter&nbsp;</button>
         <app-comments></app-comments>
         <app-modalvideo
           [modal4]="currentModal4" 
-          [video_id4]="video.id" 
+          [video_id4]="item.id" 
           [id_comment4]="id_commentaire4"
           (modalClosed4)="handleModalClosed4()"
           (commentAdded2)="handleCommentVideosAdded()"
         ></app-modalvideo>
-        <button (click)="liaison_click_modal5(video.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ video.comments.length }}</span>&nbsp;
+        <button (click)="liaison_click_modal5(item.id)" class="nostyle align-right typo">
+          Commentaires&nbsp;<span>{{ item.comments.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ video?.likes_count }}</span>
+          <span>{{ item?.likes_count }}</span>
         </button>
       </div>
       <app-modalgeneralvideo 
         [modal5]="currentModal5" 
-        [video_id5]="video.id" 
+        [video_id5]="item.id" 
         [id_comment5]="id_commentaire5"
         (modalClosed5)="handleModalClosed5()"
         [dataObservable2]="videos$"
@@ -151,11 +130,3 @@
     </div>
   </div>
 </div>
-</div>
-
-
-
-
-
-
-

@@ -153,7 +153,9 @@ export class QuoideneufComponent implements OnInit {
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
       this.loadData();
-     
+      this.concatData();
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", this.concatData())
+
       this.loadProfileImage();
       this.loadProfilePictures();
     });
@@ -171,7 +173,6 @@ export class QuoideneufComponent implements OnInit {
         this.photosfriends(),
         this.videosfriends(),
       ]);    this.concatData();
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", this.concatData)
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
     }
@@ -300,6 +301,7 @@ export class QuoideneufComponent implements OnInit {
         this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
         console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",this.messages)
+
         
         return messages
       } else {
@@ -336,6 +338,8 @@ export class QuoideneufComponent implements OnInit {
         // Met à jour messages$ avec les données combinées
         this.messages$.next(uniqueMessages);
         this.messages = uniqueMessages
+
+
         console.log('Valeur actuelle de messages$: ', this.messages$.getValue());
       } else {
         console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', messagesFriendsResponse, messagesResponse);
@@ -362,6 +366,7 @@ export class QuoideneufComponent implements OnInit {
         }));
         console.log("Photos chargées :", photos);
         this.photos$.next(photos);
+        console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",this.photos$.getValue())
         this.photos = photos
 
       } else {
@@ -394,7 +399,7 @@ export class QuoideneufComponent implements OnInit {
         // Met à jour messages$ avec les données combinées
         this.photos$.next(uniquePhotos);
         this.photos = uniquePhotos;
-        
+
       } else {
         console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', photosFriendsResponse, photosResponse);
       }
@@ -549,7 +554,8 @@ export class QuoideneufComponent implements OnInit {
         console.log("hello du formulaire")
         const responseCreate = await firstValueFrom(this.login.createMessage(formData.message));
         console.log('Message créé avec succès', responseCreate);
-        await this.loadMessages();
+        await this.loadData ()
+        console.log("tu est inteligenttttttttttttttttttttttttttttttttttttttttt ou pas....",this.concatData())
 
         this.myForm.reset();
       } catch (error: any) {
@@ -559,7 +565,8 @@ export class QuoideneufComponent implements OnInit {
             await firstValueFrom(this.login.refreshCsrfToken());
             const responseCreateRetry = await firstValueFrom(this.login.createMessage(formData.message));
             console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
-            await this.loadMessages();
+            await this.loadData ()
+            console.log("tu est inteligenttttttttttttttttttttttttttttttttttttttttt ou pas....",this.concatData())
             this.myForm.reset();
 
 
@@ -588,7 +595,7 @@ export class QuoideneufComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createPhotofil(formData1));
         console.log('Enregistrement réussi', response);
         this.photos_Url = `http://localhost:8000/${response.photo}`;
-        await this.loadPhotos(); // Recharger les photos après ajout
+        await this.loadData ()
       } catch (error) {
         console.error('Erreur de connexion', error);
       }
@@ -609,8 +616,7 @@ export class QuoideneufComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createVideofil(formData1));
         console.log('Enregistrement réussi', response);
         this.videos_Url = `http://localhost:8000/${response.video}`;
-        await this.loadVideos(); // Recharger les photos après ajout
-        this.cdr.detectChanges(); // Forcer la détection des changements
+        await this.loadData ()
 
       } catch (error) {
         console.error('Erreur de connexion', error);
@@ -631,6 +637,7 @@ export class QuoideneufComponent implements OnInit {
       if (message) {
         message.likes_count = response.likes_count;
         this.messages$.next([...messages]);
+        
       }
     } catch (error) {
       console.error('Erreur lors du processus de like', error);
@@ -679,7 +686,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -691,7 +697,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal3 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -703,7 +708,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -715,7 +719,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -727,7 +730,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   }
 
@@ -739,7 +741,6 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
-    this.cdr.detectChanges(); // Forcer la détection des changements
 
   } 
 
