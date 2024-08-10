@@ -88,11 +88,8 @@ export class CommentModalsService {
   }
 
   getLikesComment(comments_id: any): Observable<any> {
-    return this.performRequest(() => {
       const url = `${this.apiurl4}${comments_id}/`;
-      const headers = this.getAuthHeaders();
-      return this.http.get<any>(url, { headers: headers, withCredentials: true });
-    });
+      return this.http.get<any>(url, { withCredentials: true });
   }
 
   get_All_Comments(): Observable<any> {
@@ -102,29 +99,20 @@ export class CommentModalsService {
   }
 
   getCommentsByMessage(message_id: any): Observable<any> {
-    return this.performRequest(() => {
       const params = { message: message_id };
       const url = `${this.apiurl7}${message_id}/`;
-      const headers = this.getAuthHeaders();
-      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
-    });
+      return this.http.get<any>(url, { params: params, withCredentials: true });
   }
 
   getCommentsByPhoto(photo_id: any): Observable<any> {
-    return this.performRequest(() => {
       const params = { photo: photo_id };
       const url = `${this.apiurl8}${photo_id}/`;
-      const headers = this.getAuthHeaders();
-      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
-    });
+      return this.http.get<any>(url, { params: params, withCredentials: true });
   }
 
   getCommentsByVideo(video_id: any): Observable<any> {
-    return this.performRequest(() => {
       const params = { video: video_id };
       const url = `${this.apiurl10}${video_id}/`;
-      const headers = this.getAuthHeaders();
-      return this.http.get<any>(url, { params: params, headers: headers, withCredentials: true });
-    });
+      return this.http.get<any>(url, { params: params, withCredentials: true });
   }
 }

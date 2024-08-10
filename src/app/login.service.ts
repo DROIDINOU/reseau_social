@@ -165,7 +165,7 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const params = new HttpParams().set('username', message_id);
-        return this.http.get<any>(this.apiurl6, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+        return this.http.get<any>(this.apiurl6, {params: params, withCredentials: true });
       })
     );
   }
@@ -173,7 +173,7 @@ export class LoginService {
   getAll(): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
-        this.http.get<any>(this.apiurl8, { headers: this.getAuthHeaders(), withCredentials: true })
+        this.http.get<any>(this.apiurl8, { withCredentials: true })
       )
     );
   }
@@ -194,7 +194,7 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const url = `${this.apiurl17}${photo_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+        return this.http.get<any>(url, {withCredentials: true });
       })
     );
   }
@@ -204,7 +204,7 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const url = `${this.apiurl18}${video_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+        return this.http.get<any>(url, {withCredentials: true} );
       })
     );
   }
@@ -228,7 +228,7 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const url = `${this.apiurl10}${photo_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+        return this.http.get<any>(url, { withCredentials: true });
       })
     );
   }
@@ -237,14 +237,14 @@ export class LoginService {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const url = `${this.apiurl14}${video_id}/`;
-        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
+        return this.http.get<any>(url, {withCredentials: true });
       })
     );
   }
   getAllPhotos(): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
-        this.http.get<any>(this.apiurl12, { headers: this.getAuthHeaders(), withCredentials: true })
+        this.http.get<any>(this.apiurl12, { withCredentials: true })
       )
     );
   }

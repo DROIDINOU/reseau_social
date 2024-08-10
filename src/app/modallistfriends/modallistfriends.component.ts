@@ -1,9 +1,12 @@
-import { Component,OnInit, Input,Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component,OnInit, Input,Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { LoginService } from '../login.service';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faComment } from '@fortawesome/free-solid-svg-icons';
 import { UploadService } from '../upload.service';
 import { FriendsService } from '../friends.service';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { CommunicationService } from '../communication.service'; // Assurez-vous que le chemin est correct
+import { Subscription } from 'rxjs';
 
 
 
@@ -15,17 +18,27 @@ import { firstValueFrom } from 'rxjs';
 
 
 export class ModallistfriendsComponent implements OnInit, OnChanges {
-  constructor( private login:LoginService, private upload: UploadService, private friends: FriendsService)
+  constructor( private login:LoginService, private upload: UploadService, private friends: FriendsService, private router: Router, private chatService: CommunicationService)
   {}
   @Output() modalClosed100 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
   @Input() modal100: boolean = false;
   faTimes = faTimes;
-  actual_user: {id: number | null, user: string | null} = {id: null, user: null};
-  photos_list : any[] = []
-  friends_list : any
-  entries: any[]=[]
-  all_users: any
+  faComment = faComment
+  actual_user: {id: number, username: string } = {id: 0, username: ""};
+  photos_list : any[] = [];
+  friends_list : any;
+  entries: any[]=[];
+  all_users: any;
+  privatechats: boolean = false;
 
+
+
+  public messages: any[] = [];
+  public messageText: string = '';
+  private user1: string = 'marc';  // Remplacez par l'utilisateur courant
+  private user2: string = '1';  // Remplacez par l'utilisateur avec qui vous discutez
+  private chatSubscription: Subscription | null = null;
+  private actuser: string = ""
  async ngOnInit(): Promise<void> {
   await this.loadCurrentUserFromStorage()
   await this.loadPhotos();
@@ -39,12 +52,13 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
   }
 
   async loadCurrentUserFromStorage(): Promise<void> {
-this.actual_user = this.login.getCurrentUserFromStorage()  }
-    
+this.actual_user = this.login.getCurrentUserFromStorage()
+console.log("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",this.actual_user)  }
 
 ngOnChanges(changes: SimpleChanges): void {
       if (changes['modal100'] && !changes['modal100'].firstChange) {
         if (this.modal100) {
+          console.log("pourquoi????????????????????????????????????????????????????????")
           this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
   
   
@@ -78,7 +92,21 @@ ngOnChanges(changes: SimpleChanges): void {
           }
         }
       
+    navigateToChat(username:string) {
+           console.log("usernammmmmmmmmmmmmmmmmmmmmmmmmmmmme",username)
+           console.log("usernammmmmmmmmmmmmmmmmmmmmmmmmmmmme",this.actual_user)
+        
+           this.privatechats = true;
+           this.chatService.connect(this.actual_user.username, username);
 
+    // Abonnez-vous aux messages du service
+    this.chatSubscription = this.chatService.messages$.subscribe((message: string) => {
+      const parsedMessage = JSON.parse(message);
+      console.log('Message reçu:', parsedMessage); // Vérifiez la structure des messages reçus
+      this.messages.push(parsedMessage);
+    });
+    }
+        
       
     closeModal() {
       const modal = document.getElementById('myModal11');
@@ -97,6 +125,22 @@ ngOnChanges(changes: SimpleChanges): void {
           console.log('Modal ouvert');
           console.log("voici....................................photos", this.photos_list);
           
+        }
+      }
+
+      public sendMessage(): void {
+        if (this.messageText.trim()) {
+          this.chatService.sendMessage(this.messageText);
+          console.log(this.messageText)
+          this.messageText = '';  // Réinitialiser le champ de message après envoi
+        }
+      }
+
+      ngOnDestroy(): void {
+        // Nettoyez la connexion WebSocket lorsque le composant est détruit
+        this.chatService.disconnect();
+        if (this.chatSubscription) {
+          this.chatSubscription.unsubscribe();
         }
       }
     

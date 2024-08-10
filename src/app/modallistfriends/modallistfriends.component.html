@@ -1,21 +1,37 @@
 <div class="modal-container" id="myModal11">
-    <div class="modal">
-      <fa-icon [icon]="faTimes" size="2x" (click)="closeModal()" class="close-button"></fa-icon>
-      <div class="modal-content">
-        <div *ngIf="entries && entries[2] && entries[2][1]">
-          <div *ngFor="let datas of entries[2][1]">
-            <div *ngFor="let dat of all_users">
-              <div *ngIf="datas === dat.id" class="user-container">
-                <p class="user-name">{{ dat.username }}</p>
-                <div *ngFor="let photos of photos_list">
-                  <div *ngIf="photos.user === dat.id" class="user-photo">
-                    <img [src]="photos?.profile_picture || 'assets/photos/cat-8575768_1280.png'" alt="Profile Picture" class="profile-picture">
-                  </div>
+  <div class="modal">
+    <fa-icon [icon]="faTimes" size="2x" (click)="closeModal()" class="close-button"></fa-icon>
+    <div class="modal-content">
+      <div *ngIf="entries && entries[2] && entries[2][1]">
+        <div *ngFor="let datas of entries[2][1]">
+          <div *ngFor="let dat of all_users">
+            <div *ngIf="datas === dat.id" class="user-container">
+              <p class="user-name" >
+                {{ dat.username }}
+              </p>
+              <div *ngFor="let photos of photos_list">
+                <div *ngIf="photos.user === dat.id" class="user-photo">
+                  <fa-icon [icon]="faComment" size="2x" (click)="navigateToChat(dat.username)"></fa-icon>&nbsp;&nbsp;
+                  <img [src]="photos?.profile_picture || 'assets/photos/cat-8575768_1280.png'" alt="Profile Picture" class="profile-picture">
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div *ngIf="privatechats">
+          <div class="chat-container">
+            <div class="messages">
+              <div *ngFor="let mess of messages">
+                <p>voici le message {{ mess.message }}</p>
+              </div>
+            </div>
+            <input [(ngModel)]="messageText" placeholder="Type a message" />
+            <button (click)="sendMessage()">Send</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+</div>

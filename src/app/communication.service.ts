@@ -24,7 +24,7 @@ export class CommunicationService {
 
     this.socket.onmessage = (event: MessageEvent) => {
       const message = event.data;
-      console.log(message)
+      console.log(this.messages$)
       this.messagesSubject.next(message);
     };
 
@@ -40,7 +40,7 @@ export class CommunicationService {
   private getRoomName(user1: string, user2: string): string {
     // Always order users to ensure the room name is consistent
     if (user1 < user2) {
-      return `${user1}-${user2}`;
+      return `${user1}_${user2}`;
     }
     return `${user2}_${user1}`;
   }

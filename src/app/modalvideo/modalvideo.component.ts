@@ -38,10 +38,9 @@ export class ModalvideoComponent  implements OnChanges, OnInit, OnDestroy {
       content: ['', Validators.required],
     });
 
-    this.route.paramMap.pipe(
-      take(1) // Ne prend que la première valeur émise et se désabonne automatiquement
-    ).subscribe(params => {
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
       this.username = params.get('id');
+      console.log(this.username); // Assurez-vous que 'id' est correctement récupéré
     });
   }
 

@@ -76,7 +76,7 @@ table img {
 
 .right1-container {
   display: flex; /* Utilise flexbox pour aligner les éléments en ligne */
-  margin-top: 22%;
+  margin-top: 10%;
   flex-grow: 1;
   width : 50%;
   background-color: rgb(185, 218, 248);
@@ -101,6 +101,7 @@ table img {
 
 .right1-container .align-right {
   margin-bottom: auto; /* Push the component to the extreme right */
+  position: sticky;
 
 }
 

@@ -20,7 +20,7 @@ export class PhtochatComponent {
 }
 
 
- liaison_click_modal100() {
+ liaisonclickmodal100() {
   this.currentModal100 = true; 
 
 }

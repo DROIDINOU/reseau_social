@@ -152,30 +152,29 @@ export class QuoideneufComponent implements OnInit {
       console.log('Current username:', this.username);
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
-      this.loadData();
-      this.concatData();
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", this.concatData())
 
-      this.loadProfileImage();
-      this.loadProfilePictures();
+      this.loadData();
+
+      this.concatData();
+
     });
   }
 
   
   
   async loadData() {
+    console.time('loadData'); // Démarrer le chronomètre
     try {
       await Promise.all([
         this.loadMessages(),
         this.loadPhotos(),
         this.loadVideos(),
-        this.messagesfriends(),
-        this.photosfriends(),
-        this.videosfriends(),
       ]);    this.concatData();
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
     }
+    console.timeEnd('loadData'); // Démarrer le chronomètre
+
   }
   
   // reste le trigger a faire je pense
@@ -215,49 +214,13 @@ export class QuoideneufComponent implements OnInit {
   }
 
 
-  loadProfilePictures() {
-    this.profilePictures$ = this.upload.getphotoprofileall().pipe(
-      tap(profiles => {
-        // Affiche les données reçues de l'API
-        console.log('Données reçues de getphotoprofileall:', profiles);
-      }),
-      map((profiles: { user: number; profile_picture: string | null }[]) => {
-        // Convertir la liste des profils en un objet avec userId comme clé
-        const profileMap = profiles.reduce((acc, profile) => {
-          // Assurez-vous que 'user' est un nombre et 'profile_picture' est une chaîne
-          if (profile.user != null && profile.profile_picture != null) {
-            acc[profile.user] = profile.profile_picture;
-          }
-          return acc;
-        }, {} as { [key: number]: string });
-        
-        // Affiche les données après transformation
-        console.log('Profile map après transformation:', profileMap);
-        
-        return profileMap;
-      }),
-      catchError(err => {
-        console.error('Erreur lors du chargement des photos de profil', err);
-        return of({});  // Retourne un objet vide en cas d'erreur
-      })
-    );
-  }
-
-  getProfilePictureUrl(userId: string): Observable<string> {
-    return this.profilePictures$.pipe(
-      map(profilePictures => profilePictures[userId] || this.defaultProfileImageUrl)
-    );
-  }
-
+ 
 
   concatData() {
     const messages = this.messages$.getValue() as Message[];
     const photos = this.photos$.getValue() as Photo[];
     const videos = this.videos$.getValue() as Video[];
   
-    console.log("Messages:", messages);
-    console.log("Photos:", photos);
-    console.log("Videos:", videos);
     
     // Concaténation des messages, photos et vidéos
     this.results1 = [...messages, ...photos, ...videos] as Result[];
@@ -273,201 +236,192 @@ export class QuoideneufComponent implements OnInit {
         return dateB - dateA;
       });
     } catch (error) {
-      console.error("Erreur pendant le tri:", error);
     }
   
     // Affichage du tableau trié
-    console.log("Après le tri:", this.results1);
   }
+  
+  
+
   
   
   async loadMessages(): Promise<any[]> {
     try {
-      "?????????????????????????????????"
+      console.time('loadData'); // Démarrer le chronomètre
+  
+      // Récupérer tous les messages
       const messagesResponse = await firstValueFrom(this.login.getMessages());
-      console.log("reponse 1", messagesResponse)
+  
       if (Array.isArray(messagesResponse)) {
-        const messages = await Promise.all(messagesResponse.map(async message => {
+        // Mapper sur chaque message pour récupérer les likes et les commentaires
+        const messages = await Promise.all(messagesResponse.map(async (message) => {
+          // Récupérer les likes et les commentaires en parallèle
           const [likesResponse, commentsResponse] = await Promise.all([
             firstValueFrom(this.login.getlikes(message.id)),
             firstValueFrom(this.log.getCommentsByMessage(message.id))
           ]);
+  
+          // Retourner le message enrichi avec les likes et commentaires
           return {
             ...message,
-            likes_count: likesResponse.likes_count,
+            likes: likesResponse.likes,
             comments: commentsResponse,
           };
         }));
+  
+        // Mettre à jour les messages dans le service
         this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
-        console.log("iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",this.messages)
-
-        
-        return messages
+        console.log("Messages chargés avec succès :", this.messages);
+  
+        console.timeEnd('loadData'); // Arrêter le chronomètre
+  
+        return messages;
       } else {
         console.error('Réponse inattendue de getMessages()', messagesResponse);
+        console.timeEnd('loadData'); // Arrêter le chronomètre même en cas d'erreur
         return [];
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des messages', error);
+      console.timeEnd('loadData'); // Arrêter le chronomètre en cas d'erreur
       return [];
     }
   }
   
+  async loadPhotos(): Promise<any[]> {
+    try {
+      console.time('loadPhotos'); // Démarrer le chronomètre pour le chargement des photos
   
-  async messagesfriends() {
-    try {
-      console.log('Avant d\'appeler getMessagesFriends');
-      
-      // Récupère les messages des amis
-      const messagesFriendsResponse = await firstValueFrom(this.login.getMessagesFriends());
-      console.log('Réponse des messages des amis:', messagesFriendsResponse);
-      
-      // Récupère les messages normaux
-      const messagesResponse = await this.loadMessages();
-      
-      // Si les réponses sont des tableaux, combinez-les
-      if (Array.isArray(messagesFriendsResponse) && Array.isArray(messagesResponse)) {
-        // Combine les messages des amis et les messages normaux
-        const combinedMessages = [...messagesFriendsResponse, ...messagesResponse];
-        
-        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
-        const uniqueMessages = Array.from(new Set(combinedMessages.map(message => message.id)))
-          .map(id => combinedMessages.find(message => message.id === id));
-          this.results = [...uniqueMessages];
-        // Met à jour messages$ avec les données combinées
-        this.messages$.next(uniqueMessages);
-        this.messages = uniqueMessages
-
-
-        console.log('Valeur actuelle de messages$: ', this.messages$.getValue());
-      } else {
-        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', messagesFriendsResponse, messagesResponse);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des messages', error);
-    }
-  }
+      // Récupérer les photos normales et les photos des amis en parallèle
+      const [photosResponse, photosFriendsResponse] = await Promise.all([
+        firstValueFrom(this.upload.getPhotofilactu()),
+        firstValueFrom(this.login.getPhotosFriends())
+      ]);
   
-  async loadPhotos() {
-    try {
-      const photosResponse = await firstValueFrom(this.upload.getPhotofilactu());
-      if (Array.isArray(photosResponse)) {
-        const photos = await Promise.all(photosResponse.map(async photo => {
-          const [likesResponse, commentsResponse] = await Promise.all([
-            firstValueFrom(this.login.getlikesphotos(photo.id)),
-            firstValueFrom(this.log.getCommentsByPhoto(photo.id))
-          ]);
-          return {
-            ...photo,
-            likes_count: likesResponse.likes_count,
-            comments: commentsResponse,
-          };
-        }));
-        console.log("Photos chargées :", photos);
-        this.photos$.next(photos);
-        console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",this.photos$.getValue())
-        this.photos = photos
-
-      } else {
-        console.error('Réponse inattendue de getPhotofilactu()', photosResponse);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des photos', error);
-    }
-  }
-
-  async photosfriends() {
-    try {
-      console.log('Avant d\'appeler getMessagesFriends');
-      
-      // Récupère les messages des amis
-      const photosFriendsResponse = await firstValueFrom(this.login.getPhotosFriends());
-      
-      // Récupère les messages normaux
-      const photosResponse = await this.loadPhotos();
-      
-      // Si les réponses sont des tableaux, combinez-les
-      if (Array.isArray(photosFriendsResponse) && Array.isArray(photosResponse)) {
-        // Combine les messages des amis et les messages normaux
-        const combinedPhotos = [...photosFriendsResponse, ...photosResponse];
-        
-        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
+      // Vérifier si les réponses sont des tableaux
+      if (Array.isArray(photosResponse) && Array.isArray(photosFriendsResponse)) {
+        console.log('Les réponses des photos normales et des photos des amis sont des tableaux');
+  
+        // Combiner les photos des amis et les photos normales
+        const combinedPhotos = [...photosResponse, ...photosFriendsResponse];
+  
+        // Filtrer les photos pour ne garder que les uniques
         const uniquePhotos = Array.from(new Set(combinedPhotos.map(photo => photo.id)))
           .map(id => combinedPhotos.find(photo => photo.id === id));
-
-        // Met à jour messages$ avec les données combinées
-        this.photos$.next(uniquePhotos);
-        this.photos = uniquePhotos;
-
-      } else {
-        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', photosFriendsResponse, photosResponse);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des messages', error);
-    }
-  }
-
-   async loadVideos() {
-    try {
-      const videosResponse = await firstValueFrom(this.upload.getVideofilactu());
-      if (Array.isArray(videosResponse)) {
-        const videos = await Promise.all(videosResponse.map(async video => {
-          const [likesResponse, commentsResponse] = await Promise.all([
-            firstValueFrom(this.login.getlikesvideos(video.id)),
-            firstValueFrom(this.log.getCommentsByVideo(video.id))
-          ]);
-          return {
-            ...video,
-            likes_count: likesResponse.likes_count,
-            comments: commentsResponse,
-          };
+  
+        // Traitement des photos pour enrichir avec les likes et commentaires
+        const photos = await Promise.all(uniquePhotos.map(async (photo) => {
+          try {
+            // Récupérer les likes et les commentaires en parallèle
+            const [likesResponse, commentsResponse] = await Promise.all([
+              firstValueFrom(this.login.getlikesphotos(photo.id)),
+              firstValueFrom(this.log.getCommentsByPhoto(photo.id)) // Assurez-vous que cette méthode est correcte
+            ]);
+  
+            // Construire l'objet de photo enrichi
+            return {
+              ...photo,
+              likes: likesResponse.likes,
+              comments: commentsResponse,
+            };
+          } catch (error) {
+            console.error(`Erreur lors du traitement de la photo ${photo.id}:`, error);
+            return {
+              ...photo,
+              likes: [],
+              comments: [],
+            };
+          }
         }));
-        console.log("videos chargées :", videos);
-
-        this.videos$.next(videos);
-        this.videos = videos
-
+  
+        // Mettre à jour les photos et l'observable
+        this.photos$.next(photos);
+        this.photos = photos;
+  
+        console.log('Photos combinées et uniques chargées :', photos);
+        console.timeEnd('loadPhotos'); // Arrêter le chronomètre
+        return photos;
+  
       } else {
-        console.error('Réponse inattendue de getVideofilactu()', videosResponse);
+        console.error('Réponse inattendue de getPhotofilactu() ou getPhotosFriends()', photosResponse, photosFriendsResponse);
+        return [];
       }
+  
     } catch (error) {
-      console.error('Erreur lors de la récupération des videos', error);
+      console.error('Erreur lors de la récupération des photos', error);
+      console.timeEnd('loadPhotos'); // Arrêter le chronomètre en cas d'erreur
+      return [];
     }
   }
+  
 
-
-  async videosfriends() {
+  async loadVideos(): Promise<any[]> {
     try {
-      console.log('Avant d\'appeler getVideosFriends');
-      
-      // Récupère les messages des amis
-      const videosFriendsResponse = await firstValueFrom(this.login.getVideosFriends());
-      console.log('Réponse des photos des amis:', videosFriendsResponse);
-      
-      // Récupère les messages normaux
-      const videosResponse = await this.loadVideos();
-      
-      // Si les réponses sont des tableaux, combinez-les
-      if (Array.isArray(videosFriendsResponse) && Array.isArray(videosResponse)) {
-        // Combine les messages des amis et les messages normaux
-        const combinedVideos= [...videosFriendsResponse, ...videosResponse];
-        
-        // Assurez-vous que chaque message est unique, si nécessaire (par exemple, en filtrant les doublons)
+      console.time('loadVideos'); // Démarrer le chronomètre pour le chargement des vidéos
+  
+      // Récupérer les vidéos normales et les vidéos des amis en parallèle
+      const [videosResponse, videosFriendsResponse] = await Promise.all([
+        firstValueFrom(this.upload.getVideofilactu()),
+        firstValueFrom(this.login.getVideosFriends())
+      ]);
+  
+      // Vérifier si les réponses sont des tableaux
+      if (Array.isArray(videosResponse) && Array.isArray(videosFriendsResponse)) {
+        console.log('Les réponses des vidéos normales et des vidéos des amis sont des tableaux');
+  
+        // Combiner les vidéos des amis et les vidéos normales
+        const combinedVideos = [...videosResponse, ...videosFriendsResponse];
+  
+        // Filtrer les vidéos pour ne garder que les uniques
         const uniqueVideos = Array.from(new Set(combinedVideos.map(video => video.id)))
           .map(id => combinedVideos.find(video => video.id === id));
-
-        // Met à jour messages$ avec les données combinées
-        this.videos = uniqueVideos;
-
-        this.videos$.next(uniqueVideos);
+  
+        // Traitement des vidéos pour enrichir avec les likes et commentaires
+        const videos = await Promise.all(uniqueVideos.map(async (video) => {
+          try {
+            // Récupérer les likes et les commentaires en parallèle
+            const [likesResponse, commentsResponse] = await Promise.all([
+              firstValueFrom(this.login.getlikesvideos(video.id)),
+              firstValueFrom(this.log.getCommentsByVideo(video.id)) // Assurez-vous que cette méthode est correcte
+            ]);
+  
+            // Construire l'objet de vidéo enrichi
+            return {
+              ...video,
+              likes: likesResponse.likes,
+              comments: commentsResponse,
+            };
+          } catch (error) {
+            console.error(`Erreur lors du traitement de la vidéo ${video.id}:`, error);
+            return {
+              ...video,
+              likes: [],
+              comments: [],
+            };
+          }
+        }));
+  
+        // Mettre à jour les vidéos et l'observable
+        this.videos$.next(videos);
+        this.videos = videos;
+  
+        console.log('Vidéos combinées et uniques chargées :', videos);
+        console.timeEnd('loadVideos'); // Arrêter le chronomètre
+        return videos;
+  
       } else {
-        console.error('Réponse inattendue de getMessagesFriends() ou getMessages()', videosFriendsResponse, videosResponse);
+        console.error('Réponse inattendue de getVideofilactu() ou getVideosFriends()', videosResponse, videosFriendsResponse);
+        return [];
       }
+  
     } catch (error) {
-      console.error('Erreur lors de la récupération des messages', error);
+      console.error('Erreur lors de la récupération des vidéos', error);
+      console.timeEnd('loadVideos'); // Arrêter le chronomètre en cas d'erreur
+      return [];
     }
   }
+  
 
 
   async liaison_click_modal(message_id: number) {
@@ -480,11 +434,14 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal4 = false;
     this.currentModal5 = false;
 
+
   }
 
   async liaison_click_modal1(message_id: number) {
+    console.log("click comment")
     this.id_commentaire1 = message_id;
     this.number_comments1 = await this.getComments(message_id);
+
     this.currentModal1 = true;
     this.currentModal = false;
     this.currentModal2 = false;
@@ -495,8 +452,11 @@ export class QuoideneufComponent implements OnInit {
   }
 
   async liaison_click_modal2(photo_id: number) {
+    console.log("click comment")
+
     this.id_commentaire2 = photo_id;
     this.number_comments2 = await this.getCommentsPhoto(photo_id);
+
     this.currentModal2 = true;
     this.currentModal = false;
     this.currentModal1 = false;
@@ -504,37 +464,47 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal4 = false;
     this.currentModal5 = false;
 
+
   }
 
   async liaison_click_modal3(photo_id: number) {
+    console.log("click comment")
+
     this.id_commentaire3 = photo_id;
     this.number_comments3 = await this.getCommentsPhoto(photo_id);
+
     this.currentModal3 = true;
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal2 = false;
     this.currentModal4 = false;
     this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
+
 
 
   }
 
    async liaison_click_modal4(video_id: number) {
-    console.log("j ai bien cliqué ici!!!!!!!!!!!!!!!")
+    console.log("click comment")
+
     this.id_commentaire4 = video_id;
     this.number_comments4 = await this.getCommentsVideo(video_id);
+
     this.currentModal4 = true;
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal3 = false;
       this.currentModal2 = false;
     this.currentModal5 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
 
 
   }
 
   async liaison_click_modal5(video_id: number) {
-    console.log("click 555555555555555555555555555555555555555555555555555555555555555555")
+    console.log("click comment")
+
     this.id_commentaire5 = video_id;
     this.number_comments5 = await this.getCommentsVideo(video_id);
     this.currentModal5 = true;
@@ -543,6 +513,7 @@ export class QuoideneufComponent implements OnInit {
     this.currentModal2 = false;
       this.currentModal3 = false;
     this.currentModal4 = false;
+    this.cdr.detectChanges(); // Forcer la détection des changements
 
 
   } 
@@ -555,7 +526,6 @@ export class QuoideneufComponent implements OnInit {
         const responseCreate = await firstValueFrom(this.login.createMessage(formData.message));
         console.log('Message créé avec succès', responseCreate);
         await this.loadData ()
-        console.log("tu est inteligenttttttttttttttttttttttttttttttttttttttttt ou pas....",this.concatData())
 
         this.myForm.reset();
       } catch (error: any) {
@@ -566,7 +536,6 @@ export class QuoideneufComponent implements OnInit {
             const responseCreateRetry = await firstValueFrom(this.login.createMessage(formData.message));
             console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
             await this.loadData ()
-            console.log("tu est inteligenttttttttttttttttttttttttttttttttttttttttt ou pas....",this.concatData())
             this.myForm.reset();
 
 
@@ -635,7 +604,7 @@ export class QuoideneufComponent implements OnInit {
       const messages = this.messages$.getValue();
       const message = messages.find(msg => msg.id === messageid);
       if (message) {
-        message.likes_count = response.likes_count;
+        message.likes = response.likes;
         this.messages$.next([...messages]);
         
       }
@@ -651,9 +620,12 @@ export class QuoideneufComponent implements OnInit {
       console.log('Likes récupérés avec succès', response);
       const photos = this.photos$.getValue();
       const photo = photos.find(ph => ph.id === photo_id);
+      console.log(photo)
       if (photo) {
-        photo.likes_count = response.likes_count;
+        photo.likes = response.likes;
+        console.log(photos)
         this.photos$.next([...photos]);
+
       }
     } catch (error) {
       console.error('Erreur lors du processus de like', error);
@@ -670,8 +642,9 @@ export class QuoideneufComponent implements OnInit {
       console.log(videos);
       const video = videos.find(vi => vi.id === video_id);
       if (video) {
-        video.likes_count = response.videos_count;
+        video.likes = response.likes;
         this.videos$.next([...videos]);
+
       }
     } catch (error) {
       console.error('Erreur lors du processus de like', error);
@@ -679,13 +652,26 @@ export class QuoideneufComponent implements OnInit {
   }
  
 
-  handleModalClosed() {
+ async handleModalClosed(item:number) {
     console.log('Modal fermé');
     this.currentModal = false;
     this.currentModal1 = false;
     this.currentModal2 = false;
+    this.currentModal3 = false;
+
     this.currentModal4 = false;
     this.currentModal5 = false;
+    const response = await firstValueFrom(this.log.getCommentsByMessage(item));
+    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",response)
+    const comments = this.messages$.getValue()
+    console.log(comments)
+    const video = comments.find(vi => vi.id === item);
+      if (video) {
+        video.comments.push(response.content);
+        this.messages$.next([...comments]);
+
+
+      }
 
   }
 
@@ -748,6 +734,7 @@ export class QuoideneufComponent implements OnInit {
     try {
       const response = await firstValueFrom(this.log.getCommentsByMessage(message_id));
       console.log("Commentaires récupérés :", response);
+
       this.countcomments$.next([...response]);
       return response;
     } catch (error) {
@@ -760,6 +747,7 @@ export class QuoideneufComponent implements OnInit {
       const response = await firstValueFrom(this.log.getCommentsByPhoto(photo_id));
       console.log("Commentaires photos récupérés :", response);
       this.countcommentsphotos$.next([...response]);
+
       return response;
     } catch (error) {
       console.error('Erreur lors de la récupération des commentaires photos', error);
@@ -771,6 +759,7 @@ export class QuoideneufComponent implements OnInit {
       const response = await firstValueFrom(this.log.getCommentsByVideo(video_id));
       console.log("Commentaires videos récupérés :", response);
       this.countcommentsvideos$.next([...response]);
+
       return response;
     } catch (error) {
       console.error('Erreur lors de la récupération des commentaires videos', error);

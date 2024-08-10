@@ -25,10 +25,7 @@
   <div *ngFor="let item of results1; let idx = index" class="message-card">
     <div class="message-header">
       <div class="author-avatar">
-        <ng-container *ngIf="item.auteur && (profilePictures$ | async) as profilePictures">
-          <img id="profile-picture1" [src]="'http://localhost:8000' + (profilePictures[item.auteur] || defaultProfileImageUrl)" alt="Profile Picture">
           <p>publié le : {{item.timestamp | date:'short'}}</p>
-        </ng-container>
       </div>
       <div class="author-info">
         <span class="author-name"></span>
@@ -49,13 +46,13 @@
           [modal]="currentModal" 
           [message_id]="item.id" 
           [id_comment]="id_commentaire"
-          (modalClosed)="handleModalClosed()"
+          (modalClosed)="handleModalClosed(item.id)"
           (commentAdded)="handleCommentAdded()"
         ></app-modalcomments>
         <button (click)="liaison_click_modal1(item.id)" class="nostyle align-right typo">
           Commentaires&nbsp;<span>{{ item?.comments?.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ item?.likes_count }}</span>
+          <span>{{ item?.likes }}</span>
         </button>
       </div>
       <app-modalgeneral 
@@ -69,7 +66,7 @@
 
     <!-- Section Photos -->
     <div *ngIf="item.photo" class="message-content">
-      <img [src]="'http://localhost:8000' + item.photo" class="photo-resize"/>
+      <img [src]="'http://localhost:8000' + item.photo" loading="lazy" class="photo-resize"/>
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeurphoto [photocontent]="item.id" (likeClickedphoto)="likeClickedphoto(item.id)"></app-coeurphoto>
@@ -86,7 +83,7 @@
         <button (click)="liaison_click_modal3(item.id)" class="nostyle align-right typo">
           Commentaires&nbsp;<span>{{ item.comments.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ item?.likes_count }}</span>
+          <span>{{ item?.likes }}</span>
         </button>
       </div>
       <app-modalgeneralphoto 
@@ -115,9 +112,9 @@
           (commentAdded2)="handleCommentVideosAdded()"
         ></app-modalvideo>
         <button (click)="liaison_click_modal5(item.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ item.comments.length }}</span>&nbsp;
+          Commentaires&nbsp;<span>{{ item.comments?.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
-          <span>{{ item?.likes_count }}</span>
+          <span>{{ item?.likes }}</span>
         </button>
       </div>
       <app-modalgeneralvideo 

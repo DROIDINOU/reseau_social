@@ -80,7 +80,7 @@ export class UploadService {
 
   getPhotofil(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl10, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl10, { withCredentials: true })
     );
   }
 
@@ -92,44 +92,44 @@ export class UploadService {
 
   getProfilePhoto(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl, { withCredentials: true })
     );
   }
 
   getPhoto(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl4, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl4, { withCredentials: true })
     );
   }
 
   getPhotofilactu(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl10, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl10, { withCredentials: true })
     );
   }
 
   getVideofilactu(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl11, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl11, { withCredentials: true })
     );
   }
 
   getVideo(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl7, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl7, {withCredentials: true })
     );
   }
 
 
   getphotoprofileall(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl12, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl12, { withCredentials: true })
     );
   }
 
   getProfilePhoto1(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl3, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl3, { withCredentials: true })
     );
   }
 
@@ -144,7 +144,7 @@ export class UploadService {
 
   getPhoto1(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl5, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl5, { withCredentials: true })
     );
   }
 
@@ -156,7 +156,7 @@ export class UploadService {
 
   getVideo1(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl8, { headers: this.getAuthHeaders(), withCredentials: true })
+      this.http.get<any>(this.apiUrl8, { withCredentials: true })
     );
   }
 
@@ -168,7 +168,7 @@ export class UploadService {
   getProfileByUsername(username: string): Observable<any> {
     return this.performRequest(() => {
       const params = new HttpParams().set('username', username);
-      return this.http.get<any>(`${this.apiUrl1}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+      return this.http.get<any>(`${this.apiUrl1}/`, { params: params, withCredentials: true });
     });
   }
 
@@ -178,7 +178,7 @@ export class UploadService {
   getPhotosByUsername(username: string): Observable<any> {
     return this.performRequest(() => {
       const params = new HttpParams().set('username', username);
-      return this.http.get<any>(`${this.apiUrl6}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+      return this.http.get<any>(`${this.apiUrl6}/`, { params: params, withCredentials: true });
     });
   }
 
@@ -186,7 +186,7 @@ export class UploadService {
   getVideosByUsername(username: string): Observable<any> {
     return this.performRequest(() => {
       const params = new HttpParams().set('username', username);
-      return this.http.get<any>(`${this.apiUrl9}/`, { headers: this.getAuthHeaders(), params: params, withCredentials: true });
+      return this.http.get<any>(`${this.apiUrl9}/`, { params: params, withCredentials: true });
     });
   }
 }
