@@ -75,7 +75,7 @@ export class ListefansComponent implements OnInit {
   async loadProfileImage() {
     try {
       const response = await firstValueFrom(this.upload.getProfilePhoto());
-      this.profileImageUrl = `http://localhost:8000${response.profile_picture}`;
+      this.profileImageUrl = response.profile_picture;
       console.log('Loaded profile image:', this.profileImageUrl);
     } catch (error) {
       const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
@@ -84,7 +84,7 @@ export class ListefansComponent implements OnInit {
         try {
           await firstValueFrom(this.upload.refreshCsrfToken());
           const retryResponse = await firstValueFrom(this.upload.getProfilePhoto());
-          this.profileImageUrl = `http://localhost:8000${retryResponse.profile_picture}`;
+          this.profileImageUrl = retryResponse.profile_picture;
           console.log('Loaded profile image after refreshing CSRF token:', this.profileImageUrl);
         } catch (refreshError) {
           console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
@@ -98,7 +98,7 @@ export class ListefansComponent implements OnInit {
   async loadphotos() {
     try {
       const response = await firstValueFrom(this.upload.getPhoto());
-      this.photosUrl = `http://localhost:8000${response.photo}`;
+      this.photosUrl = response.photo;
       console.log('Loaded photo:', this.photosUrl);
     } catch (error) {
       const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
@@ -107,7 +107,7 @@ export class ListefansComponent implements OnInit {
         try {
           await firstValueFrom(this.upload.refreshCsrfToken());
           const retryResponse = await firstValueFrom(this.upload.getPhoto());
-          this.photosUrl = `http://localhost:8000${retryResponse.photo}`;
+          this.photosUrl = retryResponse.photo;
           console.log('Loaded photo after refreshing CSRF token:', this.profileImageUrl);
         } catch (refreshError) {
           console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
@@ -173,7 +173,7 @@ export class ListefansComponent implements OnInit {
       try {
         const response = await firstValueFrom(this.upload.createPhotoProfile(formData));
         console.log('Enregistrement réussi', response);
-        this.profileImageUrl = `http://localhost:8000/${response.profile_picture}`;
+        this.profileImageUrl = response.profile_picture;
 
       } catch (error) {
         console.error('Erreur de connexion', error);
@@ -194,7 +194,7 @@ export class ListefansComponent implements OnInit {
         console.log("salut mon gros")
         const response = await firstValueFrom(this.upload.createPhoto(formData1));
         console.log('Enregistrement réussi', response);
-        this.photosUrl= `http://localhost:8000/${response.photo}`;
+        this.photosUrl= response.photo;
         await this.photoschats();
 
       } catch (error) {
@@ -216,7 +216,7 @@ export class ListefansComponent implements OnInit {
         console.log("salut mon gros")
         const response = await firstValueFrom(this.upload.createVideo(formData1));
         console.log('Enregistrement réussi', response);
-        this.photosUrl= `http://localhost:8000/${response.video}`;
+        this.photosUrl= response.video;
         await this.videoschats();
 
         

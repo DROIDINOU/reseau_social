@@ -22,7 +22,6 @@ export class UploadService {
   private apiUrl12 = 'http://localhost:8000/profile-picture-all/';
 
 
-  
 
   private csrfToken: string | null = null;
 

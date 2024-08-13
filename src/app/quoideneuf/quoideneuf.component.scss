@@ -1,3 +1,5 @@
+
+
 * {
   box-sizing: border-box;
 }
@@ -6,8 +8,16 @@
   justify-content: center; /* Centre le conteneur du formulaire */
   gap: 2rem; /* Espace entre les formulaires */
   margin-bottom: 2rem; /* Espace sous les formulaires */
-  width: 95%;
+  width: 99%;
   margin: 0 auto;
+  position: fixed; /* Rend le conteneur fixe */
+  top: 0; /* Positionne en haut de la page */
+  left: 50%; /* Positionne au centre horizontalement par rapport à la fenêtre */
+  transform: translateX(-50%); /* Centre le conteneur horizontalement */
+  top: 86px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
+  z-index: 1000; /* Assurez-vous qu'il est au-dessus d'autres éléments */
+
+
 }
 
 /* Style du formulaire */
@@ -27,7 +37,7 @@
 
 /* Style pour les groupes de formulaire */
 .post-form .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 /* Style pour les labels */
@@ -233,7 +243,7 @@ input[type="file"] {
 .feed {
   display: flex;
   flex-direction: column;
-  padding: 2px;
+  padding: 0 20px;
   align-items: center;
   margin: 0 auto;
   width: 100%;
