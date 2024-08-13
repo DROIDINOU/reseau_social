@@ -66,7 +66,7 @@
 
     <!-- Section Photos -->
     <div *ngIf="item.photo" class="message-content">
-      <img [src]="'http://localhost:8000' + item.photo" loading="lazy" class="photo-resize"/>
+      <img [src]=" item.photo" loading="lazy" class="photo-resize"/>
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeurphoto [photocontent]="item.id" (likeClickedphoto)="likeClickedphoto(item.id)"></app-coeurphoto>
@@ -97,7 +97,7 @@
 
     <!-- Section Vidéos -->
     <div *ngIf="item.video" class="message-content">
-      <video [src]="'http://localhost:8000' + item.video" controls class="video-resize"></video>
+      <video [src]="item.video" controls class="video-resize"></video>
       <div class="comments-action">
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeurvideo [videocontent]="item.id" (likeClickedvideo)="likeClickedvideo(item.id)"></app-coeurvideo>
