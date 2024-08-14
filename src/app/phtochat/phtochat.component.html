@@ -36,7 +36,7 @@
     <div class ="right1-container">
         <div class ='align-right'>
         <fa-icon (click)="liaisonclickmodal100()"  [icon]="fauser" size="2x"></fa-icon>;
-        <p  class ='align-right' class="typo">Ami(e)s</p><br><br>
+        <p  class ='align-right' class="typo"  (click)="liaisonclickmodal100()">Ami(e)s</p><br><br>
         <app-modallistfriends 
         [modal100]="currentModal100" 
         (modalClosed100)="handleModalClosed100()"

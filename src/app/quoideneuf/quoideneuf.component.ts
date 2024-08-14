@@ -278,7 +278,6 @@ export class QuoideneufComponent implements OnInit {
   
   
   async loadDatas() {
-    console.time('loadData'); // Démarrer le chronomètre
     try {
       await Promise.all([
         this.loadMessages(),
@@ -288,7 +287,6 @@ export class QuoideneufComponent implements OnInit {
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
     }
-    console.timeEnd('loadData'); // Démarrer le chronomètre
 
   }
   
@@ -308,7 +306,7 @@ export class QuoideneufComponent implements OnInit {
   async loadProfileImage() {
     try {
       const response = await firstValueFrom(this.upload.getProfilePhoto());
-      this.profileImageUrl = `http://localhost:8000${response.profile_picture}`;
+      this.profileImageUrl = response.profile_picture;
       console.log('Loaded profile image:', this.profileImageUrl);
     } catch (error) {
       const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
@@ -317,7 +315,7 @@ export class QuoideneufComponent implements OnInit {
         try {
           await firstValueFrom(this.upload.refreshCsrfToken());
           const retryResponse = await firstValueFrom(this.upload.getProfilePhoto());
-          this.profileImageUrl = `http://localhost:8000${retryResponse.profile_picture}`;
+          this.profileImageUrl = retryResponse.profile_picture;
           console.log('Loaded profile image after refreshing CSRF token:', this.profileImageUrl);
         } catch (refreshError) {
           console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
@@ -699,7 +697,7 @@ export class QuoideneufComponent implements OnInit {
       try {
         const response = await firstValueFrom(this.upload.createVideofil(formData1));
         console.log('Enregistrement réussi', response);
-        this.videos_Url = `http://localhost:8000/${response.video}`;
+        this.videos_Url = response.video;
         await this.loadData ()
 
       } catch (error) {

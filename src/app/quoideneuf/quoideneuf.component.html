@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container content-wrapper">
   <div class="post-form">
     <form [formGroup]="myForm">
       <div class="form-group">
@@ -21,22 +21,14 @@
   </div>
 </div>
 
-<div class="feed">
-  <div *ngFor="let item of results1; let idx = index" class="message-card">
-    <div class="message-header">
-      <div class="author-avatar">
-          <p>publié le : {{item.timestamp | date:'short'}}</p>
-      </div>
-      <div class="author-info">
-        <span class="author-name"></span>
-        <span class="timestamp"></span>
-      </div>
-    </div>
 
+<div class="feed content-wrapper">
+  <div *ngFor="let item of results1; let idx = index" class="message-content">
     <!-- Section Messages -->
     <div *ngIf="item.message" class="message-content">
       {{ item.message }}
       <div class="comments-action">
+          <p>publié le : {{item.timestamp | date:'short'}}</p>
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeur [messagecontent]="item.id" (likeClicked)="likeClicked(item.id)"></app-coeur>
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,6 +60,7 @@
     <div *ngIf="item.photo" class="message-content">
       <img [src]=" item.photo" loading="lazy" class="photo-resize"/>
       <div class="comments-action">
+        <p>publié le : {{item.timestamp | date:'short'}}</p>
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeurphoto [photocontent]="item.id" (likeClickedphoto)="likeClickedphoto(item.id)"></app-coeurphoto>
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -99,6 +92,7 @@
     <div *ngIf="item.video" class="message-content">
       <video [src]="item.video" controls class="video-resize"></video>
       <div class="comments-action">
+        <p>publié le : {{item.timestamp | date:'short'}}</p>
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeurvideo [videocontent]="item.id" (likeClickedvideo)="likeClickedvideo(item.id)"></app-coeurvideo>
         &nbsp;&nbsp;&nbsp;&nbsp;

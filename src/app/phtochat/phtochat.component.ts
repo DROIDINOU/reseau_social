@@ -21,6 +21,7 @@ export class PhtochatComponent {
 
 
  liaisonclickmodal100() {
+  console.log("hellooooooooooooooooooooooooooooooo");
   this.currentModal100 = true; 
 
 }

@@ -92,9 +92,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   updatePendingRequests(): void {
     try {
+      console.log("je suis la", this.currentUser)
       if (!this.currentUser || !this.currentUser.id) {
         console.log(this.currentUser)
-        throw new Error("currentUser is not properly defined or missing id");
       }
 
       const count = this.friendStatus.reduce((acc, current) => {

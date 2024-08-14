@@ -75,8 +75,9 @@ table img {
 }
 
 .right1-container {
+  width : 100%;
   display: flex; /* Utilise flexbox pour aligner les éléments en ligne */
-  margin-top: 10%;
+  margin-top: 0;
   flex-grow: 1;
   width : 50%;
   background-color: rgb(185, 218, 248);
@@ -100,8 +101,15 @@ table img {
 
 
 .right1-container .align-right {
-  margin-bottom: auto; /* Push the component to the extreme right */
-  position: sticky;
+  position: fixed; /* Fixe l'élément par rapport à la fenêtre */
+  right: 30px; /* Décale de 20px à partir du bord droit de la fenêtre */
+  top: 86px; /* Décale de 20px à partir du haut de la fenêtre */
+  background-color: white; /* Assure un fond visible */
+  padding: 10px; /* Ajoute un peu de padding pour du confort visuel */
+  z-index: 1000; /* Place l'élément au-dessus des autres pour éviter qu'il soit masqué */
+  width: auto; /* Ajuste la largeur pour éviter qu'il disparaisse */
+  height: 110%;
+  max-width: 300px; /* Optionnel: Limite la largeur si nécessaire */
 
 }
 
