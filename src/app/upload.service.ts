@@ -79,7 +79,7 @@ export class UploadService {
 
   getPhotofil(): Observable<any> {
     return this.performRequest(() => 
-      this.http.get<any>(this.apiUrl10, { withCredentials: true })
+      this.http.get<any>(this.apiUrl10, {headers: this.getAuthHeaders(), withCredentials: true })
     );
   }
 
