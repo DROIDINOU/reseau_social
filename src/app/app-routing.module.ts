@@ -28,20 +28,24 @@ import { AuthGuard } from './auth-guard.service';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
 import { PrivatechatComponent } from './privatechat/privatechat.component';
+import { myResolverResolver } from './my-resolver.resolver';
 
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'routing', component: RoutingComponent},
-        { path: 'fanslist/:userId', component: ListefansComponent},
+        { path: 'fanslist/:userId',canActivate: [AuthGuard], component: ListefansComponent},
         { path: 'friend/:id', component: ListefansComponent},
         { path: 'phtochat/:userId', component: PhtochatComponent},
         { path: 'photospost', component: PhotospostComponent},
         { path: 'racechat', component: RacechatComponent},
-        { path: 'quoideneuf', component: QuoideneufComponent},
+        { path: 'quoideneuf', component: QuoideneufComponent
+        },
         { path: 'login', component: LoginComponent},
         { path: 'register', component: RegisterComponent},
-        { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard] },
-        { path: 'user-prof/:id', component: PhtochatComponent },
+        { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard], resolve: {
+          data: myResolverResolver // Associe le resolver à la clé 'data'
+        } },
+        { path: 'user-prof/:id',canActivate: [AuthGuard], component: PhtochatComponent },
         { path: 'userprofile/:id', component: FriendrequestpageComponent },
         { path: 'access', component: AccessphotosfromprofileComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full'},

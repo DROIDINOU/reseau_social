@@ -153,11 +153,54 @@ export class QuoideneufComponent implements OnInit {
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
 
-      this.loadDatas();
+      this.route.data.subscribe(data => {
+        console.log('Données reçues:', data); // Ajoutez cette ligne pour déboguer
 
-      this.concatData();
+        const resolvedData = data['data']; // Données résolues sous la clé 'data'
+        this.messages = resolvedData.messages;
+        console.log("resolver",this.messages)
+        this.messages$.next(this.messages);
+        console.log(this.messages$.getValue())
+
+        this.photos = resolvedData.photos;
+        console.log(this.photos)
+        this.photos$.next(this.photos);
+
+        this.videos = resolvedData.videos;
+        console.log(this.videos)
+        this.videos$.next(this.videos);
+
+        this.concatDatas(); // Assurez-vous d'appeler cette méthode si nécessaire
+      });
+    
+  
+    
 
     });
+  }
+
+
+  concatDatas() {
+    const messages = this.messages;
+    const photos = this.photos;
+    const videos = this.videos;
+
+    this.results1 = [...messages, ...photos, ...videos];
+  
+    console.log("Avant le tri:", this.results1);
+    
+    try {
+      this.results1.sort((a, b) => {
+        const dateA = new Date(a.timestamp).getTime();
+        const dateB = new Date(b.timestamp).getTime();
+        console.log("Comparing:", dateA, dateB);
+        return dateB - dateA;
+      });
+    } catch (error) {
+      console.error("Erreur lors du tri des résultats:", error);
+    }
+  
+    // Affichage du tableau trié
   }
 
 
@@ -538,6 +581,7 @@ export class QuoideneufComponent implements OnInit {
 
 
   async liaison_click_modal(message_id: number) {
+    console.log("click ou pas click?")
     this.id_commentaire = message_id;
     this.number_comments = await this.getComments(message_id);
     this.currentModal = true;
