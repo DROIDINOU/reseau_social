@@ -10,6 +10,7 @@
                 placeholder="Search friends" 
                 [(ngModel)]="searchTerm" 
                 (input)="findfriends()"
+                [ngClass]="{'hidden': !isLoggedIn}"
             />
             <div class="dropdown" *ngIf="searchResults.length > 0">
                 <div 

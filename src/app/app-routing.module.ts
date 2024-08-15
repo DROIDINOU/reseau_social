@@ -33,7 +33,7 @@ import { myResolverResolver } from './my-resolver.resolver';
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'routing', component: RoutingComponent},
-        { path: 'fanslist/:userId',canActivate: [AuthGuard], component: ListefansComponent},
+        { path: 'listfan/:userId', component: ListefansComponent},
         { path: 'friend/:id', component: ListefansComponent},
         { path: 'phtochat/:userId', component: PhtochatComponent},
         { path: 'photospost', component: PhotospostComponent},
@@ -45,7 +45,7 @@ const routes: Routes = [
         { path: 'user-profile/:id', component: PhtochatComponent, canActivate: [AuthGuard], resolve: {
           data: myResolverResolver // Associe le resolver à la clé 'data'
         } },
-        { path: 'user-prof/:id',canActivate: [AuthGuard], component: PhtochatComponent },
+        { path: 'user-prof/:id', component: PhtochatComponent },
         { path: 'userprofile/:id', component: FriendrequestpageComponent },
         { path: 'access', component: AccessphotosfromprofileComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full'},

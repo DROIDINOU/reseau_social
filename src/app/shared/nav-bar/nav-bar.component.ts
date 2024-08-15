@@ -176,7 +176,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   async navigateToFansList(): Promise<void> {
     this.userId = await this.userService.getUserId();
-    this.router.navigate(['/fanslist', this.userId]);
+    this.router.navigate(['/listfan', this.userId]);
   }
   
   async friend(): Promise<void> {
