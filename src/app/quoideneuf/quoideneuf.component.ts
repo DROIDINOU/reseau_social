@@ -9,7 +9,6 @@ import { UserService } from '../user.service';
 import { UploadService } from '../upload.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
 import { Observable, of, map, catchError , tap} from 'rxjs';
-
 interface Profile {
   userId: number;
   photoUrl: string;
@@ -403,7 +402,7 @@ export class QuoideneufComponent implements OnInit {
   
   async loadMessages(): Promise<any[]> {
     try {
-      console.time('loadData'); // Démarrer le chronomètre
+      console.time('bonjour de messages'); // Démarrer le chronomètre
   
       // Récupérer tous les messages
       const messagesResponse = await firstValueFrom(this.login.getMessages());
@@ -428,9 +427,8 @@ export class QuoideneufComponent implements OnInit {
         // Mettre à jour les messages dans le service
         this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
-        console.log("Messages chargés avec succès :", this.messages);
+        console.log("Messages chargés avec succès de message formulaire :", this.messages);
   
-        console.timeEnd('loadData'); // Arrêter le chronomètre
   
         return messages;
       } else {
@@ -682,7 +680,8 @@ export class QuoideneufComponent implements OnInit {
         console.log("hello du formulaire")
         const responseCreate = await firstValueFrom(this.login.createMessage(formData.message));
         console.log('Message créé avec succès', responseCreate);
-        await this.loadData ()
+        await this.loadMessages ()
+        this.concatData();
 
         this.myForm.reset();
       } catch (error: any) {
@@ -692,7 +691,7 @@ export class QuoideneufComponent implements OnInit {
             await firstValueFrom(this.login.refreshCsrfToken());
             const responseCreateRetry = await firstValueFrom(this.login.createMessage(formData.message));
             console.log('Message créé avec succès après rafraîchissement du token', responseCreateRetry);
-            await this.loadData ()
+            await this.loadDatas ()
             this.myForm.reset();
 
 
@@ -721,7 +720,8 @@ export class QuoideneufComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createPhotofil(formData1));
         console.log('Enregistrement réussi', response);
         this.photos_Url = response.photo;
-        await this.loadData ()
+        await this.loadPhotos ()
+        this.concatData();
       } catch (error) {
         console.error('Erreur de connexion', error);
       }
@@ -742,7 +742,8 @@ export class QuoideneufComponent implements OnInit {
         const response = await firstValueFrom(this.upload.createVideofil(formData1));
         console.log('Enregistrement réussi', response);
         this.videos_Url = response.video;
-        await this.loadData ()
+        await this.loadVideos ()
+        this.concatData();
 
       } catch (error) {
         console.error('Erreur de connexion', error);

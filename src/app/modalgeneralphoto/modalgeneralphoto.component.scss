@@ -9,6 +9,7 @@
     height: 100%; /* Full height */
     overflow: hidden; /* Enable scroll if needed */
     background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    z-index: 2000;
   }
   
   /* Modal Container */
