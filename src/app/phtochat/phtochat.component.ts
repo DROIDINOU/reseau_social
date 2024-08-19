@@ -13,10 +13,25 @@ export class PhtochatComponent {
  faComment = faComment
  faImage = faImage
  currentModal100: boolean = false;
+ images: string[] = [
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-1.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-2.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-3.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-5.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-6.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-7.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-8.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-9.webp',
+  'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-10.webp'
+];
  constructor(private router: Router) {}
 
  navigateToChat() {
   this.router.navigate(['/privatechat']);
+}
+
+loadMoreImages(): void {
+  this.images.push(...this.images);
 }
 
 

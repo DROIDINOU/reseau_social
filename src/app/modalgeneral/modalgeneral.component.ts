@@ -42,7 +42,7 @@ export class ModalgeneralComponent implements OnInit{
     this.dataObservable.subscribe(value => {
       this.data = value;
       console.log("final!!!!!",this.data)
-      console.log("final!!!!!",this.id_comment1)
+      console.log("final!!!!!",this.modal1)
 
     });
   }
@@ -50,6 +50,7 @@ export class ModalgeneralComponent implements OnInit{
 
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if (changes['modal1'] && !changes['modal1'].firstChange) {
       if (this.modal1) {
         this.openModal(); // Ouvrir le modal si modal est true et que ce n'est pas le premier changement
@@ -72,6 +73,10 @@ export class ModalgeneralComponent implements OnInit{
       console.log("ehqweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.data)
       console.log('Modal 1 ouvert');
     }
+  }
+
+  trackById(index: number, item: any): number {
+    return item.id;
   }
 
   onSubmit() {

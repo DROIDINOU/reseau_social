@@ -25,10 +25,10 @@
 <div class="feed content-wrapper">
   <div *ngFor="let item of results1; let idx = index" class="message-content">
     <!-- Section Messages -->
-    <div *ngIf="item.message" class="message-content">
+    <div *ngIf="item.message">&nbsp;&nbsp;&nbsp;&nbsp;
       {{ item.message }}
       <div class="comments-action">
-          <p>publié le : {{item.timestamp | date:'short'}}</p>
+          <p>publié le : {{item.timestamp | date:'shortDate'}}</p>
         <p>J'aime</p>&nbsp;&nbsp;
         <app-coeur [messagecontent]="item.id" (likeClicked)="likeClicked(item.id)"></app-coeur>
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -42,7 +42,7 @@
           (commentAdded)="handleCommentAdded()"
         ></app-modalcomments>
         <button (click)="liaison_click_modal1(item.id)" class="nostyle align-right typo">
-          Commentaires&nbsp;<span>{{ item?.comments?.length }}</span>&nbsp;
+          Commentaires&nbsp;<span>{{ item.comments.length }}</span>&nbsp;
           <app-pouces class="disabled"></app-pouces>&nbsp;
           <span>{{ item?.likes }}</span>
         </button>
@@ -57,7 +57,7 @@
     </div>
 
     <!-- Section Photos -->
-    <div *ngIf="item.photo" class="message-content">
+    <div *ngIf="item.photo">
       <img [src]=" item.photo" loading="lazy" class="photo-resize"/>
       <div class="comments-action">
         <p>publié le : {{item.timestamp | date:'short'}}</p>
@@ -89,7 +89,7 @@
     </div>
 
     <!-- Section Vidéos -->
-    <div *ngIf="item.video" class="message-content">
+    <div *ngIf="item.video">
       <video [src]="item.video" controls class="video-resize"></video>
       <div class="comments-action">
         <p>publié le : {{item.timestamp | date:'short'}}</p>

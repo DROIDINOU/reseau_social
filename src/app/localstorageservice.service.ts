@@ -1,28 +1,35 @@
-import { Injectable,OnInit } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocalstorageserviceService implements OnInit {
+export class LocalstorageserviceService {
 
   private tokenSubject: BehaviorSubject<string | null>;
+  private preoLoadedDataSubject: BehaviorSubject<any[] | null>;
+
 
   constructor() {
     // Initialiser tokenSubject dans le constructeur
+    const storedData = localStorage.getItem('preloadeddata');
+    const parsedData: any[] | null = storedData ? JSON.parse(storedData) : null;
+
     this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'));
+    this.preoLoadedDataSubject = new BehaviorSubject<any[] | null>(parsedData);
 
     // Écouter les changements dans localStorage
     window.addEventListener('storage', (event) => {
       if (event.key === 'token') {
         this.tokenSubject.next(event.newValue);
       }
+      if (event.key === 'preloadeddata') {
+        const newData: any[] | null = event.newValue ? JSON.parse(event.newValue) : null;
+        this.preoLoadedDataSubject.next(newData);
+      }
     });
   }
 
-  ngOnInit(): void {
-    // Vous pouvez initialiser ici si vous utilisez ce service dans un composant
-  }
 
   getToken(): string | null {
 
@@ -32,4 +39,20 @@ export class LocalstorageserviceService implements OnInit {
   getTokenObservable(): Observable<string | null> {
     return this.tokenSubject.asObservable();
   }
+
+  getPreLoadedData(): any[] | null {
+    return JSON.parse(localStorage.getItem('preloadeddata') || '[]');
+  }
+  
+  getPreLoadedDataObservable(): Observable<any[] | null> {
+    return this.preoLoadedDataSubject.asObservable();
+  }
+  
+  setPreLoadedData(data: any[]): void {
+    localStorage.setItem('preloadeddata', JSON.stringify(data));
+    this.preoLoadedDataSubject.next(data);
+  }
+  
+  
+
 }

@@ -6,6 +6,8 @@ import { LoginService } from './login.service';
 import { CommentModalsService } from './comment-modals.service';
 import { UploadService } from './upload.service';
 import { UserService } from './user.service';
+import { CacheService } from './cache.service';
+
 
 
 // Fonction de resolver avec route et state

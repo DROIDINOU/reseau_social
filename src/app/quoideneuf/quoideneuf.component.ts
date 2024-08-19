@@ -94,6 +94,9 @@ export class QuoideneufComponent implements OnInit {
   videos: any[] = [];
   results: any[] = [];
   results1: any[] = [];
+  count1 : any[] = [];
+  count2 : any[] = [];
+  count3 : any[] = [];
 
   
   friendsMessages: any[] = []; // Pour stocker les messages récupérés
@@ -169,7 +172,7 @@ export class QuoideneufComponent implements OnInit {
         console.log(this.videos)
         this.videos$.next(this.videos);
 
-        this.concatDatas(); // Assurez-vous d'appeler cette méthode si nécessaire
+        this.concatData(); // Assurez-vous d'appeler cette méthode si nécessaire
       });
     
   
@@ -185,8 +188,7 @@ export class QuoideneufComponent implements OnInit {
     const videos = this.videos;
 
     this.results1 = [...messages, ...photos, ...videos];
-  
-    console.log("Avant le tri:", this.results1);
+    console.log("1 : concatdatas", this.results1)
     
     try {
       this.results1.sort((a, b) => {
@@ -325,7 +327,7 @@ export class QuoideneufComponent implements OnInit {
         this.loadMessages(),
         this.loadPhotos(),
         this.loadVideos(),
-      ]);    this.concatData();
+      ]);    this.concatDatas();
     } catch (error) {
       console.error('Erreur lors du chargement des données', error);
     }
@@ -375,11 +377,13 @@ export class QuoideneufComponent implements OnInit {
     const messages = this.messages$.getValue() as Message[];
     const photos = this.photos$.getValue() as Photo[];
     const videos = this.videos$.getValue() as Video[];
-  
+    
+    
     
     // Concaténation des messages, photos et vidéos
     this.results1 = [...messages, ...photos, ...videos] as Result[];
-  
+    console.log("3 : concatdatas", this.results1)
+
     console.log("Avant le tri:", this.results1);
     
     try {
@@ -402,7 +406,6 @@ export class QuoideneufComponent implements OnInit {
   
   async loadMessages(): Promise<any[]> {
     try {
-      console.time('bonjour de messages'); // Démarrer le chronomètre
   
       // Récupérer tous les messages
       const messagesResponse = await firstValueFrom(this.login.getMessages());
@@ -427,13 +430,12 @@ export class QuoideneufComponent implements OnInit {
         // Mettre à jour les messages dans le service
         this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
-        console.log("Messages chargés avec succès de message formulaire :", this.messages);
+        console.log("Messages chargés avec succès de message formulaire :", this.messages$.getValue());
   
   
         return messages;
       } else {
         console.error('Réponse inattendue de getMessages()', messagesResponse);
-        console.timeEnd('loadData'); // Arrêter le chronomètre même en cas d'erreur
         return [];
       }
     } catch (error) {
@@ -927,6 +929,8 @@ export class QuoideneufComponent implements OnInit {
 
   handleCommentAdded() {
     this.loadMessages();
+    this.concatData()
+    console.log("resultssssssssssssssssssssssssssssssssssssssssssssssss", this.concatData())
   }
 
   handleCommentPhotosAdded() {

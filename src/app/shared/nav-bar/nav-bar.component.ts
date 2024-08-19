@@ -171,7 +171,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   async navigateToPhotoChat(): Promise<void> {
     console.log(this.userId);
     this.userId = await this.userService.getUserId();
-    this.router.navigate(['/phtochat', this.userId]);
+    this.router.navigate(['/user-profile', this.userId]);
   }
 
   async navigateToFansList(): Promise<void> {

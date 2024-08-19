@@ -1,17 +1,21 @@
 .nav-bar {
   
   height: 70px; /* Set a specific height */
+  position: relative; /* ou position: fixed; */
+
 }
 
 
 .nav-item {
     margin: 0 15px; /* Ajustez cette valeur pour l'espacement désiré */
     color: white;
+
   }
 
   .nav-item1 {
     margin: 0 1px; /* Ajustez cette valeur pour l'espacement désiré */
     color: rgb(247, 245, 245);
+    z-index: 4500
   }
 
   .logo-img {
@@ -25,15 +29,15 @@
     right: 0;
     border: 1px solid #ccc;
     background-color: #fff;
-    z-index: 1000;
     width: 18%;
+    z-index: 4500;
+
   }
   .dropdown1 {
     position: absolute;
     top: 100%;
     left: 10%;
     right: 0;
-    z-index: 1000;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -41,9 +45,14 @@
     padding: 10px;
     max-width: 400px;
     margin: 0 auto;
+    z-index: 4500;
+
   }
   
   .dropdown-item {
+    position: relative;
+    z-index: 4500;
+
     padding: 8px;
     cursor: pointer;
   }

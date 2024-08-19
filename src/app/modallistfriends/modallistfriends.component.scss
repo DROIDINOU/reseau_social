@@ -11,6 +11,7 @@
     height: 100vh; /* Prend toute la hauteur de la vue */
     background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
     overflow: hidden; /* Évite le défilement du reste de la page */
+    z-index: 800;
   }
   
   /* La modal elle-même avec défilement interne */
@@ -24,6 +25,8 @@
     max-height: 80vh; /* Hauteur maximale de la modal */
     overflow: auto; /* Permet le défilement vertical si le contenu dépasse */
     position: relative; /* Pour le positionnement du bouton de fermeture */
+    z-index: 800;
+
   }
   
   /* Positionne le bouton de fermeture */
@@ -31,6 +34,8 @@
     position: absolute;
     top: 10px;
     right: 10px;
+    z-index: 800;
+
   }
   
   /* Contenu de la modal avec défilement vertical interne si nécessaire */

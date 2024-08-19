@@ -48,6 +48,9 @@ export class ModalgeneralphotoComponent implements OnInit{
     });
   }
 
+  trackById(index: number, item: any): number {
+    return item.id;
+  }
 
 
   ngOnChanges(changes: SimpleChanges): void {

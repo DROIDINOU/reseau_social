@@ -1,63 +1,15 @@
-<div class ="container">
-    <div class="left-container">
-
-<table>
-    <thead>
-        <tr>
-            <th colspan="1"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
+<div class="container">
+    <div class="left-container" infiniteScroll (scrolled)="loadMoreImages()">
+      <table>
+        <tbody>
+          <tr *ngFor="let image of images">
             <td>
-                <img src ="https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-1.webp"  loading="lazy" />
+              <img [src]="image" loading="lazy" />
             </td>
-        </tr>
-        <tr>
-            <td>
-                <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-2.webp"  loading="lazy"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-3.webp" loading="lazy" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-5.webp" loading="lazy" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-6.webp" loading="lazy" />
-            </td>
-        </tr>
-        <tr>
-        <td>
-            <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-7.webp" loading="lazy" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-8.webp" loading="lazy" />
-        </td>
-    </tr> <tr>
-        <td>
-            <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-9.webp" loading="lazy" />
-        </td>
-    </tr> <tr>
-        <td>
-            <img src = "https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-10.webp" loading="lazy" />
-        </td>
-    </tr>
-    </tbody>
-</table>
-</div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 <div class ="right-container">
     <app-quoideneuf></app-quoideneuf> <!-- Intégration du composant enfant -->
     </div>

@@ -55,7 +55,7 @@ export class ModalvideoComponent  implements OnChanges, OnInit, OnDestroy {
   }
 
   openModal4() {
-    const modals22 = document.getElementById('myModal11');
+    const modals22 = document.getElementById('my11');
     if (modals22 && this.modal4) {
       this.modal4 = true
       console.log("ohhhhhh yejhhhhhhhhhhhhhhhhhhhhhhhh")
@@ -87,7 +87,7 @@ export class ModalvideoComponent  implements OnChanges, OnInit, OnDestroy {
 
 
   closeModal4() {
-    const modal22 = document.getElementById('myModal11');
+    const modal22 = document.getElementById('my11');
     if (modal22) {
       modal22.style.display = 'none';
       this.modal4 = false;

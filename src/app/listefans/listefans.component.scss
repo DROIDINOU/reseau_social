@@ -183,3 +183,21 @@ span {
   color: #7eff8a;
   margin-left: 5px;
 }
+
+@media (min-width: 1025px) and (max-width: 1366px) {
+
+  #profil-container {
+    position: relative;
+    background-color: #2b3340;
+    width: 55%;
+    height: 16%; /* Ajustez la hauteur selon vos besoins */
+    border-radius: 50%; /* Cercle */
+    overflow: hidden; /* Assure que l'image respecte le cercle */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left : 38px;
+    border: 4px solid #7eff8a; /* Bordure verte claire */
+
+}
+
+}

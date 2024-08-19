@@ -60,6 +60,9 @@ import { VideopostComponent } from './videopost/videopost.component';
 import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
 import { AnimatedRopeComponent } from './animated-rope/animated-rope.component';
 import { PrivatechatComponent } from './privatechat/privatechat.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
+
 
 @NgModule({
   declarations: [
@@ -125,6 +128,8 @@ import { PrivatechatComponent } from './privatechat/privatechat.component';
     HttpClientModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
+    InfiniteScrollModule,
+
 
   ],
   providers: [

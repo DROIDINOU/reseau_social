@@ -15,7 +15,7 @@
   left: 50%; /* Positionne au centre horizontalement par rapport à la fenêtre */
   transform: translateX(-50%); /* Centre le conteneur horizontalement */
   top: 86px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
-  z-index: 1000; /* Assurez-vous qu'il est au-dessus d'autres éléments */
+  z-index: 100; /* Assurez-vous qu'il est au-dessus d'autres éléments */
 
 }
 
@@ -269,6 +269,7 @@ input[type="file"] {
   max-width: 800px; /* Largeur maximale commune */
   margin: 0 auto; /* Centre le conteneur horizontalement */
   box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+  margin-top: 300px;
 }
 
 /* Wrapper for message cards */
@@ -560,17 +561,21 @@ input[type="file"] {
   .message-content {
     font-size: 1em;
     color: #333;
-    line-height: 1.5;
-    margin-top: 100px;
-    margin-bottom: 5px; /* Espacement sous le contenu du message */
+    line-height: 1;
+    margin-top: 0px;
+    margin-bottom: 0px; /* Espacement sous le contenu du message */
     overflow-wrap: break-word; /* Permet de couper les mots longs */
     word-break: break-word; /* Coupe les mots si nécessaire */
+    padding: 0px;
+    border: 2px solid #edeff0;
+    width: 90%;  /* 80% de la largeur de l'élément parent */
+    height: 100%; /* 50% de la hauteur de l'élément parent */
+    
   }
 
   .feed {
     display: flex;
-    flex-direction: column;
-    padding: 0px;
+    flex-direction: column-reverse;
     align-items: center; /* Centre les enfants verticalement */
     justify-content: center; /* Centre les enfants horizontalement */
     margin:  auto;
@@ -579,6 +584,8 @@ input[type="file"] {
     min-width: 529.8px; /* Définir la largeur minimale */
     min-height: 128px;
     overflow-x: hidden; /* Empêche le débordement horizontal */
+    padding-top: 180px;
+    background-color: #f3f7f9;
   
   
   }
@@ -593,12 +600,12 @@ input[type="file"] {
   .message-card {
     background-color: #fff;
     border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
     margin-bottom: 20px;
     margin-top: 100px;
-    width: 98%; /* Utilise toute la largeur du conteneur wrapper */
+    width: 100%; /* Utilise toute la largeur du conteneur wrapper */
     box-sizing: border-box;
-    padding: 0rem;
+    padding: 1rem;
     overflow: hidden; /* Cache les débordements */
     
   }
@@ -606,18 +613,19 @@ input[type="file"] {
   .comments-action {
   display: flex;
   align-items: center;
-  margin-top: 10px; /* Espacement au-dessus des actions de commentaire */
-  margin-bottom: 10px;
+  margin-top: 3px; /* Espacement au-dessus des actions de commentaire */
+  margin-bottom: 1px;
   justify-content: flex-end; /* Assurez-vous que les actions sont alignées à droite */
-  line-height: 5;
+  line-height: 2;
+  height : 5px;
   margin-right: 20px; /* Ajustez cette valeur pour déplacer les éléments vers la gauche */
-  padding: 0 30px; /* Espace horizontal autour du conteneur */
+  padding:  32px; /* Espace horizontal autour du conteneur */
   box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
 .video-resize {
   max-width: 70%;
-  max-height: 400px;
+  max-height: 300px;
   object-fit: contain;
   display: block;
   margin: auto;
@@ -626,7 +634,7 @@ input[type="file"] {
 
 .photo-resize {
   max-width: 70%;  /* Ensures the image is responsive */
-  max-height: 400px;  /* Sets a maximum height for the images */
+  max-height: 300px;  /* Sets a maximum height for the images */
   object-fit: contain;  /* Maintains the aspect ratio */
   display: block;  /* Ensures that any extra space is not left around the image */
   margin: auto;  /* Centers the image horizontally */

@@ -78,6 +78,11 @@ export class ModalgeneralvideoComponent implements OnInit,OnChanges{
     }
   }
 
+  trackById(index: number, item: any): number {
+    return item.id;
+  }
+  
+
   onSubmit() {
     if (this.myForm.valid) {
       const formData = this.myForm.value;

@@ -1,47 +1,26 @@
+<div *ngIf="modal1" id="myModal1" class="modal">
+  <div class="modal-container">
+    <div class="modal-content">
+      <button type="button" class="close-button" (click)="closeModal()">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
 
-    <div *ngIf="modal1" id="myModal1" class="modal">
-        <div class="modal-container">
-          <div class="modal-content">
-            @for(datas of data;track datas){
+      <!-- Boucle sur les éléments de 'data' -->
+      <div *ngFor="let datas of data">
+        <!-- Condition pour vérifier si l'id correspond -->
+        <div *ngIf="datas.id === id_comment1">
+          <h2>{{ username }}</h2>
+          <h3>{{ datas.message }}</h3>
+          <span class="time">{{ datas.timestamp | date: 'shortDate' }}</span>
 
-            @if(datas.id == id_comment1){
-                <button type="button" class="close-button" (click)="closeModal()">
-                    <fa-icon [icon]="faTimes"></fa-icon>
-                  </button>
-                <h2>{{username}} <h3> {{datas.message}}</h3> <span class="time">{{ datas.timestamp | date: 'short' }}</span></h2>
-
-                @for(da of datas.comments;track da){
-
-                        <div class="message-card">
-                         
-                           <p>{{da.content}}</p>
-                        </div>
-    
-                        }}}
+          <!-- Boucle sur les commentaires -->
+          <div *ngFor="let da of datas.comments">
+            <div class="message-card">
+              <p>{{ da.content }}</p>
+            </div>
           </div>
         </div>
       </div>
-      
-  
-  
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+    </div>
+  </div>
+</div>

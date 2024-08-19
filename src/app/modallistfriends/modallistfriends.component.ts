@@ -35,8 +35,6 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
 
   public messages: any[] = [];
   public messageText: string = '';
-  private user1: string = 'marc';  // Remplacez par l'utilisateur courant
-  private user2: string = '1';  // Remplacez par l'utilisateur avec qui vous discutez
   private chatSubscription: Subscription | null = null;
   private actuser: string = ""
  async ngOnInit(): Promise<void> {
