@@ -29,11 +29,13 @@ import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpag
 import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
 import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { myResolverResolver } from './my-resolver.resolver';
+import { TinderComponent } from './tinder/tinder.component';
 
 const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'routing', component: RoutingComponent},
         { path: 'listfan/:userId', component: ListefansComponent},
+        { path: 'tinder/:userId', component: TinderComponent},
         { path: 'friend/:id', component: ListefansComponent},
         { path: 'phtochat/:userId', component: PhtochatComponent},
         { path: 'photospost', component: PhotospostComponent},
@@ -50,6 +52,7 @@ const routes: Routes = [
         { path: 'access', component: AccessphotosfromprofileComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full'},
         { path: 'privatechat', component: PrivatechatComponent},
+
 
 ];
 

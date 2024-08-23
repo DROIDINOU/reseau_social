@@ -2,7 +2,7 @@
     <nav class="nav-bar">
         <!-- Section gauche de la barre de navigation -->
         <div class="nav-bar-left search-container">
-            <a href="#" ><img class="logo-img"  src="assets/photos/logo.jpg" /></a>&nbsp;&nbsp;
+            <a href="#" ><img class="logo-img"  src="assets/photos/logo.png" /></a>&nbsp;&nbsp;
             <input 
                 type="text" 
                 name="search-bar" 
@@ -12,7 +12,7 @@
                 (input)="findfriends()"
                 [ngClass]="{'hidden': !isLoggedIn}"
             />
-            <div class="dropdown" *ngIf="searchResults.length > 0">
+            <div class="dropdown" *ngIf="(search_state$ | async)!.length > 0">
                 <div 
                     class="dropdown-item" 
                     *ngFor="let user of search_state$ | async"
@@ -33,6 +33,9 @@
             </a>
             <a (click)="navigateToFansList()">
                 <fa-icon [icon]="faUserFriends" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
+            </a>&nbsp;&nbsp;&nbsp;
+            <a (click)="navigateToTinder()">
+                <fa-icon [icon]="faStar" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
             </a>&nbsp;&nbsp;&nbsp;
             <a (click)="mouseentering()">
                 <fa-icon [icon]="faBell" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>

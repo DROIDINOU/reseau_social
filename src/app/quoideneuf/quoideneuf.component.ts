@@ -9,6 +9,9 @@ import { UserService } from '../user.service';
 import { UploadService } from '../upload.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
 import { Observable, of, map, catchError , tap} from 'rxjs';
+import { CacheService } from '../cache.service';
+
+
 interface Profile {
   userId: number;
   photoUrl: string;
@@ -50,10 +53,10 @@ export class QuoideneufComponent implements OnInit {
   pouces = faThumbsUp;
   videos_photos = faPhotoVideo;
   faImage = faImage;
-
+  newprofile:{[key: string]: string} = {}
   profileImageUrl: string | null = null;
   profilePictures$: Observable<{ [key: string]: string }> = of({});
-  defaultProfileImageUrl = 'path/to/default/profile/image.png';  // URL par défaut pour les photos de profil
+  defaultProfileImageUrl = 'assets/photos/chat4.jpg';  // URL par défaut pour les photos de profil
 
   id_message: number | null = null;
   id_photo: number | null = null;
@@ -127,7 +130,8 @@ export class QuoideneufComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private upload: UploadService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private cache: CacheService,
   ) { }
 
   ngOnInit(): void {
@@ -154,7 +158,12 @@ export class QuoideneufComponent implements OnInit {
       console.log('Current username:', this.username);
   
       // Charger les données après avoir obtenu l'identifiant de l'utilisateur
+      const cachedData = this.cache.get<any[]>('cache');
 
+      if (cachedData) {
+        this.results1 = cachedData;
+        console.log('Données récupérées depuis le cache', this.results1);
+      } else {
       this.route.data.subscribe(data => {
         console.log('Données reçues:', data); // Ajoutez cette ligne pour déboguer
 
@@ -173,11 +182,16 @@ export class QuoideneufComponent implements OnInit {
         this.videos$.next(this.videos);
 
         this.concatData(); // Assurez-vous d'appeler cette méthode si nécessaire
+        this.cache.set("cache", this.results1);
+       
       });
     
-  
+      this.loadProfilePictures().then(profileMap => {
+        this.newprofile = profileMap;
+        console.log('Profile pictures loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:', profileMap);
+      });
     
-
+    }
     });
   }
 
@@ -204,6 +218,32 @@ export class QuoideneufComponent implements OnInit {
     // Affichage du tableau trié
   }
 
+  async loadProfilePictures(): Promise<{ [key: number]: string }> {
+    try {
+      // Utilisation de 'await' pour obtenir la valeur de l'Observable avec 'firstValueFrom'
+      const profiles = await firstValueFrom(this.upload.getphotoprofileall());
+  
+      // Affiche les données reçues de l'API
+      console.log('Données reçues de getphotoprofileall:', profiles);
+  
+      // Convertir la liste des profils en un objet avec userId comme clé
+      const profileMap = profiles.reduce((acc: { [key: number]: string }, profile: { user: number; profile_picture: string | null }) => {
+        if (profile.user != null && profile.profile_picture != null) {
+          acc[profile.user] = profile.profile_picture;
+        }
+        return acc;
+      }, {} as { [key: number]: string });
+  
+      // Affiche les données après transformation
+      console.log('Profile map après transformation:', profileMap);
+  
+      return profileMap;
+    } catch (err) {
+      console.error('Erreur lors du chargement des photos de profil', err);
+      return {};  // Retourne un objet vide en cas d'erreur
+    }
+  }
+  
 
   async loadData(): Promise<{ messages: any[], photos: any[], videos: any[] }> {
     try {
@@ -319,7 +359,7 @@ export class QuoideneufComponent implements OnInit {
     }
   }
   
-  
+ 
   
   async loadDatas() {
     try {
@@ -431,7 +471,8 @@ export class QuoideneufComponent implements OnInit {
         this.messages = messages;
         this.messages$.next(messages); // Met à jour l'observable
         console.log("Messages chargés avec succès de message formulaire :", this.messages$.getValue());
-  
+        this.concatData(); // Assurez-vous d'appeler cette méthode si nécessaire
+
   
         return messages;
       } else {
@@ -494,7 +535,7 @@ export class QuoideneufComponent implements OnInit {
         // Mettre à jour les photos et l'observable
         this.photos$.next(photos);
         this.photos = photos;
-  
+        this.concatData(); // Assurez-vous d'appeler cette méthode si nécessaire
         console.log('Photos combinées et uniques chargées :', photos);
         console.timeEnd('loadPhotos'); // Arrêter le chronomètre
         return photos;
@@ -561,7 +602,7 @@ export class QuoideneufComponent implements OnInit {
         // Mettre à jour les vidéos et l'observable
         this.videos$.next(videos);
         this.videos = videos;
-  
+        this.concatData(); // Assurez-vous d'appeler cette méthode si nécessaire
         console.log('Vidéos combinées et uniques chargées :', videos);
         console.timeEnd('loadVideos'); // Arrêter le chronomètre
         return videos;
@@ -930,15 +971,20 @@ export class QuoideneufComponent implements OnInit {
   handleCommentAdded() {
     this.loadMessages();
     this.concatData()
-    console.log("resultssssssssssssssssssssssssssssssssssssssssssssssss", this.concatData())
+    this.cache.set("cache", this.results1);
+
   }
 
   handleCommentPhotosAdded() {
     this.loadPhotos();
+    this.concatData()
+    this.cache.set("cache", this.results1);
   }
 
   handleCommentVideosAdded() {
     this.loadVideos();
+    this.concatData()
+    this.cache.set("cache", this.results1);
   } 
 
   list_comments(messageid: number) {

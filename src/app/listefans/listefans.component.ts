@@ -25,19 +25,23 @@ export class ListefansComponent implements OnInit {
   photosTest: any [] = [];
   videosTest: any [] = [];
 
+  defaultProfileImageUrl:string ="assets/photos/chat4.jpg";
+
   liste_empty: boolean = false;
   list_fans: { id: number; name: string; birthYear: number; favoriteSeries: string[] }[] = [];
   is_disabled: boolean = false;
   show_videos: boolean = false;
   show_race: boolean = false;
   bgColor: string = "";
-  show_photos: boolean = false;
+  show_photos: boolean = true;
   uploadForm!: FormGroup;
   user: string = "";
   faSearch = faSearch;
   faUpload = faUpload;
   faFolderOpen = faFolderOpen;
   username: string | null = null;
+  test: string|null = 'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-1.webp';
+
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -120,17 +124,22 @@ export class ListefansComponent implements OnInit {
 
 
   selectFile(): void {
+    console.log("ici")
     this.fileInput.nativeElement.click();
 
   }
 
   selectFile1(): void {
+    console.log("ici1")
+
     this.show_photos = true;
     this.fileInput.nativeElement.click();
 
   }
 
   selectFile2(): void {
+    console.log("ici2")
+
     this.show_videos = true;
     this.fileInput.nativeElement.click();
 
@@ -279,6 +288,7 @@ export class ListefansComponent implements OnInit {
 
   onPhotosUpdated(updatedPhotos: any[]): void {
     this.photosTest = updatedPhotos;
+    console.log("yessssssssssssssssssssssssssssss")
   }
 
   onVideosUpdated(updatedVideos: any[]): void {

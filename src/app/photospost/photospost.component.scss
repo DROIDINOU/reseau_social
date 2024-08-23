@@ -1,15 +1,17 @@
+
+
+
 .photo-gallery {
-  display: flex;
   flex-wrap: wrap;
   gap: 10px; /* Espacement uniforme entre les éléments */
   margin-top: 60px; /* Ajustez cette valeur en fonction de la hauteur de votre barre de navigation */
+
 }
 
 .photo-item {
   flex: 1 1 calc(33.333% - 20px); /* Ajustez le calcul pour inclure la marge */
   box-sizing: border-box;
   height: 200px; /* Hauteur fixe pour le conteneur */
-  display: flex;
   flex-direction: column; /* Pour placer les éléments verticalement */
   justify-content: space-between; /* Espacement entre l'image et les icônes */
   align-items: center;

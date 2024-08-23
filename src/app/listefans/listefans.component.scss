@@ -1,50 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,900');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: Montserrat, sans-serif;
-    background-color: #9dadc5;
-    display: flex;
-    justify-content: center;
-    padding: 50px 0;
-}
 
-.layout {
-    display: flex;
-    justify-content: left;
-    width: 100%;
-}
 
-.main-container {
-    background-color: #fff;
-    width: 400px;
-    height: 1000px;
-    border-radius: 40px;
-    padding: 5%;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
 
 #profil-container {
     position: relative;
     background-color: #2b3340;
-    width: 65%;
-    height: 18%; /* Ajustez la hauteur selon vos besoins */
+    width: 45%;
+    height: 10%; /* Ajustez la hauteur selon vos besoins */
     border-radius: 50%; /* Cercle */
     overflow: hidden; /* Assure que l'image respecte le cercle */
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left : 38px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left : 30px;
     border: 4px solid #7eff8a; /* Bordure verte claire */
 
 }
 
 #profile-picture1 {
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -104,18 +85,7 @@ ul li {
     border-radius: 3px;
 }
 
-.right-container {
 
-    flex-grow: 1;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 0px;
-    width: 80%;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    margin-top: 100px; /* Ajoutez cet espace pour correspondre à la hauteur de la barre de navigation */
-
-}
 
 
 input[type="file"] {
@@ -130,9 +100,11 @@ input[type="file"] {
 }
 
 .container {
-  max-width: 300px;
-  margin: auto;
-  padding: 20px;
+  max-width: 200px;
+  margin-top: 2%;
+  margin-bottom: 3%;
+  max-height : 100px;
+  padding: 1%;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -197,6 +169,134 @@ span {
     margin-bottom: 20px;
     margin-left : 38px;
     border: 4px solid #7eff8a; /* Bordure verte claire */
+
+}
+
+
+
+
+// <i class="material-icons">face</i>
+
+
+// font-family: 'Roboto', sans-serif;
+
+.main-container {
+  display: flex;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  width: 100vw;  /* Prend toute la largeur de la fenêtre */
+}
+
+
+
+  .side-bar {
+    width: 180px;
+    height: 100vh;
+    background: linear-gradient(rgba(21, 101, 192, 0.8), rgba(21, 101, 192, 0.8)), url(https://preview.redd.it/who-is-your-favorite-cartoon-cat-v0-2s7k7bbnavub1.jpg?width=1080&crop=smart&auto=webp&s=6580eb85cae1715b37eb06a498aa5eb8c5d96ce5);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+  
+  .side-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .userauth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .userauth img {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+    margin-top: 79px;
+    object-fit: cover;  /* S'assure que l'image remplit le cadre tout en gardant ses proportions */
+
+
+  }
+  
+  .userauth .username {
+    color: #ecf0f1;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .menubuttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menubuttons form {
+    width: 100%;
+  }
+  
+  .file-selector-button,
+  .upload-button {
+    background-color: #34495e;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    color: #ecf0f1;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .file-selector-button:hover,
+  .upload-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  .text {
+    font-size: 15px;
+  }
+  
+
+  .menubuttons h2 {
+    margin-bottom: 1%; /* Ajuste l'espace sous chaque h2 */
+    font-size: 15px;
+  }
+  .content {
+    display: flex;
+    height: 100vh; /* Utilise toute la hauteur de la vue */
+    overflow: hidden; /* Empêche le défilement horizontal */
+  }
+  .right-container {
+
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    margin-left: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    /*margin-top: 100px; /* Ajoutez cet espace pour correspondre à la hauteur de la barre de navigation */
 
 }
 

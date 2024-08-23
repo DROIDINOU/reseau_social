@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@900&display=swap');
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Pour éviter le défilement */
+    background-color: #f0f0f0; /* Arrière-plan pour le corps */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Utiliser la hauteur de la fenêtre d'affichage */
+    width: 100vw;  /* Utiliser la largeur de la fenêtre d'affichage */
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+    padding: 0; /* Pas de padding pour éviter le débordement */
+    overflow: hidden; /* Pour éviter le défilement */
+}
+
+.tbg {
+    height: 360px; /* 720px / 2 */
+    width: 200px;  /* 400px / 2 */
+    background-color: #fff;
+    border: 1px solid #c0c0c0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Pour un effet d'élévation */
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.tbgwrap {
+    padding: 5px; /* 10px / 2 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Pour s'assurer que le contenu est centré */
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.theader {
+    height: 32.5px; /* 65px / 2 */
+    width: 100%;
+    border-bottom: 1px solid #c0c0c0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px; /* Ajouté pour de l'espacement */
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.theader i.fa-comments, .theader i.fa-cog {
+    color: #c0c0c0;
+    font-size: 20px; /* 40px / 2 */
+}
+
+.tlogo {
+    width: 50px; /* 100px / 2 */
+    margin: 5px 0; /* 10px / 2 */
+    padding: 5px; /* 10px / 2 */
+}
+
+.tlogo img {
+    width: 50px; /* 100px / 2 */
+}
+
+.tphoto {
+    width: 175px;  /* 350px / 2 */
+    height: 175px; /* 350px / 2 */
+    overflow: hidden;
+    margin: 7.5px auto; /* 15px / 2 */
+    border-radius: 5px; /* 10px / 2 */
+    border: 1px solid #c0c0c0;
+    padding-bottom: 30px; /* 60px / 2 */
+    background-color: #fff;
+    box-shadow: 1px 1px 1px #c0c0c0; /* 2px / 2 */
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.tname {
+    padding: 7.5px; /* 15px / 2 */
+    font-size: 10px; /* 20px / 2 */
+    font-family: 'Helvetica', sans-serif;
+}
+
+.tname .age {
+    font-weight: 200;
+}
+
+.tinfo {
+    font-family: 'Helvetica', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.tinfo .fa-users, .tinfo .fa-book {
+    color: #c0c0c0;
+    font-size: 12px; /* 24px / 2 */
+}
+
+.tcontrols {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
+}
+
+.tno, .tyes, .ti {
+    background-color: #fff;
+    border-radius: 50%;
+    border: 5px solid #f0f0f0; /* 10px / 2 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tno {
+    height: 60px; /* 120px / 2 */
+    width: 60px;  /* 120px / 2 */
+}
+
+.tno i {
+    color: #ff695b;
+    font-size: 40px; /* 80px / 2 */
+}
+
+.ti {
+    height: 25px; /* 50px / 2 */
+    width: 25px;  /* 50px / 2 */
+}
+
+.ti .fa-info {
+    font-size: 11.5px; /* 23px / 2 */
+}
+
+.tyes {
+    height: 60px; /* 120px / 2 */
+    width: 60px;  /* 120px / 2 */
+}
+
+.tyes i {
+    color: #5de19c;
+    font-size: 30px; /* 60px / 2 */
+}
+
+.credit {
+    width: 200px; /* 400px / 2 */
+    height: auto;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 1px 0; /* 2px / 2 */
+}
+
+.credit a {
+    font-size: 5.5px; /* 7px / 2 */
+    letter-spacing: 2.5px; /* 5px / 2 */
+    color: #0f0f0f;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Helvetica', sans-serif;
+    font-style: italic;
+}
+
+.coeur{
+    color:red;
+}
+
+tinder-style {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    background: linear-gradient(90deg, #ff7854, #fd267d);
+    -webkit-text-fill-color: transparent;
+}

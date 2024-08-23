@@ -307,6 +307,8 @@ input[type="file"] {
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 1px;
 }
 
 /* Author information styling */
@@ -548,7 +550,7 @@ input[type="file"] {
     position: fixed; /* Rend le conteneur fixe */
     left: 55%; /* Positionne au centre horizontalement par rapport à la fenêtre */
     transform: translateX(-50%); /* Centre le conteneur horizontalement */
-    top: 86px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
+    top: 70px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
     pointer-events: none; /* Désactive les interactions sur le formulaire */
   }
 
@@ -575,7 +577,7 @@ input[type="file"] {
 
   .feed {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center; /* Centre les enfants verticalement */
     justify-content: center; /* Centre les enfants horizontalement */
     margin:  auto;

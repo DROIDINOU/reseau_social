@@ -36,7 +36,8 @@ onSubmitForm() {
     console.log(this.snapForm1.value)
     this.login.login(this.snapForm1.value.username, this.snapForm1.value.password).subscribe(
       response => {
-        console.log('Enregistrement réussi', response.token);
+        this.message = 'Bienvenue redirection en cours';
+        console.log('Enregistrement réussi', this.message);
         this.authService.login(this.snapForm1.value.username); // Mettre à jour l'état de connexion
       },
       error => {

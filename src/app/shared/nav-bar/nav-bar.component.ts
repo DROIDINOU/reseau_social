@@ -41,7 +41,6 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   protected search_state$ = new BehaviorSubject<User[]>([]);
   friendStatusSubscription: Subscription = new Subscription();
-
   friendStatus: any[] = [];
 
   constructor(
@@ -173,6 +172,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.userId = await this.userService.getUserId();
     this.router.navigate(['/user-profile', this.userId]);
   }
+
+  async navigateToTinder(): Promise<void> {
+    console.log(this.userId);
+    this.userId = await this.userService.getUserId();
+    this.router.navigate(['/tinder', this.userId]);
+  }
+
 
   async navigateToFansList(): Promise<void> {
     this.userId = await this.userService.getUserId();

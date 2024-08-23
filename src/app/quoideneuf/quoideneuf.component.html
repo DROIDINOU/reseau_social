@@ -24,6 +24,11 @@
 
 <div class="feed content-wrapper">
   <div *ngFor="let item of results1; let idx = index" class="message-content">
+    <div class="author-avatar">
+      <ng-container *ngIf="newprofile">
+        <img id="profile-picture1" [src]="newprofile[item.auteur] || defaultProfileImageUrl">
+      </ng-container>
+    </div>
     <!-- Section Messages -->
     <div *ngIf="item.message">&nbsp;&nbsp;&nbsp;&nbsp;
       {{ item.message }}

@@ -61,6 +61,7 @@ import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
 import { AnimatedRopeComponent } from './animated-rope/animated-rope.component';
 import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { TinderComponent } from './tinder/tinder.component';
 
 
 
@@ -119,6 +120,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     CoeurvideoComponent,
     AnimatedRopeComponent,
     PrivatechatComponent,
+    TinderComponent,
   ],
   imports: [
     BrowserModule,
