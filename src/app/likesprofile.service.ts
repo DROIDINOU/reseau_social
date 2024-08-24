@@ -9,28 +9,15 @@ import { AuthService } from './auth.service';
 })
 export class LikesprofileService {
 
-  private apiUrl = 'http://localhost:8000/api/register/';
-  private apiUrl1 = 'http://localhost:8000/api/log/';
-  private apiurl2 = 'http://localhost:8000/messages/create/';
-  private apiurl3 = 'http://localhost:8000/messages/creates/';
-  private apiurl4 = 'http://localhost:8000/messages/getlikes/';
-  private apiurl5 = 'http://localhost:8000/messages/createlikes/';
-  private apiurl6 = 'http://localhost:8000/user-by-username/';
-  private apiurl7 = 'http://localhost:8000/friendrequest-all/';
-  private apiurl8 = 'http://localhost:8000/UserrequestAll/';
-  private apiurl9 = 'http://localhost:8000/api/logout/';
-  private apiurl10 = 'http://localhost:8000/photos/getlikes/';
-  private apiurl11 = 'http://localhost:8000/photos/createlikes/';
-  private apiurl12 = 'http://localhost:8000/photos/all/';
-  private apiurl13 = 'http://localhost:8000/videos/all/';
-  private apiurl14 = 'http://localhost:8000/videos/getlikes/';
-  private apiurl15 = 'http://localhost:8000/videos/createlikes/';
-  private apiurl16 = 'http://localhost:8000/photos/getlikes/photo';
-  private apiurl17 = 'http://localhost:8000/photo/getlikestest/';
-  private apiurl18 = 'http://localhost:8000/video/getlikesvideostest/';
-  private apiurl19 = 'http://localhost:8000/api/friends/messages/';
-  private apiurl20 = 'http://localhost:8000/api/friends/photos/';
-  private apiurl21 = 'http://localhost:8000/api/friends/videos/';
+  
+  private apiurl4 = 'http://localhost:8000/messages/getlikesprofile/';
+  private apiurl5 = 'http://localhost:8000/messages/createlikesprofile/';
+  private apiurl6 = 'http://localhost:8000/friendsbis/';
+  private apiurl7 = 'http://localhost:8000/profile-picture-all/';
+
+  
+  
+  
 
 
   authtoken: string | null = null;
@@ -63,199 +50,43 @@ export class LikesprofileService {
     });
   }
 
-  registerUser(formData: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() =>
-        this.http.post<any>(this.apiUrl, formData, { headers: this.getAuthHeaders(), withCredentials: true })
-      )
-    );
-  }
-
-  login(username: string, password: string): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() =>
-        this.http.post<any>(this.apiUrl1, { username, password }, { headers: this.getAuthHeaders(), withCredentials: true })
-      ),
-      tap(response => {
-        if (response && response.user) {
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
-          console.log("ttttttttttttttttttttttttttttttttt",response.user)
-        }
-      }),
-      catchError(error => {
-        console.error('Login failed', error);
-        return throwError(error);
-      })
-    );
-  }
-  logout(): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => 
-        this.http.post<any>(this.apiurl9, {}, { headers: this.getAuthHeaders(), withCredentials: true }).pipe(
-          tap(() => {
-            console.log('Logged out successfully');
-            this.csrfToken = null;
-            this.getCsrfToken();  // Rafraîchir le jeton CSRF après la déconnexion
-          }),
-          catchError(error => {
-            console.error('Logout failed', error);
-            return throwError(error);
-          })
-        )
-      )
-    );
-  }
-
-  // MESSAGES
-  createMessage(message: string): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() =>
-        this.http.post<any>(this.apiurl2, { message }, { headers: this.getAuthHeaders(), withCredentials: true })
-      )
-    );
-  }
-
-  getMessages(): Observable<any> {
-    return this.http.get<any>(this.apiurl3, { withCredentials: true });
-  }
-
-  createlikes(message_id: any): Observable<any> {
+ 
+  createlikesprofile(user_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
         const headers = this.getAuthHeaders();
         const body = { action: 'like' };
-        const url = `${this.apiurl5}${message_id}/`;
+        const url = `${this.apiurl5}${user_id}/`;
         return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
       })
     );
   }
 
-  getlikes(message_id: any): Observable<any> {
+  getlikesprofile(user_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
-        const url = `${this.apiurl4}${message_id}/`;
+        const url = `${this.apiurl4}${user_id}/`;
         return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
       })
     );
   }
 
-  
-  createlikesvideos(videos_id: any): Observable<any> {
+  getid(user_id: any): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() => {
-        const headers = this.getAuthHeaders();
-        const body = { action: 'like' };
-        const url = `${this.apiurl15}${videos_id}/`;
-        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
+        const url = `${this.apiurl6}${user_id}/`;
+        return this.http.get<any>(url, { headers: this.getAuthHeaders(), withCredentials: true });
       })
     );
   }
 
-
-
-
-  getUserByName(message_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const params = new HttpParams().set('username', message_id);
-        return this.http.get<any>(this.apiurl6, {params: params, withCredentials: true });
-      })
-    );
-  }
-
-  getAll(): Observable<any> {
+  getAllprofile(): Observable<any> {
     return this.refreshCsrfToken().pipe(
       switchMap(() =>
-        this.http.get<any>(this.apiurl8, { withCredentials: true })
+        this.http.get<any>(this.apiurl7, { withCredentials: true })
       )
     );
   }
 
-  
-
-  getCurrentUserFromStorage(): any {
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
-  }
-
-
-
-
-  // PHOTOS
-
-  getlikesphotostest(photo_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl17}${photo_id}/`;
-        return this.http.get<any>(url, {withCredentials: true });
-      })
-    );
-  }
-
-
-  getlikesvideostest(video_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl18}${video_id}/`;
-        return this.http.get<any>(url, {withCredentials: true} );
-      })
-    );
-  }
-
-  
-
-
-  createlikesphotos(photo_id: number): Observable<any> {
-    console.log("id photo",photo_id)
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const headers = this.getAuthHeaders();
-        const body = { action: 'like' };
-        const url = `${this.apiurl11}${photo_id}/`;
-        return this.http.post<any>(url, body, { headers: headers, withCredentials: true });
-      })
-    );
-  }
-
-  getlikesphotos(photo_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl10}${photo_id}/`;
-        return this.http.get<any>(url, { withCredentials: true });
-      })
-    );
-  }
-
-  getlikesvideos(video_id: any): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() => {
-        const url = `${this.apiurl14}${video_id}/`;
-        return this.http.get<any>(url, {withCredentials: true });
-      })
-    );
-  }
-  getAllPhotos(): Observable<any> {
-    return this.refreshCsrfToken().pipe(
-      switchMap(() =>
-        this.http.get<any>(this.apiurl12, { withCredentials: true })
-      )
-    );
-  }
-
-
-
-  //FRIENDS
-
-  getMessagesFriends(): Observable<any> {
-    return this.http.get<any>(this.apiurl19, { withCredentials: true });
-  }
-
-  getPhotosFriends(): Observable<any> {
-    return this.http.get<any>(this.apiurl20, { withCredentials: true });
-  }
-
-  getVideosFriends(): Observable<any> {
-    return this.http.get<any>(this.apiurl21, { withCredentials: true });
-  }
 
 }
