@@ -77,6 +77,8 @@ html, body {
     border: 1px solid #c0c0c0;
     padding-bottom: 30px; /* 60px / 2 */
     background-color: #fff;
+    object-fit: contain; /* ou `cover` selon le besoin */
+
     box-shadow: 1px 1px 1px #c0c0c0; /* 2px / 2 */
     box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
 }
@@ -121,6 +123,9 @@ html, body {
     justify-content: center;
     align-items: center;
 }
+
+
+  
 
 .tno {
     height: 60px; /* 120px / 2 */

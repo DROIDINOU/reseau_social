@@ -7,26 +7,48 @@ import { SearchuserService } from '../searchuser.service';
 import { LoginService } from '../login.service';
 import { CacheService } from '../cache.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { ChangeDetectorRef } from '@angular/core';  // Import pour forcer la détection des changements
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-tinder',
   templateUrl: './tinder.component.html',
-  styleUrl: './tinder.component.scss'
+  styleUrl: './tinder.component.scss',
+  animations: [
+    trigger('likeAnimation', [
+      state('default', style({
+        transform: 'scale(1)',
+        backgroundColor: 'white'
+      })),
+      state('liked', style({
+        transform: 'scale(1.1)',
+        backgroundColor: '#FFD700'   // Light red color
+      })),
+      transition('default => liked', [
+        animate('300ms ease-in')
+      ]),
+      transition('liked => default', [
+        animate('300ms ease-out')
+      ])
+    ])
+  ]
 })
 export class TinderComponent implements OnInit {
 faTimes = faTimes;
 faHeart = faHeart;
-user : any[] = []
+user : any[] = [];
+count: any[] = [0,1];
 users: { user: number; profile_picture: string | null }[] = []; // Liste d'objets avec type implicite
 username: string | null = null;
-
+animationStates : string[] = ['default', 'default'];
 
 constructor(  private route: ActivatedRoute,
               private profile:LikesprofileService,
               private cache:CacheService, 
               private userService:UserService, 
-              private searchUser: SearchuserService){}
+              private searchUser: SearchuserService,
+              private cdr: ChangeDetectorRef ) // Injecter ChangeDetectorRef
+              {}
 
 ngOnInit(): void {
   this.route.paramMap.subscribe(params => {
@@ -46,8 +68,19 @@ ngOnInit(): void {
 
     console.log('Current username:', this.username);
 })
-this.createsprofilelike()
+this.getpictures()
 }
+
+toggleLike(index: number) {
+  this.animationStates[index] = 'liked';
+
+  // Revert back to 'default' state after 1 second
+  setTimeout(() => {
+    this.animationStates[index] = 'default';
+  }, 1000);
+}
+
+
 
 async getuser() {
   const userId = this.userService.getUserId();
@@ -68,7 +101,7 @@ async getuser() {
   return null;
 }
 
-async createsprofilelike() {
+async getpictures() {
   console.log("User list before getuser:", this.user);
 
   const profileMap = await this.getuser();  // Attendre que getuser se résolve
@@ -78,23 +111,55 @@ async createsprofilelike() {
     
     // Ajoutez chaque utilisateur de `all_users` à `this.users` individuellement
     profileMap.all_users.forEach((user: { user: number; profile_picture: string | null }) => {
-      this.users.push(user);
       console.log("1",user.user);
       console.log("2",profileMap.userIdbis.id);
 
-      if (user.user == profileMap.userIdbis.id){console.log("c est bien l utilisateur")}
+      this.users.push(user);
+    }
 
-    });
+    );
 
     console.log("User list after adding profileMap:", this.user);
     console.log("User list after adding profileMap:", this.users);
-  }
 
+  }
+ 
   console.log("Final user list:", this.users);
 }
 
-}
 
+async createsprofilelike(index:number){
+  const userId = this.userService.getUserId();
+  if (userId) {
+    try {
+      // Utiliser firstValueFrom pour convertir l'observable en promesse
+      const user = await firstValueFrom(this.profile.getid(userId));
+      console.log("user",user)
+      this.profile.createlikesprofile(user.id).subscribe({
+        next: (profile) => {
+          console.log("Valeur de l'Observable :", profile);
+      
+          // Mettez à jour vos éléments après réception de la valeur
+          
+        },
+        error: (err) => console.error("Erreur lors de la création du like pour le profil :", err),
+      });
+      // Retourner un objet contenant userIdbis et all_users
+    } catch (error) {
+      console.error("Erreur lors de la recherche d'amis:", error);
+    }
+  
+const firstElement = this.count[0] + 1;
+const secondeElement = this.count[1] + 1;
+
+// Ajouter de nouveaux éléments
+this.count[0] = firstElement;
+  this.count[1] = secondeElement
+  console.log(this.count)
+ this. toggleLike(index)
+}
+}
+}
 
 /*async loadProfilePictures(): Promise<{ [key: number]: string }> {
   try {

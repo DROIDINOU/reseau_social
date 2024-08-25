@@ -121,6 +121,7 @@ import { TinderComponent } from './tinder/tinder.component';
     AnimatedRopeComponent,
     PrivatechatComponent,
     TinderComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -131,6 +132,7 @@ import { TinderComponent } from './tinder/tinder.component';
     FontAwesomeModule,
     BrowserAnimationsModule,
     InfiniteScrollModule,
+    BrowserAnimationsModule,
 
 
   ],

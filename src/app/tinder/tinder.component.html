@@ -9,18 +9,19 @@
     </div>
     <div class="tbgwrap">
       <div class="tphoto">
-        <img *ngIf="users.length > 1 && users[2].profile_picture" [src]="users[2].profile_picture" title="tphoto" alt="Tinder Photo" />
+        <img   *ngIf="users.length && users[count[0]].profile_picture" [src]="users[count[0]].profile_picture" title="tphoto" alt="Tinder Photo" />
         <div class="tname">Jane Doe, <span class="age">27</span></div>
       </div>
       <div class="tcontrols">
-        <div class="tno"><fa-icon (click)="createsprofilelike()" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
+        <div class="tno"><fa-icon (click)="createsprofilelike(0)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
         <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
         <div class="tyes"><fa-icon [icon]="faTimes" size="2x" aria-hidden="true" ></fa-icon>
         </div>
       </div>
     </div>
-    <div class="credit"><a href="http://themakery.jcink.net">C'est moi le plus beau!</a></div>
+    <div [@likeAnimation]="animationStates[0]" class="credit"><a href="http://themakery.jcink.net">C'est moi le plus beau!</a></div>
   </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <div class="tbg">
     <div class="theader">
       <i class="fa fa-cog" aria-hidden="true"></i>
@@ -30,17 +31,17 @@
       </div>
     </div>
     <div class="tbgwrap">
-      <div class="tphoto">
-        <img  *ngIf="users.length > 2 && users[3].profile_picture" [src]="users[3].profile_picture" alt="Tinder Photo" />
+      <div class="tphoto" >
+        <img  *ngIf="users.length > 1 && users[count[1]].profile_picture" [src]="users[count[1]].profile_picture" alt="Tinder Photo" />
         <div class="tname">Jane Doe, <span class="age">27</span></div>
       </div>
       <div class="tcontrols">
-        <div class="tno"><fa-icon [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
+        <div class="tno"><fa-icon (click)="createsprofilelike(1)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
         <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
         <div class="tyes"><fa-icon [icon]="faTimes" size="2x" aria-hidden="true" ></fa-icon>
         </div>
       </div>
     </div>
-    <div class="credit"><a href="http://themakery.jcink.net">Non, c'est moi!</a></div>
+    <div class="credit" [@likeAnimation]="animationStates[1]"><a href="http://themakery.jcink.net">Non, c'est moi!</a></div>
   </div>
   </div>
