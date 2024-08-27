@@ -42,12 +42,23 @@ html, body {
     box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */
 }
 
+.cats-text {
+    position: relative; /* Permet le positionnement relatif par rapport à son emplacement d'origine */
+    left: -4px; /* Ajustez ce chiffre pour déplacer le texte vers la gauche */
+    top: 3px; 
+    font-family: 'Helvetica';
+    font-size: 101%;
+    font-weight: 900; /* Bold */
+    color: #df4723; /* Similar to Tinder's pink color */
+  }
+
+
 .theader {
     height: 32.5px; /* 65px / 2 */
     width: 100%;
     border-bottom: 1px solid #c0c0c0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 10px; /* Ajouté pour de l'espacement */
     box-sizing: border-box; /* Inclure les bordures et paddings dans la taille */

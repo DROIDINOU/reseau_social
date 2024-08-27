@@ -1,47 +1,71 @@
 <div class="container">
-<div class="tbg">
-    <div class="theader">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-      <i class="fa fa-comments" aria-hidden="true"></i>
-      <div class="tlogo">
-        <img src="https://worldvectorlogo.com/logos/tinder-1.svg" alt="Tinder Logo" title="Tinder Logo" />
+    <div class="tbg" *ngIf="users.length > 1">
+      <div class="theader">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        <i class="fa fa-comments" aria-hidden="true"></i>
+        <div class="tlogo">
+          <img src="https://worldvectorlogo.com/logos/tinder-1.svg" alt="Tinder Logo" title="Tinder Logo" />
+        </div><span class="cats-text">&nbsp;Chats</span>
       </div>
-    </div>
-    <div class="tbgwrap">
-      <div class="tphoto">
-        <img   *ngIf="users.length && users[count[0]].profile_picture" [src]="users[count[0]].profile_picture" title="tphoto" alt="Tinder Photo" />
-        <div class="tname">Jane Doe, <span class="age">27</span></div>
-      </div>
-      <div class="tcontrols">
-        <div class="tno"><fa-icon (click)="createsprofilelike(0)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
-        <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
-        <div class="tyes"><fa-icon [icon]="faTimes" size="2x" aria-hidden="true" ></fa-icon>
+      <div class="tbgwrap">
+        <div class="tphoto">
+          <!-- Photo gauche -->
+          <img *ngIf="users.length && users[count[0]]?.profile_picture; else noImage"
+            [src]="users[count[0]].profile_picture"
+            title="Tinder Photo"
+            alt="Tinder Photo" />
+        </div>
+        <div class="tcontrols">
+          <div class="tno">
+            <fa-icon (click)="createsprofilelike(0)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true"></fa-icon>
+          </div>
+          <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
+          <div class="tyes">
+            <fa-icon (click)="createsprofilelike(0)" [icon]="faTimes" size="2x" aria-hidden="true"></fa-icon>
+          </div>
+          <ng-template #noImage>
+            <app-noimage></app-noimage>
+          </ng-template>
         </div>
       </div>
-    </div>
-    <div [@likeAnimation]="animationStates[0]" class="credit"><a href="http://themakery.jcink.net">C'est moi le plus beau!</a></div>
-  </div>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <div class="tbg">
-    <div class="theader">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-      <i class="fa fa-comments" aria-hidden="true"></i>
-      <div class="tlogo">
-        <img  src="https://worldvectorlogo.com/logos/tinder-1.svg" alt="Tinder Logo" title="Tinder Logo" />
+      <div class="credit" [@likeAnimation]="animationStates[0]">
+        <a href="http://themakery.jcink.net">C'est moi le plus beau!</a>
       </div>
     </div>
-    <div class="tbgwrap">
-      <div class="tphoto" >
-        <img  *ngIf="users.length > 1 && users[count[1]].profile_picture" [src]="users[count[1]].profile_picture" alt="Tinder Photo" />
-        <div class="tname">Jane Doe, <span class="age">27</span></div>
+  
+    <div class="tbg" *ngIf="users.length > 1">
+      <div class="theader">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        <i class="fa fa-comments" aria-hidden="true"></i>
+        <div class="tlogo">
+          <img src="https://worldvectorlogo.com/logos/tinder-1.svg" alt="Tinder Logo" title="Tinder Logo" />
+        </div><span class="cats-text">&nbsp;Chats</span>
       </div>
-      <div class="tcontrols">
-        <div class="tno"><fa-icon (click)="createsprofilelike(1)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true" ></fa-icon></div>
-        <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
-        <div class="tyes"><fa-icon [icon]="faTimes" size="2x" aria-hidden="true" ></fa-icon>
+      <div class="tbgwrap">
+        <div class="tphoto">
+          <!-- Photo droite -->
+          <img *ngIf="users.length && users[count[1]]?.profile_picture; else noImage"
+            [src]="users[count[1]].profile_picture"
+            title="Tinder Photo"
+            alt="Tinder Photo" />
+        </div>
+        
+        <div class="tcontrols">
+          <div class="tno">
+            <fa-icon (click)="createsprofilelike(1)" [icon]="faHeart" class="coeur" size="2x" aria-hidden="true"></fa-icon>
+          </div>
+          <div class="ti"><i class="fa fa-info" aria-hidden="true"></i></div>
+          <div class="tyes">
+            <fa-icon (click)="createsprofilelike(1)" [icon]="faTimes" size="2x" aria-hidden="true"></fa-icon>
+          </div>
+          <ng-template #noImage>
+            <app-noimage></app-noimage>
+          </ng-template>
         </div>
       </div>
+      <div class="credit" [@likeAnimation]="animationStates[1]">
+        <a href="http://themakery.jcink.net">Non, c'est moi!</a>
+      </div>
     </div>
-    <div class="credit" [@likeAnimation]="animationStates[1]"><a href="http://themakery.jcink.net">Non, c'est moi!</a></div>
   </div>
-  </div>
+  

@@ -3,17 +3,22 @@ import { faTimes, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { LikesprofileService } from '../likesprofile.service';
 import { UserService } from '../user.service';
 import { firstValueFrom } from 'rxjs';
-import { SearchuserService } from '../searchuser.service';
-import { LoginService } from '../login.service';
-import { CacheService } from '../cache.service';
-import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectorRef } from '@angular/core';  // Import pour forcer la détection des changements
+import { ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+
+interface User {
+  user: {
+    id: number;       // ID de l'utilisateur
+    username: string; // Nom d'utilisateur
+  };
+  profile_picture: string | null;
+  likes?: number[];  // Propriété optionnelle pour les likes
+}
 
 @Component({
   selector: 'app-tinder',
   templateUrl: './tinder.component.html',
-  styleUrl: './tinder.component.scss',
+  styleUrls: ['./tinder.component.scss'],
   animations: [
     trigger('likeAnimation', [
       state('default', style({
@@ -22,7 +27,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       })),
       state('liked', style({
         transform: 'scale(1.1)',
-        backgroundColor: '#FFD700'   // Light red color
+        backgroundColor: '#FFD700'
       })),
       transition('default => liked', [
         animate('300ms ease-in')
@@ -34,158 +39,87 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class TinderComponent implements OnInit {
-faTimes = faTimes;
-faHeart = faHeart;
-user : any[] = [];
-count: any[] = [0,1];
-users: { user: number; profile_picture: string | null }[] = []; // Liste d'objets avec type implicite
-username: string | null = null;
-animationStates : string[] = ['default', 'default'];
+  faTimes = faTimes;
+  faHeart = faHeart;
+  users: User[] = [];
+  username: string | null = null;
+  animationStates: string[] = ['default', 'default'];
+  count: number[] = [0, 1]; // Indices pour les photos gauche et droite
 
-constructor(  private route: ActivatedRoute,
-              private profile:LikesprofileService,
-              private cache:CacheService, 
-              private userService:UserService, 
-              private searchUser: SearchuserService,
-              private cdr: ChangeDetectorRef ) // Injecter ChangeDetectorRef
-              {}
+  constructor(
+    private profile: LikesprofileService,
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-ngOnInit(): void {
-  this.route.paramMap.subscribe(params => {
-    const paramUsername = params.get('id');
-    
-    if (paramUsername) {
-      this.username = paramUsername;
-    } else {
-      // Essayez de récupérer l'utilisateur actuel
-      const userId = this.userService.getUserId();
-      this.username = userId || 'defaultUsername'; // Remplacez 'defaultUsername' par une valeur par défaut appropriée
-    }
-
-    if (this.username) {
-      this.userService.setUserId(this.username);
-    }
-
-    console.log('Current username:', this.username);
-})
-this.getpictures()
-}
-
-toggleLike(index: number) {
-  this.animationStates[index] = 'liked';
-
-  // Revert back to 'default' state after 1 second
-  setTimeout(() => {
-    this.animationStates[index] = 'default';
-  }, 1000);
-}
-
-
-
-async getuser() {
-  const userId = this.userService.getUserId();
-  console.log('User ID:', userId);
-
-  if (userId) {
-    try {
-      // Utiliser firstValueFrom pour convertir l'observable en promesse
-      const userIdbis = await firstValueFrom(this.profile.getid(userId));
-      const all_users = await firstValueFrom( this.profile.getAllprofile());
-
-      // Retourner un objet contenant userIdbis et all_users
-      return { userIdbis, all_users };
-    } catch (error) {
-      console.error("Erreur lors de la recherche d'amis:", error);
-    }
+  ngOnInit(): void {
+    console.log('Initial count:', this.count); // Devrait afficher [0, 1]
+    this.getuser();
   }
-  return null;
-}
 
-async getpictures() {
-  console.log("User list before getuser:", this.user);
-
-  const profileMap = await this.getuser();  // Attendre que getuser se résolve
-  console.log("profilemap",profileMap)
-  if (profileMap) {
-    this.user.push(profileMap.userIdbis);
-    
-    // Ajoutez chaque utilisateur de `all_users` à `this.users` individuellement
-    profileMap.all_users.forEach((user: { user: number; profile_picture: string | null }) => {
-      console.log("1",user.user);
-      console.log("2",profileMap.userIdbis.id);
-
-      this.users.push(user);
-    }
-
-    );
-
-    console.log("User list after adding profileMap:", this.user);
-    console.log("User list after adding profileMap:", this.users);
-
-  }
- 
-  console.log("Final user list:", this.users);
-}
-
-
-async createsprofilelike(index:number){
-  const userId = this.userService.getUserId();
-  if (userId) {
-    try {
-      // Utiliser firstValueFrom pour convertir l'observable en promesse
-      const user = await firstValueFrom(this.profile.getid(userId));
-      console.log("user",user)
-      this.profile.createlikesprofile(user.id).subscribe({
-        next: (profile) => {
-          console.log("Valeur de l'Observable :", profile);
-      
-          // Mettez à jour vos éléments après réception de la valeur
-          
-        },
-        error: (err) => console.error("Erreur lors de la création du like pour le profil :", err),
-      });
-      // Retourner un objet contenant userIdbis et all_users
-    } catch (error) {
-      console.error("Erreur lors de la recherche d'amis:", error);
-    }
-  
-const firstElement = this.count[0] + 1;
-const secondeElement = this.count[1] + 1;
-
-// Ajouter de nouveaux éléments
-this.count[0] = firstElement;
-  this.count[1] = secondeElement
-  console.log(this.count)
- this. toggleLike(index)
-}
-}
-}
-
-/*async loadProfilePictures(): Promise<{ [key: number]: string }> {
-  try {
-    // Utilisation de 'await' pour obtenir la valeur de l'Observable avec 'firstValueFrom'
-    const userId = this.userService.getUserId();console.log(userId)
-    const profiles = await firstValueFrom(this.profile.getlikesprofile());
-
-    // Affiche les données reçues de l'API
-    console.log('Données reçues de getphotoprofileall:', profiles);
-
-    // Convertir la liste des profils en un objet avec userId comme clé
-    const profileMap = profiles.reduce((acc: { [key: number]: string }, profile: { user: number; profile_picture: string | null }) => {
-      if (profile.user != null && profile.profile_picture != null) {
-        acc[profile.user] = profile.profile_picture;
+  async getuser(): Promise<void> {
+    const userId = this.userService.getUserId();
+    if (userId) {
+      try {
+        const all_users: User[] = await firstValueFrom(this.profile.getAllprofile());
+          this.getUserIdByUsername(userId)
+        this.users = all_users.filter(user => user.profile_picture !== null);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",all_users)
+      } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs:", error);
       }
-      return acc;
-    }, {} as { [key: number]: string });
-
-    // Affiche les données après transformation
-    console.log('Profile map après transformation:', profileMap);
-
-    return profileMap;
-  } catch (err) {
-    console.error('Erreur lors du chargement des photos de profil', err);
-    return {};  // Retourne un objet vide en cas d'erreur
+    }
   }
-} */  
-       
 
+  updatePhotoIndices(): void {
+    if (this.users.length > 1) {
+        this.count[0] += 2; // Passe à l'utilisateur suivant (ex: de 0 à 2)
+        this.count[1] += 2; // Passe à l'utilisateur suivant (ex: de 1 à 3)
+    }
+    console.log("????????????????????????????????????????????????????????",this.count)
+  }
+
+  getUserIdByUsername(username: string): number | null {
+    const user = this.users.find(profile => profile.user.username === username);
+    return user ? user.user.id : null;
+  }
+
+  async createsprofilelike(index: number): Promise<void> {
+    if (this.users.length > this.count[index]) {
+        const userId = this.userService.getUserId();
+        console.log("User ID:", userId);
+        console.log("Users Array:", this.users);
+
+        if (userId) {
+            const user = this.users[this.count[index]]; // Accéder à l'utilisateur correct
+
+            // Vérification de l'existence de `user`, `user.user` et `user.user.id`
+            if (user && user.user && user.user.id) {
+                const use = user.user.id;
+
+                // Vérification si l'utilisateur a déjà liké
+                if (!user.likes?.includes(use)) {
+                    console.log("User to be liked:", use);
+                    try {
+                        await this.profile.test(use).toPromise();
+                    } catch (error) {
+                        console.error("Erreur lors de la création du like :", error);
+                    }
+
+                    this.updatePhotoIndices();
+                    this.animationStates[index] = 'liked';
+                    setTimeout(() => {
+                        this.animationStates[index] = 'default';
+                    }, 1000);
+                    this.cdr.detectChanges();
+                } else {
+                    this.updatePhotoIndices();
+                }
+            } else {
+                this.updatePhotoIndices();
+            }
+        }
+    }
+}
+
+  }

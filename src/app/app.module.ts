@@ -62,6 +62,7 @@ import { AnimatedRopeComponent } from './animated-rope/animated-rope.component';
 import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TinderComponent } from './tinder/tinder.component';
+import { NoimageComponent } from './noimage/noimage.component';
 
 
 
@@ -121,6 +122,7 @@ import { TinderComponent } from './tinder/tinder.component';
     AnimatedRopeComponent,
     PrivatechatComponent,
     TinderComponent,
+    NoimageComponent,
 
   ],
   imports: [
