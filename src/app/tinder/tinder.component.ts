@@ -55,6 +55,8 @@ export class TinderComponent implements OnInit {
   ngOnInit(): void {
     console.log('Initial count:', this.count); // Devrait afficher [0, 1]
     this.getuser();
+    
+
   }
 
   async getuser(): Promise<void> {
@@ -62,9 +64,10 @@ export class TinderComponent implements OnInit {
     if (userId) {
       try {
         const all_users: User[] = await firstValueFrom(this.profile.getAllprofile());
-          this.getUserIdByUsername(userId)
         this.users = all_users.filter(user => user.profile_picture !== null);
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",all_users)
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",all_users);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",this.users);
+
       } catch (error) {
         console.error("Erreur lors de la récupération des utilisateurs:", error);
       }
@@ -79,9 +82,9 @@ export class TinderComponent implements OnInit {
     console.log("????????????????????????????????????????????????????????",this.count)
   }
 
-  getUserIdByUsername(username: string): number | null {
+  getUserIdByUsername(username: string): any{
     const user = this.users.find(profile => profile.user.username === username);
-    return user ? user.user.id : null;
+    return user?.user.id;
   }
 
   async createsprofilelike(index: number): Promise<void> {
