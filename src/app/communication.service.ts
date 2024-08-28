@@ -9,7 +9,7 @@ export class CommunicationService {
   private messagesSubject = new Subject<string>();
   public messages$ = this.messagesSubject.asObservable();
 
-  private roomName: string ="";
+  private roomName: string ="jj";
 
   constructor() {}
 

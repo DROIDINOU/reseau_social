@@ -1,10 +1,54 @@
-<div class="chat-container">
-    <div class="messages">
-      <div *ngFor="let mess of messages">
 
-        <p>voivi le mess {{ mess.message }}</p>
+
+
+
+ 
+  <body>
+    <div class="main-container">
+      <div class="head-container">
+        <h1>• Mark Zuckerberg</h1>
+        <a href="#" class="btn"
+          ><img src="https://svgshare.com/i/Knn.svg" alt="close" class="delete"
+        /></a>
+      </div>
+      
+      <div class="message-container">
+        
+        <h3><span class="date">Today</span></h3>
+        <div *ngFor="let mess of messages">
+
+        <div class="sent">
+          <h5 class="hour">10:53</h5>
+          <p class="sent-bubble">
+            voivi le mess {{ mess.message }}
+
+            Hi, Mark! I made a new design for Messenger App.
+          </p>
+        </div>
+        <div class="received">
+          <h5 class="hour">10:57</h5>
+          <p class="received-bubble">
+            Yo! Send it to my assistant and we'll review it during the year.
+          </p>
+        </div>
+        <div class="sent">
+          <h5 class="hour">11:03</h5>
+          <p class="sent-bubble">But Mark...</p>
+        </div>
+        <div class="blocked">
+          <h5 class="hour">11:05</h5>
+          <p class="blocked-bubble">You were blocked by the user</p>
+        </div>
       </div>
     </div>
-    <input [(ngModel)]="messageText" placeholder="Type a message" />
-    <button (click)="sendMessage()">Send</button>
-  </div>
+
+
+      <div class="input-container">
+        <input type="text" [(ngModel)]="messageText" placeholder="Type a message" />
+        <button class="message" (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </body>
+
+  
+  

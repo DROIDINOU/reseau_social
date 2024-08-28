@@ -11,7 +11,7 @@ export class PrivatechatComponent implements OnInit, OnDestroy {
   public messages: any[] = [];
   public messageText: string = '';
   private user1: string = 'marc';  // Remplacez par l'utilisateur courant
-  private user2: string = '1';  // Remplacez par l'utilisateur avec qui vous discutez
+  private user2: string = 'nar';  // Remplacez par l'utilisateur avec qui vous discutez
   private chatSubscription: Subscription | null = null;
 
   constructor(private chatService: CommunicationService) {}
