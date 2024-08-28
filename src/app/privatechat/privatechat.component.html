@@ -6,16 +6,14 @@
   <body>
     <div class="main-container">
       <div class="head-container">
-        <h1>• Mark Zuckerberg</h1>
+        <h1>{{username}}</h1>
         <a href="#" class="btn"
           ><img src="https://svgshare.com/i/Knn.svg" alt="close" class="delete"
         /></a>
       </div>
       
       <div class="message-container">
-        
-        <h3><span class="date">Today</span></h3>
-        <div *ngFor="let mess of messages">
+                <div *ngFor="let mess of messages">
 
         <div class="sent">
           <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>

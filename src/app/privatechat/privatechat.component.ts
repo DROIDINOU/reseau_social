@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommunicationService } from '../communication.service'; // Assurez-vous que le chemin est correct
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-privatechat',
@@ -13,17 +14,26 @@ import { DatePipe } from '@angular/common';
 })
 export class PrivatechatComponent implements OnInit, OnDestroy {
   currentTime: Date;
+  username:string=""
   public messages: any[] = [];
   public messageText: string = '';
   private user1: string = 'marc';  // Remplacez par l'utilisateur courant
   private user2: string = 'nar';  // Remplacez par l'utilisateur avec qui vous discutez
   private chatSubscription: Subscription | null = null;
 
-  constructor(private chatService: CommunicationService, private datePipe: DatePipe) {this.currentTime = new Date();}
+  constructor(private chatService: CommunicationService, private datePipe: DatePipe,private userService:UserService,    private route: ActivatedRoute,
+  ) {this.currentTime = new Date();}
 
   ngOnInit(): void {
     this.chatService.connect(this.user1, this.user2);
-
+    
+        const userId = this.userService.getUserId();
+        this.username = userId || 'defaultUsername'; // Remplacez 'defaultUsername' par une valeur par défaut appropriée
+        this.userService.setUserId(this.username);
+      
+  
+      
+  
     // Abonnez-vous aux messages du service
     this.chatSubscription = this.chatService.messages$.subscribe((message: string) => {
       const parsedMessage = JSON.parse(message);
