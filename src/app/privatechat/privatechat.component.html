@@ -18,7 +18,7 @@
         <div *ngFor="let mess of messages">
 
         <div class="sent">
-          <h5 class="hour">10:53</h5>
+          <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
           <p class="sent-bubble">
             voivi le mess {{ mess.message }}
 
@@ -26,7 +26,7 @@
           </p>
         </div>
         <div class="received">
-          <h5 class="hour">10:57</h5>
+          <h5 class="hour">Current Time: {{ formatTime(currentTime) || 'Invalid Time' }}</h5>
           <p class="received-bubble">
             Yo! Send it to my assistant and we'll review it during the year.
           </p>

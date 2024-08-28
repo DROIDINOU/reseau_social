@@ -69,7 +69,9 @@ body{overflow: hidden;display: flex; /* Utilise Flexbox */
 }
 
 .sent .hour {
-  margin-left: 10px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+
   color: #888;
 }
 
