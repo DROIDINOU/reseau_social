@@ -23,7 +23,19 @@
           <div class="chat-container">
             <div class="messages">
               <div *ngFor="let mess of messages">
-                <p>voici le message {{ mess.message }}</p>
+                <div class="sent">
+                  <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
+                  <p class="sent-bubble">
+                    {{ mess.message }}
+                                  </p>
+                </div>
+                <div class="received">
+                  <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
+                  <p class="received-bubble">
+                    {{ mess.message }}
+
+                  </p>
+                </div>
               </div>
             </div>
             <input [(ngModel)]="messageText" placeholder="Type a message" />
@@ -35,3 +47,11 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+

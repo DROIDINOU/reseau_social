@@ -7,23 +7,28 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { CommunicationService } from '../communication.service'; // Assurez-vous que le chemin est correct
 import { Subscription } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-modallistfriends',
   templateUrl: './modallistfriends.component.html',
-  styleUrl: './modallistfriends.component.scss'
+  styleUrls: ['./modallistfriends.component.scss'],
+  providers: [DatePipe]
+
 })
 
 
 export class ModallistfriendsComponent implements OnInit, OnChanges {
-  constructor( private login:LoginService, private upload: UploadService, private friends: FriendsService, private router: Router, private chatService: CommunicationService)
-  {}
+  constructor(private datePipe: DatePipe, private login:LoginService, private upload: UploadService, private friends: FriendsService, private router: Router, private chatService: CommunicationService)
+  {this.currentTime = new Date();}
   @Output() modalClosed100 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
   @Input() modal100: boolean = false;
   faTimes = faTimes;
   faComment = faComment
+  currentTime: Date;
+
   actual_user: {id: number, username: string } = {id: 0, username: ""};
   photos_list : any[] = [];
   friends_list : any;
@@ -89,6 +94,8 @@ ngOnChanges(changes: SimpleChanges): void {
             console.error("Error in getallusers:", error);
           }
         }
+
+    
       
     navigateToChat(username:string) {
            console.log("usernammmmmmmmmmmmmmmmmmmmmmmmmmmmme",username)
@@ -112,7 +119,8 @@ ngOnChanges(changes: SimpleChanges): void {
         modal.style.display = 'none';
         this.modal100 = false;
         this.modalClosed100.emit(); // Émettre l'événement lorsque le modal est fermé
-  
+        this.privatechats = false;
+
       }}
 
       openModal() {
@@ -124,6 +132,12 @@ ngOnChanges(changes: SimpleChanges): void {
           console.log("voici....................................photos", this.photos_list);
           
         }
+      }
+
+      formatTime(date: Date): string {
+        const formattedDate = this.datePipe.transform(date, 'HH:mm');
+        // Assurez-vous que formattedDate n'est pas null
+        return formattedDate !== null ? formattedDate : '';
       }
 
       public sendMessage(): void {
@@ -140,6 +154,7 @@ ngOnChanges(changes: SimpleChanges): void {
         if (this.chatSubscription) {
           this.chatSubscription.unsubscribe();
         }
+
       }
     
 

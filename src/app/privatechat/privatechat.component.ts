@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-privatechat',
@@ -20,19 +21,24 @@ export class PrivatechatComponent implements OnInit, OnDestroy {
   private user1: string = 'marc';  // Remplacez par l'utilisateur courant
   private user2: string = 'nar';  // Remplacez par l'utilisateur avec qui vous discutez
   private chatSubscription: Subscription | null = null;
+  currentUser: { id: number, username: string } | null = null;
 
-  constructor(private chatService: CommunicationService, private datePipe: DatePipe,private userService:UserService,    private route: ActivatedRoute,
+
+  constructor(private login: LoginService,  private chatService: CommunicationService, private datePipe: DatePipe,private userService:UserService,    private route: ActivatedRoute,
   ) {this.currentTime = new Date();}
 
   ngOnInit(): void {
+    this.loadCurrentUserFromStorage();
+    console.log("userIdIdIdIdIdIdIdIdIdIdIdIdIdIdId",this.currentUser)
+    // username
+    if (this.currentUser && this.currentUser.username){
+    this.user1 = this.currentUser.username;
+    console.log("username", this.user1)
+  }
     this.chatService.connect(this.user1, this.user2);
-    
-        const userId = this.userService.getUserId();
-        this.username = userId || 'defaultUsername'; // Remplacez 'defaultUsername' par une valeur par défaut appropriée
-        this.userService.setUserId(this.username);
-      
+
+        
   
-      
   
     // Abonnez-vous aux messages du service
     this.chatSubscription = this.chatService.messages$.subscribe((message: string) => {
@@ -40,6 +46,10 @@ export class PrivatechatComponent implements OnInit, OnDestroy {
       console.log('Message reçu:', parsedMessage); // Vérifiez la structure des messages reçus
       this.messages.push(parsedMessage);
     });
+  }
+
+  loadCurrentUserFromStorage(): void {
+    this.currentUser = this.login.getCurrentUserFromStorage();
   }
   
   formatTime(date: Date): string {

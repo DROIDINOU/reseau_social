@@ -45,13 +45,15 @@ body{overflow: hidden;display: flex; /* Utilise Flexbox */
   margin-bottom: 20px;
   overflow-y: auto; /* Active le défilement vertical uniquement */
   overflow-x: hidden; /* Désactive le défilement horizontal */
-  max-height: 7rem; /* Limite de taille maximale */}
+  max-height: 7rem; /* Limite de taille maximale */
+}
 
 /* Style pour chaque message */
 .sent, .received, .blocked {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  
 }
 
 /* Style des messages envoyés */
