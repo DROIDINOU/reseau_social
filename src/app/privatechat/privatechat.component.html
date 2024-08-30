@@ -1,25 +1,20 @@
+<body>
+  <div class="main-container">
+    <!-- Section des utilisateurs amis en haut -->
+    <div class="head-container">
+      <h1>{{username}}</h1>
+      <a href="#" class="btn">
+        <img src="https://svgshare.com/i/Knn.svg" alt="close" class="delete" />
+      </a>
+    </div>
 
-
-
-
- 
-  <body>
-    <div class="main-container">
-      <div class="head-container">
-        <h1>{{username}}</h1>
-        <a href="#" class="btn"
-          ><img src="https://svgshare.com/i/Knn.svg" alt="close" class="delete"
-        /></a>
-      </div>
-      
-      <div class="message-container">
-                <div *ngFor="let mess of messages">
-
+    <!-- Section des messages au centre -->
+    <div class="message-container">
+      <div *ngFor="let mess of messages">
         <div class="sent">
           <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
           <p class="sent-bubble">
-            voivi le mess {{ mess.message }}
-
+            Voici le mess {{ mess.message }}
             Hi, Mark! I made a new design for Messenger App.
           </p>
         </div>
@@ -40,13 +35,10 @@
       </div>
     </div>
 
-
-      <div class="input-container">
-        <input type="text" [(ngModel)]="messageText" placeholder="Type a message" />
-        <button class="message" (click)="sendMessage()">Send</button>
-      </div>
+    <!-- Section de saisie de message en bas -->
+    <div class="input-container">
+      <input type="text" [(ngModel)]="messageText" placeholder="Type a message" />
+      <button class="message" (click)="sendMessage()">Send</button>
     </div>
-  </body>
-
-  
-  
+  </div>
+</body>

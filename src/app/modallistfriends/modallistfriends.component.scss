@@ -5,13 +5,12 @@
     justify-content: center;
     align-items: center; /* Centre la modal verticalement */
     position: fixed; /* Fixe la modal à la vue */
-    top: 60 px;
     left: 0;
     width: 100vw;
     height: 100vh; /* Prend toute la hauteur de la vue */
     background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
     overflow: hidden; /* Évite le défilement du reste de la page */
-    z-index: 800;
+    z-index: 8000;
   }
   
   /* La modal elle-même avec défilement interne */
@@ -25,7 +24,7 @@
     max-height: 80vh; /* Hauteur maximale de la modal */
     overflow: auto; /* Permet le défilement vertical si le contenu dépasse */
     position: relative; /* Pour le positionnement du bouton de fermeture */
-    z-index: 800;
+    z-index: 8000;
 
   }
   
@@ -34,7 +33,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 800;
+    z-index: 8000;
 
   }
   
@@ -107,6 +106,17 @@
   .received .hour {
     margin-right: 10px;
     color: #888;
+  }
+
+  .messages{overflow-y: auto;
+  max-height: 6rem;
+  z-index: 8000;
+}
+
+  .no-scroll {
+    overflow: hidden;
+    height: 100vh; /* Assurez-vous que le corps prend toute la hauteur de la vue */
+
   }
 
   

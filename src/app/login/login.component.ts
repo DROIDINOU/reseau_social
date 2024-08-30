@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router'; // Importez Router depuis @angular/router
 import { AuthService } from '../auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +19,7 @@ is_clicked: boolean= false;
 isLoggedIn: boolean|null|string= null;
 message : string = "";
 
-constructor(private formBuilder: FormBuilder,private login:LoginService,private router: Router, private authService: AuthService){}
+constructor(private snackBar: MatSnackBar,private formBuilder: FormBuilder,private login:LoginService,private router: Router, private authService: AuthService){}
 
 
 ngOnInit(): void {
@@ -41,12 +45,12 @@ onSubmitForm() {
         this.authService.login(this.snapForm1.value.username); // Mettre à jour l'état de connexion
       },
       error => {
+        const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
         console.error('Erreur de connexion', error);
         this.isLoggedIn = false;
         this.message = 'Erreur de connexion. Veuillez réessayer.';
         console.log(this.isLoggedIn)
         console.log(this.message)
-
       }
     );
   } else {

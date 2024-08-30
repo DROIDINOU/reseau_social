@@ -47,7 +47,7 @@
                 {{ countPending }} demande(s) d'amitié en attente
             </a>
             
-            <div *ngIf="showList && isLoggedIn " class="dropdown1">
+            <div *ngIf="showList && isLoggedIn && sender.length > 0 " class="dropdown1">
                 
                 <ng-container *ngFor="let user of allUsers; trackBy: trackByUserId">
                     <ng-container *ngIf="sender.includes(user.id) && sender.length > 0">

@@ -283,7 +283,7 @@ span {
   .content {
     display: flex;
     height: 100vh; /* Utilise toute la hauteur de la vue */
-    overflow: hidden; /* Empêche le défilement horizontal */
+    overflow-y: auto; /* Empêche le défilement horizontal */
   }
   .right-container {
 

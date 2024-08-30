@@ -12,16 +12,8 @@
         <input type="email" id="e" name="email" placeholder="Email" required="required" formControlName="email" />
         <label for="mp"></label>
         <input type="password" id="mp" name="password" placeholder="Mot de passe (min 8 caractères)" required="required" formControlName="password" />
-        <button type="submit" (click)="onSubmitForm()" [disabled]="is_clicked" [ngClass]="{ 'log log-primary log-block log-large': isLoggedIn, ' btn btn-primary btn-block btn-large': !isLoggedIn }">S'enregistrer.</button>
-        @if(isLoggedIn === true){
-          <button class="log1 log1-primary log1-block log1-large">Vous êtes bien enregistré! Veuillez-vous connecter</button>
-        }
-        @else if(isLoggedIn === false){
-          <button class="log2 log2-primary log2-block log2-large">{{message}}</button>
-        }
-        @else if(isLoggedIn == "invalid"){
-          <button class="log2 log2-primary log2-block log2-large">Formulaire invalide. L'adresse mail doit être une adresse valide. Longueur minimum du mot de passe : 10 caractères.</button>
-        }
+        <button type="submit" (click)="onSubmitForm()">S'enregistrer.</button>
+       
       </form>
     </div>
   </div>

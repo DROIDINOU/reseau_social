@@ -47,6 +47,18 @@ createChatMessage(content: string,sender_id:number, receiver_id:number): Observa
       this.http.post<any>(this.apiUrl, { content, sender_id, receiver_id }, { headers: this.getAuthHeaders(), withCredentials: true })
     )
   );
+
+
+}
+
+getMessages(senderId: string, receiverId: string): Observable<any> {
+  // Configuration des paramètres de la requête
+  const params = new HttpParams()
+    .set('sender', senderId)
+    .set('receiver', receiverId);
+
+  // Effectuer une requête GET avec des paramètres de requête
+  return this.http.get<any>(this.apiUrl1, { params });
 }
 
 

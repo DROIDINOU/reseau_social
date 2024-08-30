@@ -10,6 +10,8 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FriendsService } from '../friends.service';
 import { LoginService } from '../login.service';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Importer MatSnackBar
+
 
 
 @Component({
@@ -18,7 +20,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
   styleUrl: './friendrequestpage.component.scss'
 })
 export class FriendrequestpageComponent implements OnInit{
-  constructor(private upload: UploadService,private authService: AuthService, private login:LoginService,private router: Router, private route: ActivatedRoute,public UserService: UserService, private FriendService:FriendsService
+  constructor(private snackBar: MatSnackBar,private upload: UploadService,private authService: AuthService, private login:LoginService,private router: Router, private route: ActivatedRoute,public UserService: UserService, private FriendService:FriendsService
     ){}
   profileImageUrl: string | null = null;
   userId: string | null = null;
@@ -26,6 +28,7 @@ export class FriendrequestpageComponent implements OnInit{
   actual_user: {id: number | null, user: string | null} = {id: null, user: null};
   sender_user :string | null = null;
   friends_status:any
+  errorMessage: string | null = null;
   
 
 
@@ -149,13 +152,20 @@ export class FriendrequestpageComponent implements OnInit{
             } catch (refreshError) {
               console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
             }
-          } else {
+          }
+          else if (httpError.error && httpError.error.message) {
+            // Show the error message from the server using Angular Material SnackBar
+            this.snackBar.open(httpError.error.message, 'Close', {
+              duration: 5000,  // Duration in milliseconds
+            });}
+          
+          else {
             console.error('Erreur lors du chargement de l\'image de profil', error);
           }
         }
 
 
-    }
+      }
 
     async checkfriend(): Promise<void> {
       try {

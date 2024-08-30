@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { faHome, faUserFriends, faSearch, faUserPlus, faStar, faBell, faExclamationCircle, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { SearchuserService } from '../../searchuser.service';
 import { UserService } from '../../user.service';
@@ -66,6 +66,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
         this.loadCurrentUserFromStorage();
         console.log("11",this.loadCurrentUserFromStorage)
         this.updatePendingRequests();
+        console.log("status!!!!!!",this.friendStatus)
+
       }
     });
 
@@ -80,8 +82,11 @@ export class NavBarComponent implements OnInit, OnDestroy {
     });
 
     this.friendStatusSubscription = this.friendService.friendStatus$.subscribe(status => {
+      console.log("statusssssssssssssssssssssssss", status);
       this.friendStatus = status;
       this.updatePendingRequests();
+
+      console.log("status!!!!!!",this.friendStatus)
     });
   }
 
@@ -95,9 +100,12 @@ export class NavBarComponent implements OnInit, OnDestroy {
       if (!this.currentUser || !this.currentUser.id) {
         console.log(this.currentUser)
       }
-
+      console.log("friend", this.friendStatus)
       const count = this.friendStatus.reduce((acc, current) => {
         if (current.status === 'pending' && this.currentUser && current.to_user === this.currentUser.id) {
+          console.log("cureenr",acc)
+          console.log("cureenr",current)
+
           acc.count += 1;
           acc.sender.push(current.from_user);
         }
@@ -113,11 +121,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
   }
 
   async mouseentering(): Promise<void> {
+    
     this.showList = !this.showList;
     try {
       const list = await this.upload.getProfilePhoto1().toPromise();
       this.photos_list = list;
       console.log("voici la liste de la table profil", this.photos_list);
+      this.updatePendingRequests();
     } catch (error) {
       console.error("Error in mouseentering:", error);
     }
@@ -195,8 +205,16 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
 
   async acceptFriendRequest(id:number){
-      const request_id = this.friendStatus.find(status => status.from_user === id && this.currentUser && status.to_user === this.currentUser.id);
+      const request_id = this.friendStatus.find(statu => statu.from_user === id && this.currentUser && statu.to_user === this.currentUser.id);
       console.log("request_id:", request_id)
+      this.friendStatus = this.friendStatus.map(friend => {
+        if (friend.from_user === request_id.from_user) {
+          return { ...friend, status: "accepted" }; // Crée un nouvel objet avec le statut mis à jour
+        }
+        return friend; // Retourne l'objet inchangé
+      });
+      console.log("yesssssssssssssssssssssssssssssssssss",this.friendStatus)
+      console.log("yesssssssssssssssssssssssssssssssssss",this.allUsers)
       if (request_id) {
         console.log("yes")
         const statusValue = 'accept'; // Définir le statut à 'accepted'
@@ -206,12 +224,14 @@ export class NavBarComponent implements OnInit, OnDestroy {
           next: response => {
             console.log('Friend request accepted successfully:', response);
             this.senders_id.push(id)
+            console.log("senders_id",this.senders_id)
             // Ajouter ici le code pour mettre à jour l'interface utilisateur
           },
           error: error => {
             console.error('Error accepting friend request:', error);
           }
         });
+        this.updatePendingRequests();
       } else {
         console.error('Friend request not found');
       }

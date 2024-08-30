@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   snapForm!: FormGroup;
-  is_clicked: boolean= false;
-  message : string = "";
-  isLoggedIn: boolean|null|string= null;
+  is_clicked: boolean = false;
+  isLoggedIn: boolean | null | string = null;
 
-  constructor(private formBuilder: FormBuilder,private login:LoginService){}
+  constructor(
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private login: LoginService
+  ) {}
 
   ngOnInit(): void {
     this.snapForm = this.formBuilder.group({
@@ -21,66 +26,68 @@ export class RegisterComponent implements OnInit {
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      password: [null, [
-        Validators.required,
-        Validators.minLength(8), Validators.minLength(10)
-
-
-
-        // Vous pouvez ajouter Validators.pattern ici si nécessaire
-      ]]
+      password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(10)]]
     });
   }
 
   onSubmitForm() {
     if (this.snapForm.valid) {
-      console.log(this.snapForm.value)
-      console.log(this.isLoggedIn)
       this.login.registerUser(this.snapForm.value).subscribe(
         response => {
           console.log('Enregistrement réussi', response);
-          // Ajoutez ici la gestion de la réponse de l'API
-          this.is_clicked = true
-          this.isLoggedIn=  true
-          setTimeout(()=> {this.isLoggedIn = null; this.is_clicked = false}, 4000);
-          console.log(this.isLoggedIn)
+          this.openSnackBar('Enregistrement réussi', 'Fermer');
+
           this.snapForm.reset();
         },
-        error => {
-          this.is_clicked = true
-          this.isLoggedIn=  false
-          this.message = error.error.error;
-          console.error('Erreur d\'enregistrement', error.error.error)
-          setTimeout(()=> {this.isLoggedIn = null; this.is_clicked = false; this.message = "";
-        }, 4000);
-          console.log(this.isLoggedIn)
-          console.log(this.snapForm.value)
-          // Ajoutez ici la gestion des erreurs de l'API
+        (error: HttpErrorResponse) => {
+          this.openSnackBar(error.error.message || 'Erreur d\'enregistrement', 'Fermer');
         }
       );
     } else {
-      this.isLoggedIn=  "invalid"
-      this.is_clicked = true
-      setTimeout(()=> {this.isLoggedIn = null; this.is_clicked = false;this.message = ""}, 10000);
-          console.log(this.isLoggedIn)
-      console.log(this.snapForm.value)
-      console.log('Formulaire invalide');
-      this.logFormErrors();  // Log form errors to the console
 
+      // Construire un message d'erreur à partir des erreurs du formulaire
+      const errors = this.getFormErrors();
+      this.openSnackBar(`Formulaire invalide. ${errors}`, 'Fermer');
       this.snapForm.reset();
-
-
-      // Ajoutez ici la gestion des cas où le formulaire n'est pas valide
     }
   }
-  logFormErrors() {
+
+  getFormErrors(): string {
+    let errorMessages: string[] = [];
+
     Object.keys(this.snapForm.controls).forEach(key => {
       const controlErrors = this.snapForm.get(key)?.errors;
       if (controlErrors) {
         Object.keys(controlErrors).forEach(keyError => {
-          console.log(`Key control: ${key}, keyError: ${keyError}, errorValue:`, controlErrors[keyError]);
+          switch (keyError) {
+            case 'required':
+              errorMessages.push(`Le champ ${key} est requis.`);
+              break;
+            case 'email':
+              errorMessages.push(`Le champ ${key} doit être un email valide.`);
+              break;
+            case 'minlength':
+              errorMessages.push(`Le champ ${key} doit avoir au moins ${controlErrors['minlength'].requiredLength} caractères.`);
+              break;
+            case 'maxlength':
+              errorMessages.push(`Le champ ${key} ne peut pas dépasser ${controlErrors['maxlength'].requiredLength} caractères.`);
+              break;
+            default:
+              errorMessages.push(`Erreur inconnue dans le champ ${key}.`);
+              break;
+          }
         });
       }
+    });
+
+    return errorMessages.join(' ');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000, // Affiche le snack bar pendant 5 secondes
+      verticalPosition: 'top', // Position en haut de l'écran
+      horizontalPosition: 'center' // Position au centre horizontalement
     });
   }
 }

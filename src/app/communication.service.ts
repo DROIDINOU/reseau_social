@@ -23,11 +23,15 @@ export class CommunicationService {
     };
 
     this.socket.onmessage = (event: MessageEvent) => {
-      const message = event.data;
-      console.log(this.messages$)
+      let message: any;
+      try {
+        message = JSON.parse(event.data);
+      } catch (error) {
+        console.error('Erreur lors de l\'analyse du message JSON:', error, event.data);
+        return;
+      }
       this.messagesSubject.next(message);
     };
-
     //  this.socket.onclose = () => {
     //    console.log('WebSocket connection closed');
     //  };

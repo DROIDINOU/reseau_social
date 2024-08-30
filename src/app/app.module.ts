@@ -63,6 +63,8 @@ import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TinderComponent } from './tinder/tinder.component';
 import { NoimageComponent } from './noimage/noimage.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
+
 
 
 
@@ -135,6 +137,9 @@ import { NoimageComponent } from './noimage/noimage.component';
     BrowserAnimationsModule,
     InfiniteScrollModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    BrowserAnimationsModule, // Nécessaire pour les animations Angular Material
+    MatSnackBarModule,       // Ajouter MatSnackBarModule ici
 
 
   ],

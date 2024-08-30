@@ -1,4 +1,4 @@
-import { Component,OnInit, Input,Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component,OnInit, Input,Output, EventEmitter, OnChanges, SimpleChanges,ElementRef, Renderer2, OnDestroy, HostListener  } from '@angular/core';
 import { LoginService } from '../login.service';
 import { faTimes, faComment } from '@fortawesome/free-solid-svg-icons';
 import { UploadService } from '../upload.service';
@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 
 
 export class ModallistfriendsComponent implements OnInit, OnChanges {
-  constructor(private datePipe: DatePipe, private login:LoginService, private upload: UploadService, private friends: FriendsService, private router: Router, private chatService: CommunicationService)
+  constructor(private elRef: ElementRef, private renderer: Renderer2,private datePipe: DatePipe, private login:LoginService, private upload: UploadService, private friends: FriendsService, private router: Router, private chatService: CommunicationService)
   {this.currentTime = new Date();}
   @Output() modalClosed100 = new EventEmitter<void>(); // Output pour signaler la fermeture du modal
   @Input() modal100: boolean = false;
@@ -35,7 +35,6 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
   entries: any[]=[];
   all_users: any;
   privatechats: boolean = false;
-
 
 
   public messages: any[] = [];
@@ -56,6 +55,8 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
 
   async loadCurrentUserFromStorage(): Promise<void> {
 this.actual_user = this.login.getCurrentUserFromStorage()
+this.disableBodyScroll();
+
 console.log("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",this.actual_user)  }
 
 ngOnChanges(changes: SimpleChanges): void {
@@ -95,23 +96,67 @@ ngOnChanges(changes: SimpleChanges): void {
           }
         }
 
-    
+        private disableBodyScroll(): void {
+          this.renderer.addClass(document.body, 'no-scroll');
+        }
       
-    navigateToChat(username:string) {
-           console.log("usernammmmmmmmmmmmmmmmmmmmmmmmmmmmme",username)
-           console.log("usernammmmmmmmmmmmmmmmmmmmmmmmmmmmme",this.actual_user)
+        private enableBodyScroll(): void {
+          this.renderer.removeClass(document.body, 'no-scroll');
+        }
+      
+        navigateToChat(username: string) {
+          console.log("Nom d'utilisateur sélectionné:", username);
+          console.log("Utilisateur actuel:", this.actual_user);
         
-           this.privatechats = true;
-           this.chatService.connect(this.actual_user.username, username);
-
-    // Abonnez-vous aux messages du service
-    this.chatSubscription = this.chatService.messages$.subscribe((message: string) => {
-      const parsedMessage = JSON.parse(message);
-      console.log('Message reçu:', parsedMessage); // Vérifiez la structure des messages reçus
-      this.messages.push(parsedMessage);
-    });
-    }
+          this.privatechats = true;
+          this.chatService.connect(this.actual_user.username, username);
         
+          // Abonnement aux messages reçus du service de communication
+          this.chatSubscription = this.chatService.messages$.subscribe((message: any) => {
+            console.log('Message brut reçu:', message);
+        
+            let parsedMessage: any;
+            
+            // Vérifie si le message est déjà un objet ou une chaîne JSON
+            try {
+              if (typeof message === 'string') {
+                parsedMessage = JSON.parse(message); // Premier parsing
+                if (typeof parsedMessage.message === 'string') {
+                  parsedMessage = JSON.parse(parsedMessage.message); // Deuxième parsing
+                }
+              } else if (message.message && typeof message.message === 'string') {
+                parsedMessage = JSON.parse(message.message); // Si message est déjà un objet, parser seulement la propriété `message`
+              } else {
+                parsedMessage = message;
+              }
+            } catch (error) {
+              console.error('Erreur lors de l\'analyse du message JSON:', error, message);
+              return;  // Quitte si le message est invalide
+            }
+        
+            console.log('Message analysé:', parsedMessage);
+        
+            // Vérifie que les propriétés `sender` et `message` existent dans le message reçu
+            if (parsedMessage.sender && parsedMessage.message) {
+              // Vérifie si le message a déjà été ajouté en utilisant un identifiant unique ou en vérifiant son contenu
+              if (!this.messages.some(msg => msg.message === parsedMessage.message && msg.sender === parsedMessage.sender)) {
+                this.messages.push({
+                  sender: parsedMessage.sender,
+                  message: parsedMessage.message,
+                  isSender: parsedMessage.sender === this.actual_user.username
+                });
+              }
+            } else {
+              console.warn('Message reçu mal formaté:', parsedMessage);
+            }
+        
+            console.log("Voici les messages actuels:", this.messages);
+          });
+        }
+     @HostListener('touchmove', ['$event'])
+        onTouchMove(event: Event): void {
+          event.stopPropagation(); // Empêche la propagation de l'événement de défilement tactile
+        }  
       
     closeModal() {
       const modal = document.getElementById('myModal11');
@@ -142,13 +187,28 @@ ngOnChanges(changes: SimpleChanges): void {
 
       public sendMessage(): void {
         if (this.messageText.trim()) {
-          this.chatService.sendMessage(this.messageText);
-          console.log(this.messageText)
+          const messageData = JSON.stringify({
+            sender: this.actual_user.username,  // Indique que l'utilisateur actuel est l'expéditeur
+            message: this.messageText
+          });
+      
+          this.chatService.sendMessage(messageData);  // Envoie l'objet JSON
+          console.log("Message envoyé:", messageData);
+      
+          this.messages.push({
+            sender: this.actual_user.username,
+            message: this.messageText,
+            isSender: true  // Côté client, nous savons que c'est l'utilisateur actuel qui a envoyé le message
+          });
+      
           this.messageText = '';  // Réinitialiser le champ de message après envoi
         }
       }
+      
 
       ngOnDestroy(): void {
+        this.enableBodyScroll();
+
         // Nettoyez la connexion WebSocket lorsque le composant est détruit
         this.chatService.disconnect();
         if (this.chatSubscription) {
