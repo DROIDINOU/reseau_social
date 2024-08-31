@@ -8,37 +8,16 @@
           <div *ngIf="snapForm1.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</div>
         </div>
         <label for="mp"></label>
-        <input type="password" id="mp" name="password" placeholder="Mot de passe (min 10 caractères)" required="required" formControlName="password" />
+        <input type="password" id="mp" name="password" placeholder="Mot de passe" required="required" formControlName="password" />
         <div *ngIf="snapForm1.get('password')?.invalid && (snapForm1.get('password')?.touched || snapForm1.get('password')?.dirty)">
           <div *ngIf="snapForm1.get('password')?.errors?.['required']"></div>
           <div *ngIf="snapForm1.get('password')?.errors?.['minlength']"></div>
         </div>
   
-        <button type="submit" (click)="onSubmitForm()" 
-        [disabled]="is_clicked || snapForm1.invalid" 
-        [ngClass]="{ 'log log-primary log-block log-large': isLoggedIn, ' btn btn-primary btn-block btn-large': !isLoggedIn 
-        }">
+        <button class="hov" type="submit" (click)="onSubmitForm()" >
         Se connecter
       </button>
-      
-      <ng-container *ngIf="isLoggedIn === true">
-        <button class="log1 log1-primary log1-block log1-large" disabled>
-          {{message}}
-        </button>
-      </ng-container>
-      
-      <ng-container *ngIf="isLoggedIn === false">
-        <button class="log2 log2-primary log2-block log2-large" disabled>
-          {{message}}
-        </button>
-      </ng-container>
-      
-      <ng-container *ngIf="isLoggedIn == 'invalid'">
-        <button class="log2 log2-primary log2-block log2-large" disabled>
-          Formulaire invalide. L'adresse mail doit être une adresse valide. Longueur minimum du mot de passe : 10 caractères
-        </button>
-      </ng-container>
-      </form>
+        </form>
     </div>
   </div>
   

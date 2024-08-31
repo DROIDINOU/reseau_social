@@ -345,6 +345,13 @@ html {
 	background: $color-black;
 }
 
+.hov:hover {color:white;background-color:#0381ff;}
+
+.hov:active {
+	background-color:#0381ff; /* Couleur de fond lorsqu'on clique (bleu encore plus foncé) */
+	transform: scale(0.98); 
+  }
+
 
 
 

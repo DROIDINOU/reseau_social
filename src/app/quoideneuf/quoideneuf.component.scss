@@ -107,6 +107,12 @@
   background: #2bfa02;
 }
 
+.form-buttons button:action {
+  background: #454cad;
+  color: #fff;
+  border: none;
+}
+
 /* Style pour le bouton de sélection de fichier */
 input[type="file"] {
   display: none; /* Cache l'élément input */

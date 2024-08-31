@@ -10,6 +10,9 @@ import { UploadService } from '../upload.service';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
 import { Observable, of, map, catchError , tap} from 'rxjs';
 import { CacheService } from '../cache.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 
 interface Profile {
@@ -132,6 +135,8 @@ export class QuoideneufComponent implements OnInit {
     private upload: UploadService,
     private cdr: ChangeDetectorRef,
     private cache: CacheService,
+    private snackBar: MatSnackBar,
+
   ) { }
 
   ngOnInit(): void {
@@ -590,6 +595,10 @@ export class QuoideneufComponent implements OnInit {
               comments: commentsResponse,
             };
           } catch (error) {
+            console.error('Erreur de connexion', error);
+        this.snackBar.open('Une erreur est survenue. Veuillez réessayer', 'Fermer', {
+          duration: 5000,  panelClass: ['red-snackbar'], // Durée d'affichage en millisecondes
+        });
             console.error(`Erreur lors du traitement de la vidéo ${video.id}:`, error);
             return {
               ...video,
@@ -742,11 +751,15 @@ export class QuoideneufComponent implements OnInit {
             console.error('Erreur lors de la création du message après rafraîchissement du token', retryError);
           }
         } else {
+          const errors = this.getFormErrors();
+          this.openSnackBarOrange(`Formulaire invalide. ${errors}`, 'Fermer');
           console.error('Erreur lors de la création du message', error);
         }
       }
     } else {
       console.log('Formulaire invalide');
+      const errors = this.getFormErrors();
+          this.openSnackBar(`Formulaire invalide. ${errors}`, 'Fermer');
       this.myForm.reset();
     }
   }
@@ -766,6 +779,9 @@ export class QuoideneufComponent implements OnInit {
         await this.loadPhotos ()
         this.concatData();
       } catch (error) {
+        this.snackBar.open('Ce format n\'est pas pris en charge', 'Fermer', {
+          duration: 5000,  panelClass: ['red-snackbar'], // Durée d'affichage en millisecondes
+        });
         console.error('Erreur de connexion', error);
       }
     } else {
@@ -790,6 +806,9 @@ export class QuoideneufComponent implements OnInit {
 
       } catch (error) {
         console.error('Erreur de connexion', error);
+        this.snackBar.open('Ce format n\'est pas pris en charge', 'Fermer', {
+          duration: 5000,  panelClass: ['red-snackbar'], // Durée d'affichage en millisecondes
+        });
       }
     } else {
       console.error('Aucun fichier sélectionné.');
@@ -810,6 +829,7 @@ export class QuoideneufComponent implements OnInit {
         
       }
     } catch (error) {
+      
       console.error('Erreur lors du processus de like', error);
     }
   }
@@ -829,6 +849,7 @@ export class QuoideneufComponent implements OnInit {
 
       }
     } catch (error) {
+      
       console.error('Erreur lors du processus de like', error);
     }
   }
@@ -1008,4 +1029,61 @@ export class QuoideneufComponent implements OnInit {
     this.listing_commentvideo = !this.listing_commentvideo;
     this.loadVideos();
   } 
+
+  getFormErrors(): string {
+    let errorMessages: string[] = [];
+
+    Object.keys(this.myForm.controls).forEach(key => {
+      const controlErrors = this.myForm.get(key)?.errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(keyError => {
+          switch (keyError) {
+            case 'required':
+              errorMessages.push(`Vous n'avez pas écrit de ${key}`);
+              break;
+            case 'email':
+              errorMessages.push(`Le champ ${key} doit être un email valide.`);
+              break;
+            case 'minlength':
+              errorMessages.push(`Le champ ${key} doit avoir au moins ${controlErrors['minlength'].requiredLength} caractères.`);
+              break;
+            case 'maxlength':
+              errorMessages.push(`Le champ ${key} ne peut pas dépasser ${controlErrors['maxlength'].requiredLength} caractères.`);
+              break;
+            default:
+              errorMessages.push(`Erreur inconnue dans le champ ${key}.`);
+              break;
+          }
+        });
+      }
+    });
+
+    return errorMessages.join(' ');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000, // Affiche le snack bar pendant 5 secondes
+      verticalPosition: 'top', // Position en haut de l'écran
+      horizontalPosition: 'center',
+      panelClass: ['red-snackbar'], // Position au centre horizontalement
+    });
+  }
+  openSnackBarGreen(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000, // Affiche le snack bar pendant 5 secondes
+      verticalPosition: 'top', // Position en haut de l'écran
+      horizontalPosition: 'center',
+      panelClass: ['green-snackbar'], // Position au centre horizontalement
+    });
+  }
+
+  openSnackBarOrange(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000, // Affiche le snack bar pendant 5 secondes
+      verticalPosition: 'top', // Position en haut de l'écran
+      horizontalPosition: 'center',
+      panelClass: ['orange-snackbar'], // Position au centre horizontalement
+    });
+  }
 }

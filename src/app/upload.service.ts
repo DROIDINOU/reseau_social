@@ -139,6 +139,11 @@ export class UploadService {
     return firstValueFrom(this.getProfilePhoto1());
   }
 
+  // Convertir Observable en Promise
+  getProfilePhotoAllAsPromise(): Promise<any[]> {
+    return firstValueFrom(this.getphotoprofileall());
+  }
+
   
 
   getPhoto1(): Observable<any> {

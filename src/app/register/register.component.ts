@@ -35,8 +35,7 @@ export class RegisterComponent implements OnInit {
       this.login.registerUser(this.snapForm.value).subscribe(
         response => {
           console.log('Enregistrement réussi', response);
-          this.openSnackBar('Enregistrement réussi', 'Fermer');
-
+          this.openSnackBarGreen('Enregistrement réussi', 'Fermer');
           this.snapForm.reset();
         },
         (error: HttpErrorResponse) => {
@@ -87,7 +86,16 @@ export class RegisterComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 5000, // Affiche le snack bar pendant 5 secondes
       verticalPosition: 'top', // Position en haut de l'écran
-      horizontalPosition: 'center' // Position au centre horizontalement
+      horizontalPosition: 'center',
+      panelClass: ['red-snackbar'], // Position au centre horizontalement
+    });
+  }
+  openSnackBarGreen(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000, // Affiche le snack bar pendant 5 secondes
+      verticalPosition: 'top', // Position en haut de l'écran
+      horizontalPosition: 'center',
+      panelClass: ['green-snackbar'], // Position au centre horizontalement
     });
   }
 }

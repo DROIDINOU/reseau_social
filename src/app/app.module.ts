@@ -134,11 +134,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
-    BrowserAnimationsModule,
     InfiniteScrollModule,
     BrowserAnimationsModule,
     BrowserModule,
-    BrowserAnimationsModule, // Nécessaire pour les animations Angular Material
     MatSnackBarModule,       // Ajouter MatSnackBarModule ici
 
 

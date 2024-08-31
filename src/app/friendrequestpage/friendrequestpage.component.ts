@@ -130,42 +130,51 @@ export class FriendrequestpageComponent implements OnInit{
 
 
 
-   async friend(){
-
+  async friend() {
     try {
-      if(this.actual_user){
-      console.log("ahahahaha", this.userId)
-      if(this.actual_user&& this.actual_user.id){
-      const response =  await this.FriendService.sendFriendRequest(this.actual_user.id).toPromise();
-        console.log('Utilisateur connecté:', response);}}}
-
-        catch (error) {
-          const httpError = error as HttpErrorResponse;  // Utilisation d'une assertion de type pour l'erreur
-          if (error && httpError.status === 403) {
-            console.log('Erreur 403, tentative de rafraîchir le token CSRF');
-            try {
-              await this.login.refreshCsrfToken().toPromise();
-              if(this.actual_user&& this.actual_user.id){
-              const retryResponse = await this.FriendService.sendFriendRequest(this.actual_user.id).toPromise();
-              console.log("user!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", retryResponse)}
-    
-            } catch (refreshError) {
-              console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
-            }
-          }
-          else if (httpError.error && httpError.error.message) {
-            // Show the error message from the server using Angular Material SnackBar
-            this.snackBar.open(httpError.error.message, 'Close', {
-              duration: 5000,  // Duration in milliseconds
-            });}
+      if (this.actual_user) {
+        console.log("ahahahaha", this.userId);
+        if (this.actual_user && this.actual_user.id) {
+          const response = await this.FriendService.sendFriendRequest(this.actual_user.id).toPromise();
+          console.log('Utilisateur connecté:', response);
           
-          else {
-            console.error('Erreur lors du chargement de l\'image de profil', error);
-          }
+          // Affiche un message de succès après l'envoi réussi de la demande
+          this.snackBar.open('Demande d\'ami envoyée avec succès.', 'Fermer', {
+            duration: 5000,  panelClass: ['green-snackbar'], // Durée d'affichage en millisecondes
+          });
         }
-
-
       }
+    } catch (error) {
+      const httpError = error as HttpErrorResponse; // Utilisation d'une assertion de type pour l'erreur
+  
+      if (error && httpError.status === 403) {
+        console.log('Erreur 403, tentative de rafraîchir le token CSRF');
+        try {
+          await this.login.refreshCsrfToken().toPromise();
+          if (this.actual_user && this.actual_user.id) {
+            const retryResponse = await this.FriendService.sendFriendRequest(this.actual_user.id).toPromise();
+            console.log("user!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", retryResponse);
+  
+            // Affiche un message de succès après l'envoi réussi de la demande
+            this.snackBar.open('Demande d\'ami envoyée avec succès!', 'Fermer', {
+              duration: 5000,  panelClass: ['green-snackbar'], // Utilisation du style de succès
+              // Durée d'affichage en millisecondes
+            });
+          }
+        } catch (refreshError) {
+          console.error('Erreur lors du rafraîchissement du token CSRF', refreshError);
+        }
+      } else if (httpError.error && httpError.error.message) {
+        // Show the error message from the server using Angular Material SnackBar
+        this.snackBar.open(httpError.error.message, 'Fermer', {
+          duration: 5000,  panelClass: ['green-snackbar'],  // Duration in milliseconds
+        });
+      } else {
+        console.error('Erreur lors du chargement de l\'image de profil', error)
+      }
+    }
+  }
+  
 
     async checkfriend(): Promise<void> {
       try {

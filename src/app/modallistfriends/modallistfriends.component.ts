@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 
 
 
+
 @Component({
   selector: 'app-modallistfriends',
   templateUrl: './modallistfriends.component.html',
@@ -31,33 +32,84 @@ export class ModallistfriendsComponent implements OnInit, OnChanges {
 
   actual_user: {id: number, username: string } = {id: 0, username: ""};
   photos_list : any[] = [];
-  friends_list : any;
+  friends_list: { id: number, username: string, friends: any[] } = {id:0, username:"",friends:[]
+  };
+
   entries: any[]=[];
   all_users: any;
   privatechats: boolean = false;
+  friends_list_bis: any;
+  friendsListSubscription: Subscription | null = null;
 
 
   public messages: any[] = [];
   public messageText: string = '';
   private chatSubscription: Subscription | null = null;
   private actuser: string = ""
- async ngOnInit(): Promise<void> {
-  await this.loadCurrentUserFromStorage()
-  await this.loadPhotos();
-  await this.getallfriends()
-  this.entries = Object.entries(this.friends_list)
-  console.log("voici....................................l utilisateur actuel", this.actual_user);
-  console.log("voici....................................photos", this.photos_list);
-  console.log("voici....................................friends", this.friends_list);
-  await this.getallusers()
-  console.log("voici....................................allusers", this.all_users);
+
+
+  async ngOnInit(): Promise<void> {
+    await this.loadPhotos();
+
+    await this.getallusers();
+    console.log('Tous les utilisateurs chargés:', this.all_users);
+
+    await this.loadCurrentUserFromStorage();
+    console.log('Utilisateur actuel chargé:', this.actual_user);
+
+    await this.getallfriends();
+    console.log('Amis chargés:', this.friends_list);
+
+    try {
+      this.friends.friendStatus$.subscribe(
+        (status: any[]) => {
+          console.log('Status des amis:', status);
+          const filteredData = status.filter(item => item.to_user === this.actual_user.id && item.status === "accepted");
+
+// Utiliser `map()` pour créer une nouvelle version de `users` avec les `likes` mis à jour
+const updatedUsers = this.photos_list.map(user => {
+  // Si `user.user` correspond à `userIdToFilter`, ajoutez `from_user` à `likes`
+  if (user.user === this.actual_user.id) {
+    const newLikes = filteredData.map(filteredItem => filteredItem.from_user); // Obtenir tous les `from_user` correspondants
+    return { ...user, likes: [...user.likes, ...newLikes] };  // Retourner un nouvel objet avec les `likes` mis à jour
   }
+});
+this.friends_list_bis = updatedUsers; // Retourner l'objet utilisateur inchangé s'il ne correspond pas
+console.log('Photos chargées:', this.photos_list);
+
+
+console.log("friendsbissssssssssssssssssssssss", this.friends_list_bis);
+          // Faites quelque chose avec `status`
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération du statut des amis:', error);
+        }
+      );
+     
+      
+  
+      // Assurez-vous que `this.friends_list` est défini et valide
+      if (this.friends_list) {
+        this.entries = Object.entries(this.friends_list);
+        console.log('Entries après mise à jour:', this.entries);
+      } else {
+        console.warn('friends_list est undefined ou null');
+      }
+  
+      
+
+      
+  
+    } catch (error) {
+      console.error('Erreur dans ngOnInit:', error);
+    }
+  }
+  
+  
 
   async loadCurrentUserFromStorage(): Promise<void> {
 this.actual_user = this.login.getCurrentUserFromStorage()
-this.disableBodyScroll();
-
-console.log("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",this.actual_user)  }
+  }
 
 ngOnChanges(changes: SimpleChanges): void {
       if (changes['modal100'] && !changes['modal100'].firstChange) {
@@ -71,24 +123,26 @@ ngOnChanges(changes: SimpleChanges): void {
         }
       }}
 
-      async loadPhotos(): Promise<void> {
+ async loadPhotos(): Promise<void> {
         try {
-          this.photos_list = await this.upload.getProfilePhoto1AsPromise();
-          console.log("photos_list après chargement:", this.photos_list.length);
+          this.photos_list = await this.upload.getProfilePhotoAllAsPromise();
+          console.log("photos_list après chargement:", this.photos_list);
         } catch (error) {
           console.error("Error in loadPhotos:", error);
         }
       }
 
-      async getallfriends(): Promise<void> {
+  async getallfriends(): Promise<void> {
         try {
-          this.friends_list = await this.friends.getfriendsAsPromise();
-          console.log("photos_list après chargement:", this.photos_list.length);
+          // L ERREUR SEMBLE ETRE ICI8888888888888888888?????????????????????????????????????????????
+          const friends = await firstValueFrom(this.friends.getfriends());
+          this.friends_list = friends
+          console.log("list après chargement:", this.friends_list);
         } catch (error) {
           console.error("Error in loadPhotos:", error);
         }}
 
-        async getallusers(): Promise<void> {
+   async getallusers(): Promise<void> {
           try {
             this.all_users = await firstValueFrom(this.login.getAll());
           } catch (error) {
@@ -96,15 +150,9 @@ ngOnChanges(changes: SimpleChanges): void {
           }
         }
 
-        private disableBodyScroll(): void {
-          this.renderer.addClass(document.body, 'no-scroll');
-        }
+        
       
-        private enableBodyScroll(): void {
-          this.renderer.removeClass(document.body, 'no-scroll');
-        }
-      
-        navigateToChat(username: string) {
+    navigateToChat(username: string) {
           console.log("Nom d'utilisateur sélectionné:", username);
           console.log("Utilisateur actuel:", this.actual_user);
         
@@ -153,11 +201,7 @@ ngOnChanges(changes: SimpleChanges): void {
             console.log("Voici les messages actuels:", this.messages);
           });
         }
-     @HostListener('touchmove', ['$event'])
-        onTouchMove(event: Event): void {
-          event.stopPropagation(); // Empêche la propagation de l'événement de défilement tactile
-        }  
-      
+     
     closeModal() {
       const modal = document.getElementById('myModal11');
       if (modal) {
@@ -168,16 +212,30 @@ ngOnChanges(changes: SimpleChanges): void {
 
       }}
 
-      openModal() {
-        // Logique pour ouvrir la fenêtre modale
-        const modals = document.getElementById('myModal11');
-        if (modals && this.modal100) {
-          modals.style.display = 'block';
-          console.log('Modal ouvert');
-          console.log("voici....................................photos", this.photos_list);
-          
-        }
-      }
+        async openModal(): Promise<void> {
+  const modals = document.getElementById('myModal11');
+  if (modals && this.modal100) {
+    try {
+      await this.getallfriends();
+      console.log('Amis chargés:', this.friends_list);
+      modals.style.display = 'block';
+      console.log('Modal ouvert');
+      console.log("voici....................................FRIENDLIST", this.friends_list);
+    } catch (error) {
+      console.error('Erreur lors de l\'ouverture du modal:', error);
+    }
+  }
+}
+
+
+ mergeFriends(targetFriends: number[], newFriends: number[]): number[] {
+  const allFriends = new Set([...targetFriends, ...newFriends]); // Utilise Set pour éviter les duplications
+  return Array.from(allFriends);
+}
+
+// Mise à jour de l'objet cible
+
+
 
       formatTime(date: Date): string {
         const formattedDate = this.datePipe.transform(date, 'HH:mm');
@@ -207,12 +265,15 @@ ngOnChanges(changes: SimpleChanges): void {
       
 
       ngOnDestroy(): void {
-        this.enableBodyScroll();
 
         // Nettoyez la connexion WebSocket lorsque le composant est détruit
         this.chatService.disconnect();
         if (this.chatSubscription) {
           this.chatSubscription.unsubscribe();
+        }
+
+        if (this.friendsListSubscription) {
+          this.friendsListSubscription.unsubscribe();
         }
 
       }
