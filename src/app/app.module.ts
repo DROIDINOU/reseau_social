@@ -64,8 +64,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TinderComponent } from './tinder/tinder.component';
 import { NoimageComponent } from './noimage/noimage.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
-
-
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button'; // Pour les boutons
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FooterComponent } from './footer/footer.component'; // Pour mat-expansion-panel
+import { MatIconModule } from '@angular/material/icon';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { ScrollPreventionServiceService } from './scroll-prevention-service.service';
+import { FooterindicationsComponent } from './footerindications/footerindications.component';
 
 
 @NgModule({
@@ -125,6 +131,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     PrivatechatComponent,
     TinderComponent,
     NoimageComponent,
+    FooterComponent,
+    FooterindicationsComponent,
 
   ],
   imports: [
@@ -138,12 +146,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     BrowserAnimationsModule,
     BrowserModule,
     MatSnackBarModule,       // Ajouter MatSnackBarModule ici
+    MatCardModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatIconModule,
+    NgScrollbarModule,
+
+
+
 
 
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

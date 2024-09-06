@@ -1,15 +1,5 @@
 <div class="container">
-    <div class="left-container" infiniteScroll (scrolled)="loadMoreImages()">
-      <table>
-        <tbody>
-          <tr *ngFor="let image of images">
-            <td>
-              <img [src]="image" loading="lazy" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+   
 <div class ="right-container">
     <app-quoideneuf></app-quoideneuf> <!-- Intégration du composant enfant -->
     </div>

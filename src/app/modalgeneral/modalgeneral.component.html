@@ -8,11 +8,10 @@
       <!-- Boucle sur les éléments de 'data' -->
       <div *ngFor="let datas of data">
         <!-- Condition pour vérifier si l'id correspond -->
-        <div *ngIf="datas.id === id_comment1">
+        <div *ngIf="data.length >=1 && datas.id === id_comment1;else noDataMessage">
           <h2>{{ username }}</h2>
           <h3>{{ datas.message }}</h3>
           <span class="time">{{ datas.timestamp | date: 'shortDate' }}</span>
-
           <!-- Boucle sur les commentaires -->
           <div *ngFor="let da of datas.comments">
             <div class="message-card">
@@ -24,3 +23,8 @@
     </div>
   </div>
 </div>
+
+<ng-template #noDataMessage>
+  <h2>{{ username }}</h2>
+  <p>Auncun commenatires pour l instant...</p>
+</ng-template>

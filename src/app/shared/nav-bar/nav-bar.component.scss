@@ -3,6 +3,7 @@
   height: 70px; /* Set a specific height */
   position: relative; /* ou position: fixed; */
 
+  
 }
 
 
@@ -15,7 +16,7 @@
   .nav-item1 {
     margin: 0 1px; /* Ajustez cette valeur pour l'espacement désiré */
     color: rgb(247, 245, 245);
-    z-index: 4500
+    z-index: 8500
   }
 
   .logo-img {
@@ -31,7 +32,7 @@
     border: 1px solid #ccc;
     background-color: #fff;
     width: 18%;
-    z-index: 4500;
+    z-index: 8500;
 
   }
   .dropdown1 {

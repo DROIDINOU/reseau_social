@@ -1,0 +1,38 @@
+.footer-indication {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #0288d1; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    text-align: center;
+    padding: 10px;
+    font-size: 16px; /* Taille du texte */
+    border-top: 1px solid #01579b; /* Bordure pour délimiter */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    z-index: 4500;
+  }
+  
+  .footer-text {
+    margin-right: 10px; /* Espacement entre le texte et l'icône */
+  }
+  
+  mat-icon {
+    font-size: 24px; /* Taille de l'icône */
+    transition: color 0.3s ease, transform 0.3s ease; /* Transition pour l'effet de changement de couleur et orientation */
+  }
+  
+  mat-icon.arrow-down {
+    transform: rotate(0deg); /* Flèche vers le bas par défaut */
+  }
+  
+  mat-icon.arrow-up {
+    transform: rotate(180deg); /* Flèche vers le haut quand actif */
+  }
+  
+  mat-icon.active {
+    color: green; /* Couleur verte quand actif */
+  }
+  

@@ -1,2 +1,9 @@
+
 <app-nav-bar></app-nav-bar>
-<router-outlet></router-outlet>
+<div [ngClass]="{
+    'custom-scrollbar': customScrollbar,
+    'default-scrollbar': !customScrollbar
+  }">    <router-outlet></router-outlet>
+  </div>
+<app-footerindications *ngIf="showFooter !== false"></app-footerindications>
+<app-footer *ngIf="showFooter !== false"></app-footer>

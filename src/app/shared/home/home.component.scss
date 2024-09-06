@@ -1,537 +1,238 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+:host {
+  display: block; /* Prend la largeur complète */
+  overflow: hidden; /* Cache le défilement sur les deux axes */
+  height: 100vh; /* Assure que le composant prend toute la hauteur de la fenêtre */
+  max-height: 100vh; /* Limite la hauteur maximale */
+  width: 100vw; /* Assure que le composant prend toute la largeur de la fenêtre */
+  margin: 0; /* Supprime les marges */
+  padding: 0; /* Supprime les espacements */
+  overscroll-behavior: none; /* Désactive l'effet de rebond (overscroll) */
+
+  
 }
 
-.app-container {
+
+
+.main-container {
+  position: relative;
+  display: flex; /* Utilise Flexbox pour aligner les éléments enfants */
+  justify-content: center; /* Alignement au début */
+  align-items: center; /* Centre verticalement les éléments */
+  gap: 1%; /* Espacement entre chaque ensemble */
+  overscroll-behavior: none; /* Désactive l'effet de rebond (overscroll) */
+
+  
+
+}
+
+
+.left-container {
+  flex: 1; /* Définit la largeur de ce conteneur. Peut être ajustée selon vos besoins */
+  background-color: rgba(69, 142, 252); /* Couleur d'arrière-plan pour différencier */
+  padding: 10px; /* Espace intérieur du conteneur de gauche */
+  margin-right: 200px;
+}
+
+.circle-container {
+  display: flex; /* Utilisation de Flexbox pour centrer le texte */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  width:5px; /* Largeur automatique selon le contenu */
+  height: 20px; /* Hauteur automatique selon le contenu */
+  padding: 20px; /* Espacement intérieur pour créer un cercle autour du texte */
+  border-radius: 50%; /* Rend le conteneur circulaire */
+  background-color: #f0f0f0; /* Couleur de fond du cercle */
+  border: 2px solid #000; /* Bordure autour du cercle (optionnelle) */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre (optionnelle) */
+}
+.paragraphs-container {
+  display: flex; /* Utilise Flexbox pour aligner les paragraphes horizontalement */
+  justify-content: center; /* Centre les paragraphes horizontalement */
+  margin-top: 100px; /* Espacement au-dessus des paragraphes */
+  gap: 1%; /* Espacement entre chaque paragraphe */
+  
+}
+
+
+
+.paragraph {
+  max-width: 30%; /* Limite la largeur des paragraphes */
+  min-width: 150px; /* Largeur minimale des paragraphes */
+  padding: 10px; /* Espacement intérieur des paragraphes */
+  text-align: center; /* Centre le texte à l'intérieur des paragraphes */
+  margin-top: 5%;
+}
+
+.paragraphfirst {
+  max-width: 30%; /* Limite la largeur des paragraphes */
+  min-width: 150px; /* Largeur minimale des paragraphes */
+  padding: 10px; /* Espacement intérieur des paragraphes */
+  text-align: center; /* Centre le texte à l'intérieur des paragraphes */
+  margin-top: 1%;
+}
+
+.leaderboard-set {
+  position: relative;
+  margin-top: 15%;
+  margin-right: 2%;
+  margin-left:2%;
+  max-width: 20%; /* Limite la largeur maximale de chaque colonne */
+  min-width: 150px; 
+  display: flex; /* Utilise Flexbox pour aligner les éléments enfants à l'intérieur de chaque set */
+  flex-direction: column; /* Met les éléments verticalement (leader-board au-dessus du golden-circle) */
+  align-items: center; /* Centre horizontalement les éléments */
+
+}
+
+.leaderboard-set .test, .leaderboard1-set .test {
+  margin-top: auto; /* Espacement entre les éléments et le paragraphe */
+}
+
+.leaderboard1-set {
+  position: relative;
+  margin-top: 10%;
+  max-width: 20%; /* Limite la largeur maximale de chaque colonne */
+  min-width: 150px; 
+  display: flex; /* Utilise Flexbox pour aligner les éléments enfants à l'intérieur de chaque set */
+  flex-direction: column; /* Met les éléments verticalement (leader-board au-dessus du golden-circle) */
+  align-items: center; /* Centre horizontalement les éléments */
+
+}
+
+
+
+.leader-board {
+  margin-bottom: 2px; /* Ajoute un espacement entre les deux éléments */
+}
+
+.leader1-board {
+  margin-bottom: 50px; /* Ajoute un espacement entre les deux éléments */
+}
+
+
+
+.couronne {
+  position:relative;
+  height: 100px; /* Taille de l'image "couronne" */
+  width: 100px;
+  z-index: 0;
+}
+
+
+.golden-circle {
+  position: absolute;
+  top: 40px;
+  width: 150px; /* Largeur du cercle */
+  height: 150px; /* Hauteur du cercle */
+  border-radius: 50%; /* Rend le conteneur circulaire */
+  border: 5px solid silver; /* Bordure dorée */
+  overflow: hidden; /* Cache le débordement de l'image */
+  display: flex; /* Pour centrer l'image */
+  align-items: center; /* Centre l'image verticalement */
+  justify-content: center; /* Centre l'image horizontalement */
+  box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+  z-index: 500; /* Ombrage argenté */}
+  
+.golden-circle1 {
+  position: absolute;
+  top: 40px;
+  width: 150px; /* Largeur du cercle */
+  height: 150px; /* Hauteur du cercle */
+  border-radius: 50%; /* Rend le conteneur circulaire */
+  border: 5px solid gold; /* Bordure dorée */
+  overflow: hidden; /* Cache le débordement de l'image */
+  display: flex; /* Pour centrer l'image */
+  align-items: center; /* Centre l'image verticalement */
+  justify-content: center; /* Centre l'image horizontalement */
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  z-index: 500; /* Optionnel: ajoute un ombrage doré */
+}
+
+.golden-circle2 {
+  position: absolute;
+  top: 40px;
+  width: 150px; /* Largeur du cercle */
+  height: 150px; /* Hauteur du cercle */
+  border-radius: 50%; /* Rend le conteneur circulaire */
+  border: 5px solid #cd7f32; /* Bordure en couleur bronze */
+
+  overflow: hidden; /* Cache le débordement de l'image */
+  display: flex; /* Pour centrer l'image */
+  align-items: center; /* Centre l'image verticalement */
+  justify-content: center; /* Centre l'image horizontalement */
+  box-shadow: 0 0 10px rgba(205, 127, 50, 0.5); 
+  z-index: 500;/* Ombrage bronze */
+}
+.circle-image {
+  background-color: rgb(228, 226, 226); /* Assure un fond blanc */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 150px; /* Largeur maximale de l'image */
+  height: 150px; /* Hauteur maximale de l'image */
+  object-fit: cover; /* Maintient les proportions de l'image */
+  border-radius: 50%; /* Garde l'image dans la forme circulaire */
+  Z-index:1000;
+}
+
+.test{  margin-bottom: 200px; /* Espacement sous le cercle */
+}
+
+.left-container {
+  flex: 1; /* Définit la largeur de ce conteneur. Peut être ajustée selon vos besoins */
+  background-color: lightblue; /* Couleur d'arrière-plan pour différencier */
+  padding: 1px; /* Espace intérieur du conteneur de gauche */
+  min-width: 10%; /* Taille minimale du conteneur */
+  max-width: 20%px; /* Taille maximale du conteneur */
+  justify-items: left;
+}
+
+/* Le conteneur qui gère la mise en page */
+.card-container {
+  display: flex;
+  justify-content: center; /* Centre les cartes horizontalement */
+  align-items: center; /* Centre les cartes verticalement */
+  flex-wrap: wrap; /* Permet aux cartes de passer à la ligne suivante si nécessaire */
+  height: 100vh; /* Assure que le conteneur prend toute la hauteur de la vue */
+  padding: 16px; /* Espacement intérieur du conteneur */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur et la hauteur totales */
+}
+
+/* La carte qui s'étire */
+.card {
+  flex: 1 1 300px; /* Permet à la carte de s'étirer et d'avoir une largeur minimale de 300px */
+  max-width: 600px; /* Limite la largeur maximale de la carte */
+  margin: 16px; /* Espacement autour de la carte */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur et la hauteur totales */
+}
+
+.container {
+  margin-top:53px;
+  width: 640px;
   height: 100vh;
-  background: #404041;
-  margin: 0;
-  padding: 0;
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+
+}
+
+mat-card {
+  background-color: rgba(69, 142, 252);
+  width: 240px;
+  margin-right: 16px;
+  height:100vh
+}
+
+mat-card button {
+  background-color: rgb(247, 248, 248);
   width: 100%;
+  margin-bottom: 16px;
 }
 
-$black: #180C0B;
-$yellow: #FFD100;
-
-.wrapper {
-  position: relative;
-  width: 300px;
-  
-  &:before {
-    content: "";
-    background: rgba(#fff, .04);
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: -95%;
-    transform: translate(-50%);
-    box-shadow: 0 0 0 50px rgba(#fff, .01);
-  }
+.flex-item-right {
+  margin-bottom: 7%;
+  display: flex; /* Utilise flexbox pour aligner les conteneurs enfants */
+  flex-direction: row; /* Aligne les conteneurs enfants en colonne */
+  margin-right: 25%; /* Ajustez cette valeur pour déplacer les conteneurs vers la gauche */
 }
 
-.sofa {
-  position: relative;
-  width: 265px;
-  height: 95px;
-  background: $yellow;
-  border-radius: 35px 35px 0 0;
-  border: 1px solid $black;
-  box-shadow: inset 30px 0 #EFBB02;
-  filter: brightness(0.8);
-  
-  &:after {
-    content: "";
-    width: 130px;
-    height: 70px;
-    background: #EFBB02;
-    border-radius: 25px;
-    position: absolute;
-    bottom: -40px;
-    right: 0;
-    transform: translatex(40%);
-    border: 1px solid $black;
-    box-shadow: inset -30px 0 0 3px #FFD100;
-  }
-  
-  .sofa-cushion {
-    width: 300px;
-    height: 40px;
-    border-radius: 30px;
-    background: $yellow;
-    border: 1px solid $black;
-    position: absolute;
-    z-index: 1;
-    bottom: -40px;
-    left: 50%;
-    transform: translatex(-50%);
-    box-shadow: inset -150px 0 #EFBB02;
-    
-    &:after {
-      content: "";
-      width: 130px;
-      height: 70px;
-      background: #EFBB02;
-      border-radius: 25px;
-      position: absolute;
-      bottom: -1px;
-      left: -10px;
-      border: 1px solid $black;
-      box-shadow: inset -30px 0 0 3px #FFD100;
-    }
-  }
-  
-  .sofa-bottom-l,
-  .sofa-bottom-r {
-    width: 20px;
-    height: 40px;
-    background: #CEA77A;
-    position: absolute;
-    bottom: -79px;
-    border: 1px solid $black;
-    transform: skew(-30deg);
-    box-shadow: inset 5px 10px #B2906A;
-    
-    &:after {
-      content: "";
-      width: 20px;
-      height: 40px;
-      background: #CEA77A;
-      position: absolute;
-      bottom: -1px;
-      border: 1px solid $black;
-      transform: skew(50deg);
-      box-shadow: inset -5px 10px #B2906A;
-    }
-  }
-  
-  .sofa-bottom-r {
-    right: -20px;
-    transform: skew(30deg);
-    
-    &:after {
-      right: 70px;
-      transform: skew(-50deg);
-    } 
-  }
-  
-  .sofa-bottom-l {
-    
-    &:after {
-      left: 70px;
-    } 
-  }
-}
-
-.cat {
-  position: absolute;
-  z-index: 1;
-  width: 75px;
-  height: 50px;
-  border: 1px solid $black;
-  background: #D3D2D4;
-  bottom: -15px;
-  right: 93px;
-  box-shadow: inset 14px -33px #fff;
-  
-  &:after {
-    content: "";
-    background: #FFD100;
-    border: 1px solid $black;
-    width: 150px;
-    height: 40px;
-    position: absolute;
-    bottom: -25px;
-    border-radius: 0 50px 50px 100px;
-  }
-  
-  .cat-head {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #fff;
-    bottom: 5px;
-    right: -10px;
-    transform: rotate(-14deg);
-    animation: sleep 2s infinite alternate linear;
-    
-    .cat-ear-l,
-    .cat-ear-r {
-      position: absolute;
-      width: 25px;
-      height: 13px;
-      border-radius: 50%;
-      border: 1px solid $black;
-      background: #fff;
-      top: -5px;
-      
-      &:after {
-        content: "";
-        width: 9px;
-        height: 19px;
-        border-radius: 50%;
-        border: 1px solid $black;
-        background: #FE8AA5;
-        position: absolute;
-        top: -2px;
-        transform: rotate(98deg);
-        left: 4px;
-      }
-    }
-    
-    .cat-ear-l {
-      left: 0;
-      transform: rotate(35deg);
-      
-      &:before {
-        content: "";
-        background: #fff;
-        width: 33px;
-        height: 21px;
-        border-radius: 50%;
-        position: absolute;
-        transform: rotate(-35deg);
-        left: 7px;
-        top: -3px;
-        z-index: 1;
-      }
-    }
-    
-    .cat-ear-r {
-      background: #D3D2D4;
-      right: 3px;
-      top: -5px;
-      transform: rotate(55deg);
-      
-      &:before {
-        content: "";
-        background: #D3D2D4;
-        width: 26px;
-        height: 21px;
-        border-radius: 50%;
-        position: absolute;
-        transform: rotate(-55deg);
-        left: 4px;
-        top: 3px;
-        z-index: 1;
-      }
-    }
-    
-    .cat-eye-l,
-    .cat-eye-r {
-      width: 7px;
-      height: 5px;
-      border-radius: 50%;
-      border: 1px solid $black;
-      background: #D3D2D4;
-      position: absolute;
-      top: 12px;
-      border-top: 0;
-      border-right: 0;
-      border-left: 0;
-    }
-    
-    .cat-eye-l { left: 11px; }
-    .cat-eye-r { right: 11px; }
-  }
-  
-  .cat-arm-shoulder {
-    position: absolute;
-    width: 26px;
-    height: 15px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #fff;
-    bottom: 20px;
-    right: -22px;
-    transform: rotate(-122deg);
-  }
-  
-  .cat-arm-l,
-  .cat-arm-r {
-    position: absolute;
-    width: 35px;
-    height: 13px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #fff;
-    bottom: 10px;
-  }
-  
-  .cat-arm-l {
-    transform: rotate(-10deg);
-    right: -18px;
-    
-    &:after {
-      content: "";
-      background: #fff;
-      width: 8px;
-      height: 11px;
-      position: absolute;
-      border-radius: 50%;
-      right: -1px;
-      top: -3px;
-    }
-  }
-  
-  .cat-arm-r {
-    transform: rotate(10deg);
-    right: 15px;
-  }
-  
-  .cat-tale {
-    position: absolute;
-    width: 25px;
-    height: 13px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #fff;
-    bottom: 10px;
-    left: 10px;
-    transform: rotate(-45deg);
-  }
-}
-
-.boy {
-  position: absolute;
-  width: 65px;
-  height: 100px;
-  border-radius: 150px 25px 25px 80px;
-  border: 1px solid $black;
-  background: #D8D8D8;
-  bottom: -80px;
-  left: 80px;
-  z-index: 1;
-  box-shadow: inset -28px -10px #40505E, inset 8px 1px #C6C6C6;
-  
-  .arm-l,
-  .arm-r {
-    position: absolute;
-    width: 75px;
-    height: 25px;
-    border-radius: 12px;
-    border: 1px solid $black;
-    background: #D8D8D8;
-    bottom: 40px;
-    left: 30px;
-    transform: rotate(30deg);
-    box-shadow: inset -9px -7px #C6C6C6;
-  }
-  
-  .arm-l {
-    animation: type .1s .1s infinite alternate;
-  }
-  
-  .arm-r {
-    width: 85px;
-    height: 25px;
-    bottom: 35px;
-    left: 5px;
-    z-index: 1;
-    border-radius: 12px 0 0 12px;
-    border-left: 3px solid #D8D8D8;
-    animation: type .1s infinite alternate;
-    
-    &:before {
-      content: "";
-      width: 20px;
-      height: 18px;
-      border: 1px solid $black;
-      background: #E8C6A9;
-      bottom: 3px;
-      right: -20px;
-      position: absolute;
-    }
-  }
-  
-  .foot-l,
-  .foot-r {
-    position: absolute;
-    width: 30px;
-    height: 85px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #526576;
-    bottom: 0;
-    right: -20px;
-    box-shadow: inset 10px 1px rgba(#2F3B46, .6);
-    
-    &:before {
-      content: "";
-      width: 35px;
-      height: 15px;
-      border: 1px solid $black;
-      background: #526576;
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translate(-50%);
-      z-index: 1;
-      box-shadow: inset 15px 1px rgba(#2F3B46, .6);
-    }
-    
-    &:after {
-      content: "";
-      width: 50px;
-      height: 15px;
-      border: 1px solid $black;
-      border-radius: 0 100px 0 0;
-      background: #266780;
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-    }
-  }
-  
-  .foot-r {
-    right: 0;
-  }
-  
-  .head {
-    position: absolute;
-    width: 65px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #D8D8D8;
-    top: -33px;
-    left: 6px;
-    transform: rotate(-20deg);
-    box-shadow: inset 6px 8px #C6C6C6;
-    animation: head 2s linear infinite alternate;
-  }
-  
-  .face {
-    position: absolute;
-    width: 40px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid $black;
-    background: #E8C6A9;
-    bottom: -11px;
-    right: 6px;
-    transform: rotate(52deg);
-    overflow: hidden;
-    box-shadow: inset 14px 8px rgba(#C99E79, .6);
-  }
-  
-  .hair-1 {
-    position: absolute;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 100px solid #000;
-    bottom: 3px;
-    right: 13px;
-    transform: rotate(7deg);
-  }
-  
-  .hair-2 {
-    position: absolute;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 100px solid #000;
-    bottom: 24px;
-    right: 23px;
-    transform: rotate(-15deg);
-  }
-  
-  .hair-3 {
-    position: absolute;
-    border-left: 20px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 34px solid #000;
-    bottom: 19px;
-    right: -12px;
-    transform: rotate(-66deg) skew(11deg) scale(-1);
-  }
-  
-  .eye-l,
-  .eye-r {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #000;
-    bottom: 30px;
-    right: 5px;   
-  }
-  
-  .eye-r {
-    right: 13px;
-    bottom: 26px;
-  }
-}
-
-.laptop {
-  position: absolute;
-  width: 75px;
-  height: 7px;
-  border-radius: 5px;
-  border: 1px solid rgba(#fff, .2);
-  background: #000000;
-  bottom: -1px;
-  right: -67px;
-  
-  &:after {
-    content: "";
-    position: absolute;
-    width: 70px;
-    height: 55px;
-    border-radius: 10px;
-    border: 1px solid rgba(#fff, .2);
-    background: #000000;
-    bottom: -1px;
-    right: -30px;
-    z-index: 1;
-    transform: skew(-25deg);
-  }
-  
-  .light {
-    width: 127px;
-    height: 300px;
-    opacity: .3;
-    background: linear-gradient(rgba(#fff, .8), rgba(#fff, 0));
-    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-    position: absolute;
-    z-index: 1;
-    transform: rotate(133deg) translate(-130px, 263px);
-    animation: light 1s infinite alternate cubic-bezier(1, -0.93, 0.08, 0.18);
-  }
-}
-
-@keyframes type {
-  to {
-    transform: rotate(35deg);
-  }
-}
-
-@keyframes light {
-  to {
-    opacity: .5;
-  }
-}
-
-
-@keyframes sleep {
-  to {
-    transform: rotate(14deg);
-  }
-}
-
-@keyframes head {
-  from {
-    transform: rotate(-20deg);
-  }
-  
-  to {
-    transform: rotate(-20deg) translatey(3px);
-  }
-}

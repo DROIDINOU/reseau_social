@@ -5,6 +5,7 @@ import { Router } from '@angular/router'; // Importez Router depuis @angular/rou
 import { AuthService } from '../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire pour la gestion des erreurs HTTP
+import { Console } from 'console';
 
 
 @Component({
@@ -18,11 +19,14 @@ snapForm1!: FormGroup;
 is_clicked: boolean= false;
 isLoggedIn: boolean|null|string= null;
 message : string = "";
+customScrollbar: boolean = false; // Définit la valeur selon le besoin spécifique de ce composant
 
 constructor(private snackBar: MatSnackBar,private formBuilder: FormBuilder,private login:LoginService,private router: Router, private authService: AuthService){}
 
 
 ngOnInit(): void {
+  this.customScrollbar = false; // ou true si vous souhaitez une scrollbar personnalisée ici
+console.log("ttttttttttttttttttttttttttttttttttttttt",this.customScrollbar)
   this.snapForm1 = this.formBuilder.group({
     username: ['', Validators.required],
     password: [null, [
@@ -43,7 +47,8 @@ onSubmitForm() {
         this.message = 'Bienvenue redirection en cours';
         console.log('Enregistrement réussi', this.message);
         this.snackBar.open('Bienvenue redirection en cours', 'Fermer', {
-          duration: 5000,  panelClass: ['green-snackbar'], // Durée d'affichage en millisecondes
+          duration: 5000,verticalPosition: 'top', // Position verticale : 'top' ou 'bottom'
+          horizontalPosition: 'center',   panelClass: ['green-snackbar'], // Durée d'affichage en millisecondes
         });
         this.authService.login(this.snapForm1.value.username); // Mettre à jour l'état de connexion
       },

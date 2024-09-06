@@ -4,7 +4,7 @@
       <!-- Boucle sur les éléments de 'data' -->
       <div *ngFor="let datas of data; trackBy: trackById">
         <!-- Condition pour vérifier si l'id correspond -->
-        <div *ngIf="datas.id === id_comment3">
+        <div *ngIf= "datas.id === id_comment3;else noDataMessage">
           <button type="button" class="close-button" (click)="closeModal()">
             <fa-icon [icon]="faTimes"></fa-icon>
           </button>
@@ -23,5 +23,9 @@
     </div>
   </div>
 </div>
+<ng-template #noDataMessage>
+  <h2>{{ username }}</h2>
+  <p>Auncun commenatires pour l instant...</p>
+</ng-template>
 
 

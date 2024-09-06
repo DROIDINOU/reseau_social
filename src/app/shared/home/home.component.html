@@ -1,40 +1,71 @@
-<div class="app-container">
-    <div class="wrapper">
-      <div class="sofa">
-        <div class="sofa-cushion"></div>
-        <div class="sofa-bottom-l"></div>
-        <div class="sofa-bottom-r"></div>
-      </div>
-      <div class="cat">
-        <div class="cat-arm-shoulder"></div>
-        <div class="cat-head">
-          <div class="cat-ear-l"></div>
-          <div class="cat-ear-r"></div>
-          <div class="cat-eye-l"></div>
-          <div class="cat-eye-r"></div>
-        </div>
-        <div class="cat-arm-l"></div>
-        <div class="cat-arm-r"></div>
-        <div class="cat-tale"></div>
-      </div>
-      <div class="boy">
-        <div class="arm-l"></div>
-        <div class="foot-l"></div>
-        <div class="head">
-          <div class="face">
-            <div class="hair-1"></div>
-            <div class="hair-2"></div>
-            <div class="eye-l"></div>
-            <div class="eye-r"></div>
-          </div>
-          <div class="hair-3"></div>
-        </div>
-        <div class="foot-r"></div>
-        <div class="arm-r"></div>
-        <div class="laptop">
-          <div class="light"></div>
+<main class="main-container">
+  <div class="container">
+    <mat-card>
+      <mat-card-content>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>Expansion 1</mat-expansion-panel-header>
+          Content 1
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>Expansion 2</mat-expansion-panel-header>
+          Content 2
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>Expansion 3</mat-expansion-panel-header>
+          Content 3
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>Expansion 4</mat-expansion-panel-header>
+          Content 4
+        </mat-expansion-panel>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="flex-item-right">
+  <div class="leaderboard-set">
+    <div class="leader-board">
+      <img class="couronne" [src]="bronze" alt="Profile Picture">
+    </div>
+    <div class="golden-circle2">
+      <img class="circle-image" [src]="chat2 || chat" alt="Profile Picture">
+    </div>
+    <div class="paragraphs-container">
+      <p class="paragraph" *ngIf="numberthree.length == 1 && numberthree[0] && numberthree[0].username">
+        {{ numberthree[0].username }}
+      </p>
+    </div>
+  </div>
+
+  <div class="leaderboard1-set">
+    <div class="leader1-board">
+      <img class="couronne" [src]="or" alt="Profile Picture">
+    </div>
+    <div class="golden-circle1">
+      <div *ngFor="let profile of profiles">
+        <div *ngIf="profile.username == numberone[0]?.username">
+          <img class="circle-image" [src]="profile.profile_picture" alt="Profile Picture">
         </div>
       </div>
     </div>
+    <div class="paragraphs-container">
+      <p class="paragraph" *ngIf="numberone.length == 1 && numberone[0] && numberone[0].username">
+        {{ numberone[0].username }}
+      </p>
+    </div>
   </div>
-  
+
+  <div class="leaderboard-set">
+    <div class="leader-board">
+      <img class="couronne" [src]="argent" alt="Profile Picture">
+    </div>
+    <div class="golden-circle">
+      <img class="circle-image" [src]="chat || chat" alt="Profile Picture">
+    </div>
+    <div class="paragraphs-container">
+      <p class="paragraph" *ngIf="numbertwo.length == 1 && numbertwo[0] && numbertwo[0].username">
+        {{ numbertwo[0].username }}
+      </p>
+    </div>
+  </div>
+  </div>
+</main>

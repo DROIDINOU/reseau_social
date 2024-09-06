@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ChangeDetectionStrategy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ChangeDetectionStrategy, ViewChild, ElementRef, ChangeDetectorRef,OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, BehaviorSubject } from 'rxjs';
@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';  // Import nécessaire
 import { Observable, of, map, catchError , tap} from 'rxjs';
 import { CacheService } from '../cache.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppComponent } from '../app.component';
 
 
 
@@ -47,7 +48,7 @@ type Result = Message | Photo | Video;
   templateUrl: './quoideneuf.component.html',
   styleUrls: ['./quoideneuf.component.scss'],
 })
-export class QuoideneufComponent implements OnInit {
+export class QuoideneufComponent implements OnInit, OnDestroy {
   myForm!: FormGroup;
   username: string | null = null;
   photos_Url: string | null = "";
@@ -103,6 +104,7 @@ export class QuoideneufComponent implements OnInit {
   count1 : any[] = [];
   count2 : any[] = [];
   count3 : any[] = [];
+  showFooter: boolean = false;
 
   
   friendsMessages: any[] = []; // Pour stocker les messages récupérés
@@ -136,10 +138,13 @@ export class QuoideneufComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private cache: CacheService,
     private snackBar: MatSnackBar,
-
+    private appComponent: AppComponent,
   ) { }
 
   ngOnInit(): void {
+    this.appComponent.showFooter = false;
+    this.appComponent.enableCustomScrollbar();
+
     console.log('ngOnInit called in QuoideneufComponent');
     this.myForm = this.formBuilder.group({
       message: ['', Validators.required],
@@ -1085,5 +1090,11 @@ export class QuoideneufComponent implements OnInit {
       horizontalPosition: 'center',
       panelClass: ['orange-snackbar'], // Position au centre horizontalement
     });
+  }
+  ngOnDestroy() {
+    this.appComponent.showFooter = true;
+    
+
+    // Réafficher le footer
   }
 }

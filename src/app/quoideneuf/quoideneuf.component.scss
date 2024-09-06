@@ -1,48 +1,21 @@
+/* feed.component.css */
 
-
-
-
-
+/* Conteneur principal pour le formulaire et les messages */
 .form-container {
+  flex: 4; /* Occupe 4/5 de l'espace disponible sous la barre de navigation */
   display: flex;
-  justify-content: center; /* Centre le conteneur du formulaire */
-  gap: 2rem; /* Espace entre les formulaires */
-  margin-bottom: 2rem; /* Espace sous les formulaires */
-  width: 100%;
-  max-width: 500px; /* Limite la largeur maximale du formulaire */
-  margin: 0 auto;
-  position: fixed; /* Rend le conteneur fixe */
-  left: 50%; /* Positionne au centre horizontalement par rapport à la fenêtre */
-  transform: translateX(-50%); /* Centre le conteneur horizontalement */
-  top: 86px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
-  z-index: 100; /* Assurez-vous qu'il est au-dessus d'autres éléments */
-
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
 }
 
-
-
-/* Style du formulaire */
-.post-form {
-  width: 100%;
-  max-width: 200px; /* Limite la largeur maximale du formulaire */
-  background: #fff;
-  max-width: 900px;
-  padding: 1rem;
-  border-radius: 4px;
-  border: 4px solid #eee;
-  display: flex;
-  flex-direction: column; /* Aligne les éléments verticalement */
-  gap: 1rem; /* Espace entre les éléments du formulaire */
-  margin: auto;
-  box-sizing: border-box;
-  margin-bottom: 200px;
-
-}
-
-
-
-/* Style pour les groupes de formulaire */
+/* Style du formulaire de publication */
 .post-form .form-group {
+  flex: 0 1 auto; /* Permet au formulaire d'occuper l'espace nécessaire */
+
   margin-bottom: 2rem;
 }
 
@@ -254,405 +227,83 @@ input[type="file"] {
   background: #393f90;
 }
 
+/* Conteneur pour les messages et autres contenus */
 .feed {
-  display: flex;
-  flex-direction: column;
-  padding: 0px;
-  align-items: center; /* Centre les enfants verticalement */
-  justify-content: center; /* Centre les enfants horizontalement */
-  margin:  auto;
-  width: 100%;
-  max-width: 800px;
-  min-width: 529.8px; /* Définir la largeur minimale */
-  min-height: 128px;
-  overflow-x: hidden; /* Empêche le débordement horizontal */
-
-
-}
-
-.content-wrapper {
-  width: 100%;
-  max-width: 800px; /* Largeur maximale commune */
-  margin: 0 auto; /* Centre le conteneur horizontalement */
-  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
-  margin-top: 300px;
-}
-
-/* Wrapper for message cards */
-.message-card-wrapper {
-  margin: 0 auto; /* Centre le wrapper */
-  padding: 0px; /* Ajoute de l'espace sur les côtés */
-  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
-}
-
-/* Message card styling */
-.message-card {
-  background-color: #fff;
-  border: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  margin-bottom: 200px;
-  margin-top: 100px;
-  width: 98%; /* Utilise toute la largeur du conteneur wrapper */
-  box-sizing: border-box;
-  padding: 0rem;
-  overflow: hidden; /* Cache les débordements */
+  max-height: calc(100vh - 60px - 150px); /* Ajuster en fonction de la hauteur de la barre de navigation et du formulaire */
+  overflow-y: auto;
+  flex: 1; /* Prend l'espace restant sous le formulaire */
+  overflow-y: auto; /* Permettre le défilement vertical */
+  padding: 10px;
+  background-color: #fff; /* Couleur de fond du fil de contenu */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   
 }
 
-/* Header styling */
-.message-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-
-}
-
-/* Author avatar styling */
-.author-avatar img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  margin-top: 1px;
-}
-
-/* Author information styling */
-.author-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-name {
-  font-weight: bold;
-  color: #333;
-}
-
-.timestamp {
-  font-size: 0.85em;
-  color: #888;
-}
-
-/* Message content styling */
+/* Style pour chaque message */
 .message-content {
-  font-size: 1em;
-  color: #333;
-  line-height: 1.5;
-  margin-top: 70px;
-  margin-bottom: 5px; /* Espacement sous le contenu du message */
-  overflow-wrap: break-word; /* Permet de couper les mots longs */
-  word-break: break-word; /* Coupe les mots si nécessaire */
+  width: 90%; /* Largeur un peu plus petite que le formulaire */
+
+  margin-bottom: 20px; /* Espace entre les messages */
+  padding: 10px;
+  background-color: #f9f9f9; /* Couleur de fond des messages */
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  
 }
 
-/* Comments action styling */
+/* Style pour les avatars des auteurs des messages */
+.author-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px; /* Espace entre l'avatar et le texte */
+}
+
+/* Styles pour les actions liées aux commentaires */
 .comments-action {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin-top: 100px; /* Espacement au-dessus des actions de commentaire */
-  justify-content: flex-end; /* Assurez-vous que les actions sont alignées à droite */
-  line-height: 5;
-  margin-right: 20px; /* Ajustez cette valeur pour déplacer les éléments vers la gauche */
-
+  margin-top: 10px;
 }
 
 .comments-action p {
-  margin-right: 8px; /* Espacement entre les éléments */
+  margin: 0 10px 0 0; /* Espace entre les actions */
 }
 
-.nostyle {
+button.nostyle {
+  background: none;
   border: none;
-  background-color: white;
-  margin-bottom: 10px;
+  color: #007bff;
   cursor: pointer;
+}
+
+button.nostyle:hover {
+  text-decoration: underline;
+}
+
+/* Style pour les images */
+.photo-resize {
+  width: 100%;
+  max-width: 400px; /* Limiter la taille des images */
+  height: auto;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Style pour les vidéos */
+.video-resize {
+  width: 100%;
+  max-width: 400px; /* Limiter la taille des vidéos */
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 .typo {
   font-size: 12px;
 }
 
-.comments-action .align-right {
-  margin-left: auto; /* Pousse l'élément à droite */
-  overflow: hidden; /* Évite les débordements */
-  text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
-  white-space: nowrap; /* Évite que le texte se casse en plusieurs lignes */}
-/* Scrollbar styles */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Style pour le bouton "Photos/Vidéos" */
-.post-form button.photos {
-  background-color: green;
-}
-
-/* Style pour le nombre de commentaires */
-.comment-count {
-  color: blue;
-}
-
-/* Style pour les éléments désactivés */
-.disabled {
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-.modal {
-  display: none; /* Modale initialement cachée */
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent noir */
-}
-
-.modal-content {
-  background-color: #a01d1d;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 200%;
-  max-width: 600px;
-  position: relative;
-  z-index: 3000;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 3000;
-
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  z-index: 3000;
-
-}
-
-.message-card {
-  margin-bottom: 20px;
-}
-
-.comments-action {
-  margin-top: -2px;
-}
-
-.comment-item {
-  background-color: #f9f9f9;
-  padding: 10px;
-  margin-bottom: 5px;
-}
-
-.photo-resize {
-  max-width: 100%;  /* Ensures the image is responsive */
-  max-height: 400px;  /* Sets a maximum height for the images */
-  object-fit: contain;  /* Maintains the aspect ratio */
-  display: block;  /* Ensures that any extra space is not left around the image */
-  margin: auto;  /* Centers the image horizontally */
-  margin-top: 130px;  /* Ajustez cette valeur pour remonter l'image */
-
-}
-
-
-/* Style pour les vidéos */
-.video-resize {
-  max-width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  display: block;
-  margin: auto;
-  margin-top: 130px;
-}
-
 @media (min-width: 1025px) and (max-width: 1366px) {
-  .modal {
-    display: none; /* Modale initialement cachée */
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent noir */
-    z-index: 3000; /* Assure que la modale est au-dessus des autres éléments */
-  }
-  
-  .modal-content {
-    background-color: #a01d1d;
-    margin: 10% auto; /* Ajuste la marge pour positionner la modale au centre verticalement */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 100%; /* Ajuste la largeur du contenu de la modale */
-    max-width: 500px; /* Limite la largeur maximale du contenu de la modale */
-    position: relative;
-    z-index: 3000; /* Assure que le contenu est au-dessus des autres éléments */
-    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 3000; /* Assure que le bouton de fermeture est au-dessus du contenu */
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-
-  .post-form {
-    width: 80%;
-    max-width: 200px; /* Limite la largeur maximale du formulaire */
-    background: #fff;
-    max-width: 900px;
-    padding: 1rem;
-    border-radius: 4px;
-    border: 4px solid #eee;
-    display: flex;
-    flex-direction: column; /* Aligne les éléments verticalement */
-    gap: 1rem; /* Espace entre les éléments du formulaire */
-    margin: auto;
-    box-sizing: border-box;
-    margin-bottom: 200px;
-    z-index: 1000; /* Assurez-vous qu'il est au-dessus d'autres éléments */
-
-  }
-
-  .form-container {
-    display: flex;
-    justify-content: center; /* Centre le conteneur du formulaire */
-    gap: 2rem; /* Espace entre les formulaires */
-    margin-bottom: 2rem; /* Espace sous les formulaires */
-    width: 100%;
-    margin: 0 auto;
-    position: fixed; /* Rend le conteneur fixe */
-    left: 55%; /* Positionne au centre horizontalement par rapport à la fenêtre */
-    transform: translateX(-50%); /* Centre le conteneur horizontalement */
-    top: 70px; /* Ajustez cette valeur pour déplacer le conteneur plus bas */
-    pointer-events: none; /* Désactive les interactions sur le formulaire */
-  }
-
-  .form-container form {
-    pointer-events: auto; /* Réactive les interactions seulement sur le formulaire lui-même */
-  }
-
- 
-
-  .message-content {
-    font-size: 1em;
-    color: #333;
-    line-height: 1;
-    margin-top: 0px;
-    margin-bottom: 0px; /* Espacement sous le contenu du message */
-    overflow-wrap: break-word; /* Permet de couper les mots longs */
-    word-break: break-word; /* Coupe les mots si nécessaire */
-    padding: 0px;
-    border: 2px solid #edeff0;
-    width: 90%;  /* 80% de la largeur de l'élément parent */
-    height: 100%; /* 50% de la hauteur de l'élément parent */
-    
-  }
-
-  .feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centre les enfants verticalement */
-    justify-content: center; /* Centre les enfants horizontalement */
-    margin:  auto;
-    width: 100%;
-    max-width: 800px;
-    min-width: 529.8px; /* Définir la largeur minimale */
-    min-height: 128px;
-    overflow-x: hidden; /* Empêche le débordement horizontal */
-    padding-top: 180px;
-    background-color: #f3f7f9;
-  
-  
-  }
-
-  .message-card-wrapper {
-    margin: 0 auto; /* Centre le wrapper */
-    padding: 0px; /* Ajoute de l'espace sur les côtés */
-    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
-  }
-  
-  /* Message card styling */
-  .message-card {
-    background-color: #fff;
-    border: none;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-    margin-top: 100px;
-    width: 100%; /* Utilise toute la largeur du conteneur wrapper */
-    box-sizing: border-box;
-    padding: 1rem;
-    overflow: hidden; /* Cache les débordements */
-    
-  }
-
-  .comments-action {
-  display: flex;
-  align-items: center;
-  margin-top: 3px; /* Espacement au-dessus des actions de commentaire */
-  margin-bottom: 1px;
-  justify-content: flex-end; /* Assurez-vous que les actions sont alignées à droite */
-  line-height: 2;
-  height : 5px;
-  margin-right: 20px; /* Ajustez cette valeur pour déplacer les éléments vers la gauche */
-  padding:  32px; /* Espace horizontal autour du conteneur */
-  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+  /* Ajouter des règles spécifiques pour cette plage de largeur d'écran si nécessaire */
 }
-
-.video-resize {
-  max-width: 70%;
-  max-height: 300px;
-  object-fit: contain;
-  display: block;
-  margin: auto;
-  margin-top: 130px;
-}
-
-.photo-resize {
-  max-width: 70%;  /* Ensures the image is responsive */
-  max-height: 300px;  /* Sets a maximum height for the images */
-  object-fit: contain;  /* Maintains the aspect ratio */
-  display: block;  /* Ensures that any extra space is not left around the image */
-  margin: auto;  /* Centers the image horizontally */
-  margin-top: 130px;  /* Ajustez cette valeur pour remonter l'image */
-
-}
-  
-  
-  
-}
-
-
-
