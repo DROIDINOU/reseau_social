@@ -28,6 +28,16 @@
       <ng-container *ngIf="newprofile">
         <img id="profile-picture1" [src]="newprofile[item.auteur] || defaultProfileImageUrl">
       </ng-container>
+      <span class="author-name">
+        <!-- Si l'item est un message -->
+        <ng-container *ngIf="item.message">{{ item.user }}</ng-container>
+        
+        <!-- Si l'item est une photo -->
+        <ng-container *ngIf="item.photo">{{ item.owner }}</ng-container>
+        
+        <!-- Si l'item est une vidéo -->
+        <ng-container *ngIf="item.video">{{ item.owner }}</ng-container>
+      </span>
     </div>
     <!-- Section Messages -->
     <div *ngIf="item.message">&nbsp;&nbsp;&nbsp;&nbsp;

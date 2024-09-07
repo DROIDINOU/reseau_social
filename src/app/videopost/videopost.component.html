@@ -1,10 +1,26 @@
 <div class="photo-gallery">
-    <div class="photo-item" *ngFor="let video of liste_videos;let i = index">
-        <video [src]="'http://localhost:8000' + video?.video" controls></video>
-        <div class="like-action">
-            <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(video.id)"></fa-icon>
-            <p class="like">{{ video.likes.length }}</p>
-            <fa-icon class="like nbvue" [icon]="faeye"></fa-icon>
+    <div class="photo-item" *ngFor="let video of liste_videos">
+      <!-- Vidéo -->
+      <video [src]="video?.video" class="video-content"></video>
+  
+      <!-- Contrôles de la vidéo -->
+      <div class="video-controls">
+        <div class="play-icon" (click)="playVideo($event)">
+          <!-- Icône Play -->
+          <fa-icon [icon]="faPlay"></fa-icon>
         </div>
+        <div class="fullscreen-icon" (click)="toggleFullScreen($event)">
+          <!-- Icône Plein Écran -->
+          <fa-icon [icon]="faExpand"></fa-icon>
+        </div>
+      </div>
+  
+      <!-- Actions pour les likes et les vues -->
+      <div class="like-action">
+        <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(video.id)"></fa-icon>
+        <p class="like">{{ video.likes.length }}</p>
+        <fa-icon class="like nbvue" [icon]="faeye"></fa-icon>
+      </div>
     </div>
-</div>
+  </div>
+  

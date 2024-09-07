@@ -143,7 +143,6 @@ export class QuoideneufComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.appComponent.showFooter = false;
-    this.appComponent.enableCustomScrollbar();
 
     console.log('ngOnInit called in QuoideneufComponent');
     this.myForm = this.formBuilder.group({

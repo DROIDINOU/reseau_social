@@ -30,9 +30,11 @@
   
   mat-icon.arrow-up {
     transform: rotate(180deg); /* Flèche vers le haut quand actif */
+    color: orange; /* Couleur verte quand actif */
+
   }
   
   mat-icon.active {
-    color: green; /* Couleur verte quand actif */
+    color: orange; /* Couleur verte quand actif */
   }
   

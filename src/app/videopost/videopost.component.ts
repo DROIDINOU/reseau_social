@@ -1,7 +1,7 @@
 
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { faEye,faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faEye,faTrophy,faPlay,faExpand } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../login.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,6 +11,8 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './videopost.component.scss'
 })
 export class VideopostComponent implements OnInit {
+  faPlay = faPlay;  // Icône Play
+  faExpand = faExpand;  // Icône Plein Écran
    fathumbsup = faThumbsUp;
    faeye = faEye;
    id_video: number|null = null
@@ -42,7 +44,27 @@ export class VideopostComponent implements OnInit {
     console.log(this.views)
 
 }
+playVideo(event: MouseEvent) {
+  const videoElement = (event.currentTarget as HTMLElement).parentElement?.previousElementSibling as HTMLVideoElement;
+  if (videoElement) {
+    videoElement.play();
+  }
+}
 
+toggleFullScreen(event: MouseEvent) {
+  const videoElement = (event.currentTarget as HTMLElement).parentElement?.previousElementSibling as HTMLVideoElement;
+  if (videoElement) {
+    if (videoElement.requestFullscreen) {
+      videoElement.requestFullscreen();
+    } else if ((videoElement as any).webkitRequestFullscreen) {
+      /* Safari */
+      (videoElement as any).webkitRequestFullscreen();
+    } else if ((videoElement as any).msRequestFullscreen) {
+      /* IE11 */
+      (videoElement as any).msRequestFullscreen();
+    }
+  }
+}
 async likeClicked(video_id: number): Promise<void> {
   this.likes += 1;
   console.log("salut", video_id);

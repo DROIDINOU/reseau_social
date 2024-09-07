@@ -1,6 +1,7 @@
 .custom-scrollbar {
     /* Styles personnalisés pour la barre de défilement */
-    overflow-x: hidden ; /* Par exemple, activer le défilement vertical uniquement */
+    overflow-x: hidden ;
+    overflow-y: hidden; /* Par exemple, activer le défilement vertical uniquement */
     scrollbar-color: #ff6f61 #f0f0f0; /* Exemple : couleur de la barre de défilement */
     scrollbar-width: thin; /* Exemple : largeur de la barre de défilement */
   }

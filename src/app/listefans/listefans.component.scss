@@ -191,7 +191,7 @@ span {
   .side-bar {
     width: 180px;
     height: 100vh;
-    background: linear-gradient(rgba(21, 101, 192, 0.8), rgba(21, 101, 192, 0.8)), url(https://preview.redd.it/who-is-your-favorite-cartoon-cat-v0-2s7k7bbnavub1.jpg?width=1080&crop=smart&auto=webp&s=6580eb85cae1715b37eb06a498aa5eb8c5d96ce5);
+    background: rgba(69, 142, 252);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -296,6 +296,7 @@ span {
     margin-left: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+
     /*margin-top: 100px; /* Ajoutez cet espace pour correspondre à la hauteur de la barre de navigation */
 
 }

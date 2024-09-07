@@ -108,3 +108,27 @@ color: green
   height: 24px; /* Correspond à la taille des icônes */
   border-radius: 50%; /* Optionnel : pour des images rondes */
 }
+
+.notification-container {
+  position: relative; /* Position relative pour positionner l'élément enfant de manière absolue */
+  display: inline-block; /* Garde l'élément en ligne pour alignement */
+}
+
+.nofriendrequest {
+  visibility: hidden; /* Masquer le message par défaut */
+  position: absolute; /* Positionnement relatif au parent */
+  top: 100%; /* Juste en dessous de la cloche */
+  left: 0; /* Alignement à gauche */
+  background-color: #f0f0f0; /* Couleur de fond */
+  padding: 8px; /* Espace autour du texte */
+  border-radius: 5px; /* Coins arrondis */
+  margin-top: 5px; /* Espace entre la cloche et le message */
+  font-size: 14px; /* Taille du texte */
+  color: #555; /* Couleur du texte */
+  z-index: 1; /* Assurez-vous que le message est au-dessus d'autres éléments */
+  white-space: nowrap; /* Empêche le message de se diviser en plusieurs lignes */
+}
+
+.notification-container:hover .nofriendrequest {
+  visibility: visible; /* Afficher le message lors du survol de la cloche */
+}

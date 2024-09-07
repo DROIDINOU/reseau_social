@@ -1,47 +1,55 @@
 .photo-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Espacement uniforme entre les éléments */
-    margin-top: 60px; /* Ajustez cette valeur en fonction de la hauteur de votre barre de navigation */
-  }
-  
-  .photo-item {
-    flex: 1 1 calc(33.333% - 20px); /* Ajustez le calcul pour inclure la marge */
-    box-sizing: border-box;
-    height: 200px; /* Hauteur fixe pour le conteneur */
-    display: flex;
-    flex-direction: column; /* Pour placer les éléments verticalement */
-    justify-content: space-between; /* Espacement entre l'image et les icônes */
-    align-items: center;
-    overflow: hidden; /* Assure que tout débordement est caché */
-    border: 2px solid #ddd; /* Ajoute un cadre autour de chaque photo (couleur grise claire) */
-    border-radius: 8px; /* Arrondir les coins du cadre */
-    background-color: #f9f9f9; /* Optionnel: Ajoute une couleur de fond pour améliorer la visibilité du cadre */
-    padding: 10px; /* Ajoute un peu de padding à l'intérieur du conteneur */
-  }
-  
-  .photo-item img {
-    max-width: 100%; /* Limite la largeur de l'image au conteneur */
-    max-height: 80%; /* Limite la hauteur de l'image au conteneur, laissant de la place pour les icônes */
-    object-fit: contain; /* Conserve les proportions de l'image sans la couper */
-    flex-grow: 1; /* Permet à l'image de prendre tout l'espace vertical restant */
-  }
-  
-  .like-action {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .like-action .like {
-    color: #0501f1; /* Ajustez cette couleur selon vos besoins */
-    margin: 0 5px;
-  }
-  
-  .like-action .nbvue {
-    color: #0501f1; /* Ajustez cette couleur selon vos besoins */
-    margin: 0 5px;
-  }
+  display: flex; /* Utiliser Flexbox pour la mise en page */
+  flex-wrap: wrap; /* Permettre à la galerie de se diviser en plusieurs lignes */
+  gap: 20px; /* Espacement uniforme entre les éléments */
+  justify-content: center; /* Centrer le contenu */
+  margin-top: 7%;
+}
 
-  
+.photo-item {
+  flex: 1 1 calc(33.333% - 20px); /* Ajustez le calcul pour inclure la marge */
+  box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur et la hauteur */
+  height: 300px; /* Hauteur fixe pour le conteneur */
+  display: flex; /* Utiliser Flexbox pour la disposition interne */
+  flex-direction: column; /* Aligner les éléments verticalement */
+  justify-content: space-between; /* Espacement entre l'image et les icônes */
+  align-items: center;
+  overflow: hidden; /* Assure que tout débordement est caché */
+  border: 2px solid #ddd; /* Ajoute un cadre autour de chaque photo (couleur grise claire) */
+  border-radius: 8px; /* Arrondir les coins du cadre */
+  background-color: #f9f9f9; /* Optionnel: Ajoute une couleur de fond pour améliorer la visibilité du cadre */
+  padding: 10px; /* Ajoute un peu de padding à l'intérieur du conteneur */
+}
+
+.photo-item img {
+  max-width: 100%; /* Limite la largeur de l'image au conteneur */
+  max-height: 70%; /* Limite la hauteur de l'image au conteneur, laissant de la place pour les icônes */
+  object-fit: cover; /* Conserve les proportions de l'image tout en couvrant l'espace disponible */
+  border-radius: 5px; /* Coins arrondis pour les images */
+  margin-bottom: 10px; /* Espacement avec la section des actions */
+}
+
+.like-action {
+  display: flex; /* Flexbox pour aligner les éléments horizontalement */
+  justify-content: space-between; /* Espacement égal entre les éléments */
+  align-items: center; /* Aligner verticalement au centre */
+  width: 100%; /* Prendre toute la largeur de l'élément */
+  padding: 5px 0; /* Espacement au-dessus et en-dessous des actions */
+}
+
+.like-action .like,
+.like-action .nbvue {
+  color: #0501f1; /* Ajustez cette couleur selon vos besoins */
+  margin: 0 5px;
+}
+
+.video-controls {
+  display: flex; /* Flexbox pour aligner les contrôles horizontalement */
+  justify-content: space-between; /* Espacement égal entre les contrôles */
+  width: 100%; /* Prendre toute la largeur de l'élément */
+  margin-top: 5px; /* Espacement entre la vidéo et les contrôles */
+}
+
+.play-icon, .fullscreen-icon {
+  cursor: pointer; /* Changement du curseur pour indiquer une action */
+}

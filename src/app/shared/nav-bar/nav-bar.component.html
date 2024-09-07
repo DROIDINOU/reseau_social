@@ -25,21 +25,34 @@
 
         <!-- Section centrale de la barre de navigation -->
         <div class="nav-bar-center">
+            <div class="notification-container">
+
             <a 
                 *ngIf="isLoggedIn && userService.getUserId()" 
                 (click)="navigateToPhotoChat()"
             >
                 <fa-icon [icon]="faHome" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
             </a>
+            <p class="nofriendrequest">Fil d'actualité</p>
+              </div>
+
             <a (click)="navigateToFansList()">
                 <fa-icon [icon]="faUserFriends" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
             </a>&nbsp;&nbsp;&nbsp;
+            <div class="notification-container">
             <a (click)="navigateToTinder()">
                 <fa-icon [icon]="faStar" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
             </a>&nbsp;&nbsp;&nbsp;
-            <a (click)="mouseentering()">
-                <fa-icon [icon]="faBell" size="2x" class="nav-item" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
-            </a>
+            <p  class="nofriendrequest" >TinderCat</p>
+            </div>
+            <div class="notification-container">
+                <a (click)="mouseentering()" class="nav-item-button" [ngClass]="{'hidden': !isLoggedIn}">
+                  <fa-icon [icon]="faBell" size="2x"></fa-icon>
+                </a>
+                <!-- Message de demande d'ami -->
+                <p *ngIf="countPending == 0" class="nofriendrequest">Pas de demande de Miaou</p>
+              </div>
+
             <a>
                 <fa-icon [icon]="faExclamationCircle" class="fa-exclamation-circle" [ngClass]="{'hidden': !isLoggedIn}"></fa-icon>
             </a>
@@ -83,3 +96,4 @@
         </div>
     </nav>
 </header>
+

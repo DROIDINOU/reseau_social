@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faUserFriends, faVideo, faComment, faImage   } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-phtochat',
   templateUrl: './phtochat.component.html',
   styleUrl: './phtochat.component.scss'
 })
-export class PhtochatComponent {
+export class PhtochatComponent implements OnInit {
  fauser = faUserFriends
  favideo = faVideo
+ username:string =""
  faComment = faComment
  faImage = faImage
  currentModal100: boolean = false;
@@ -24,10 +26,36 @@ export class PhtochatComponent {
   'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-9.webp',
   'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-10.webp'
 ];
- constructor(private router: Router) {}
+ constructor(private router: Router, private route: ActivatedRoute,private userService:UserService
+
+ ) {}
+ngOnInit(): void {
+  this.route.paramMap.subscribe(params => {
+    const paramUsername = params.get('id');
+    
+    if (paramUsername) {
+      this.username = paramUsername;
+    } else {
+      // Essayez de récupérer l'utilisateur actuel
+      const userId = this.userService.getUserId();
+      this.username = userId || 'defaultUsername'; // Remplacez 'defaultUsername' par une valeur par défaut appropriée
+    }
+
+    if (this.username) {
+      this.userService.setUserId(this.username);
+    }
+
+    console.log('Current username:', this.username);
+})}
 
  navigateToChat() {
   this.router.navigate(['/privatechat']);
+}
+
+navigateToPhotos(){
+  this.router.navigate(['/listfan', this.username]); // Navigue vers /listfan/123 si userId = 123
+
+
 }
 
 loadMoreImages(): void {

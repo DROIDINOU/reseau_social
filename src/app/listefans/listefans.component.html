@@ -37,7 +37,7 @@
                       </div>
                   </form>
               </div>
-              <h2>Vidéos</h2>
+              <h2 (click)="videoschats()">Vidéos</h2>
               <div class="container">
                   <form (ngSubmit)="onSubmit2()">
                       <label for="fileInput" custom-file-upload></label>
@@ -58,5 +58,7 @@
 
   <div class="right-container">
       <app-photospost *ngIf="show_photos" [liste_photos]="photosTest" (photosUpdated)="onPhotosUpdated($event)"></app-photospost>
+      <app-videopost *ngIf="show_videos" [liste_videos]="videosTest" (videosUpdated)="onVideosUpdated($event)"></app-videopost>
+
   </div>
 </div>

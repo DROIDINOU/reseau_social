@@ -21,6 +21,10 @@ export class AppComponent {
         if (url.includes('/login') || url.includes('/register')) {
           window.scrollTo(0, 0); // Défiler vers le haut
         }
+        if (url.includes('/listfan'))  {
+          ; // Défiler vers le haut
+          this.showFooter = false
+        }
       }
     });
   }

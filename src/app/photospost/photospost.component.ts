@@ -21,7 +21,10 @@ export class PhotospostComponent implements OnInit {
 
    constructor (private login: LoginService){}
 
-   @Input() liste_photos: any[] = [];
+   @Input() liste_photos: any[] = [];   
+   @Input() liste_videoss: any[] = [];
+
+
    @Output() photosUpdated: EventEmitter<any[]> = new EventEmitter<any[]>();
 
 

@@ -140,7 +140,7 @@ export class FriendrequestpageComponent implements OnInit{
           
           // Affiche un message de succès après l'envoi réussi de la demande
           this.snackBar.open('Demande d\'ami envoyée avec succès.', 'Fermer', {
-            duration: 5000,  panelClass: ['green-snackbar'], // Durée d'affichage en millisecondes
+            duration: 5000,verticalPosition: 'top',   panelClass: ['green-snackbar'], // Durée d'affichage en millisecondes
           });
         }
       }
@@ -157,7 +157,7 @@ export class FriendrequestpageComponent implements OnInit{
   
             // Affiche un message de succès après l'envoi réussi de la demande
             this.snackBar.open('Demande d\'ami envoyée avec succès!', 'Fermer', {
-              duration: 5000,  panelClass: ['green-snackbar'], // Utilisation du style de succès
+              duration: 5000,verticalPosition: 'top',   panelClass: ['green-snackbar'], // Utilisation du style de succès
               // Durée d'affichage en millisecondes
             });
           }
@@ -167,7 +167,8 @@ export class FriendrequestpageComponent implements OnInit{
       } else if (httpError.error && httpError.error.message) {
         // Show the error message from the server using Angular Material SnackBar
         this.snackBar.open(httpError.error.message, 'Fermer', {
-          duration: 5000,  panelClass: ['green-snackbar'],  // Duration in milliseconds
+          duration: 5000,verticalPosition: 'top', // Position en haut de l'écran
+          horizontalPosition: 'center',  panelClass: ['green-snackbar'],  // Duration in milliseconds
         });
       } else {
         console.error('Erreur lors du chargement de l\'image de profil', error)

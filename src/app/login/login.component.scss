@@ -62,12 +62,14 @@ input {
     max-width: 350px; /* Limite la largeur maximale */
     margin-bottom: 15px;
     background: rgba(0, 136, 204, 0.1); /* Fond léger avec une touche de bleu clair */
-    border: 1px solid #0288d1; /* Bordure bleu clair */
+    border: 1px solid #d7eefb; /* Bordure bleu clair */
     border-radius: 5px; /* Coins arrondis */
     padding: 10px;
     font-size: 14px;
     color: #0288d1; /* Texte bleu clair */
     transition: all 0.3s ease;
+    background-color: #d3ecf9; /* Couleur de fond bleu clair */
+
 }
 
 input:focus {
@@ -83,6 +85,7 @@ button {
     margin-bottom: 15px;
     border: none;
     border-radius: 5px; /* Coins arrondis */
+    background-color: rgb(174, 226, 250);
     font-size: 16px; /* Augmente la taille du texte */
     cursor: pointer;
 }

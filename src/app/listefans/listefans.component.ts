@@ -73,6 +73,7 @@ export class ListefansComponent implements OnInit {
       // Appeler les fonctions de chargement après avoir obtenu les paramètres de la route
       this.loadProfileImage();
       this.loadphotos();
+      this.photoschats();
     });
   }
 
