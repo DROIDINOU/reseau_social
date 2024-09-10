@@ -27,7 +27,6 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth-guard.service';
 import { FriendrequestpageComponent } from './friendrequestpage/friendrequestpage.component';
 import { AccessphotosfromprofileComponent } from './accessphotosfromprofile/accessphotosfromprofile.component';
-import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { myResolverResolver } from './my-resolver.resolver';
 import { TinderComponent } from './tinder/tinder.component';
 
@@ -51,7 +50,6 @@ const routes: Routes = [
         { path: 'userprofile/:id', component: FriendrequestpageComponent },
         { path: 'access', component: AccessphotosfromprofileComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full'},
-        { path: 'privatechat', component: PrivatechatComponent},
 
 
 ];

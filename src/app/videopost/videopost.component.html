@@ -1,21 +1,10 @@
 <div class="photo-gallery">
+    <!-- Boucle *ngFor pour chaque vidéo -->
     <div class="photo-item" *ngFor="let video of liste_videos">
       <!-- Vidéo -->
-      <video [src]="video?.video" class="video-content"></video>
+      <video [src]="video?.video" class="video-content" controls></video>
   
-      <!-- Contrôles de la vidéo -->
-      <div class="video-controls">
-        <div class="play-icon" (click)="playVideo($event)">
-          <!-- Icône Play -->
-          <fa-icon [icon]="faPlay"></fa-icon>
-        </div>
-        <div class="fullscreen-icon" (click)="toggleFullScreen($event)">
-          <!-- Icône Plein Écran -->
-          <fa-icon [icon]="faExpand"></fa-icon>
-        </div>
-      </div>
-  
-      <!-- Actions pour les likes et les vues -->
+      <!-- Actions pour les likes et les vues (dans la boucle) -->
       <div class="like-action">
         <fa-icon class="like" [icon]="fathumbsup" (click)="likeClicked(video.id)"></fa-icon>
         <p class="like">{{ video.likes.length }}</p>

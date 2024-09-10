@@ -44,27 +44,7 @@ export class VideopostComponent implements OnInit {
     console.log(this.views)
 
 }
-playVideo(event: MouseEvent) {
-  const videoElement = (event.currentTarget as HTMLElement).parentElement?.previousElementSibling as HTMLVideoElement;
-  if (videoElement) {
-    videoElement.play();
-  }
-}
 
-toggleFullScreen(event: MouseEvent) {
-  const videoElement = (event.currentTarget as HTMLElement).parentElement?.previousElementSibling as HTMLVideoElement;
-  if (videoElement) {
-    if (videoElement.requestFullscreen) {
-      videoElement.requestFullscreen();
-    } else if ((videoElement as any).webkitRequestFullscreen) {
-      /* Safari */
-      (videoElement as any).webkitRequestFullscreen();
-    } else if ((videoElement as any).msRequestFullscreen) {
-      /* IE11 */
-      (videoElement as any).msRequestFullscreen();
-    }
-  }
-}
 async likeClicked(video_id: number): Promise<void> {
   this.likes += 1;
   console.log("salut", video_id);

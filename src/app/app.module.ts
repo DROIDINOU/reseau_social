@@ -59,7 +59,6 @@ import { ModalgeneralvideoComponent } from './modalgeneralvideo/modalgeneralvide
 import { VideopostComponent } from './videopost/videopost.component';
 import { CoeurvideoComponent } from './coeurvideo/coeurvideo.component';
 import { AnimatedRopeComponent } from './animated-rope/animated-rope.component';
-import { PrivatechatComponent } from './privatechat/privatechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TinderComponent } from './tinder/tinder.component';
 import { NoimageComponent } from './noimage/noimage.component';
@@ -72,6 +71,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ScrollPreventionServiceService } from './scroll-prevention-service.service';
 import { FooterindicationsComponent } from './footerindications/footerindications.component';
+import { ChatmessagemodalComponent } from './chatmessagemodal/chatmessagemodal.component';
 
 
 @NgModule({
@@ -128,11 +128,11 @@ import { FooterindicationsComponent } from './footerindications/footerindication
     VideopostComponent,
     CoeurvideoComponent,
     AnimatedRopeComponent,
-    PrivatechatComponent,
     TinderComponent,
     NoimageComponent,
     FooterComponent,
     FooterindicationsComponent,
+    ChatmessagemodalComponent,
 
   ],
   imports: [

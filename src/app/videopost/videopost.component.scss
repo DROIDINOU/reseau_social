@@ -9,7 +9,6 @@
 .photo-item {
   flex: 1 1 calc(33.333% - 20px); /* Ajustez le calcul pour inclure la marge */
   box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur et la hauteur */
-  height: 300px; /* Hauteur fixe pour le conteneur */
   display: flex; /* Utiliser Flexbox pour la disposition interne */
   flex-direction: column; /* Aligner les éléments verticalement */
   justify-content: space-between; /* Espacement entre l'image et les icônes */
@@ -19,13 +18,16 @@
   border-radius: 8px; /* Arrondir les coins du cadre */
   background-color: #f9f9f9; /* Optionnel: Ajoute une couleur de fond pour améliorer la visibilité du cadre */
   padding: 10px; /* Ajoute un peu de padding à l'intérieur du conteneur */
+  height: auto; /* Permet au conteneur de s'ajuster à la taille de son contenu */
+  max-width: 400px; /* Limite la largeur maximale de chaque élément pour éviter l'étirement */
 }
 
-.photo-item img {
-  max-width: 100%; /* Limite la largeur de l'image au conteneur */
-  max-height: 70%; /* Limite la hauteur de l'image au conteneur, laissant de la place pour les icônes */
-  object-fit: cover; /* Conserve les proportions de l'image tout en couvrant l'espace disponible */
-  border-radius: 5px; /* Coins arrondis pour les images */
+.photo-item video {
+  width: 100%; /* La vidéo prendra toute la largeur disponible */
+  height: auto; /* Ajuste la hauteur en fonction de la largeur pour maintenir les proportions */
+  max-height: 200px; /* Limite la hauteur maximale pour laisser de l'espace pour d'autres éléments */
+  object-fit: cover; /* Garde la vidéo proportionnelle et couvre l'espace */
+  border-radius: 5px; /* Coins arrondis pour les vidéos */
   margin-bottom: 10px; /* Espacement avec la section des actions */
 }
 
@@ -41,15 +43,4 @@
 .like-action .nbvue {
   color: #0501f1; /* Ajustez cette couleur selon vos besoins */
   margin: 0 5px;
-}
-
-.video-controls {
-  display: flex; /* Flexbox pour aligner les contrôles horizontalement */
-  justify-content: space-between; /* Espacement égal entre les contrôles */
-  width: 100%; /* Prendre toute la largeur de l'élément */
-  margin-top: 5px; /* Espacement entre la vidéo et les contrôles */
-}
-
-.play-icon, .fullscreen-icon {
-  cursor: pointer; /* Changement du curseur pour indiquer une action */
 }

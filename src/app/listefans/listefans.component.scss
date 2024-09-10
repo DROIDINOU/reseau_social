@@ -6,7 +6,16 @@
     box-sizing: border-box;
 }
 
-
+.clickable {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+}
+.color{color: white;}
+.clickable:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Légère élévation */
+}
 
 
 #profil-container {

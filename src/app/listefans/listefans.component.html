@@ -22,7 +22,7 @@
                       </div>
                   </form>
               </div>
-              <h2 (click)="photoschats()">Photos</h2>
+              <h2 (click)="photoschats()" class="clickable"><span class="color">-> Photos</span></h2>
               <div class="container">
                   <form (ngSubmit)="onSubmit1()">
                       <label for="fileInput" custom-file-upload></label>
@@ -37,7 +37,7 @@
                       </div>
                   </form>
               </div>
-              <h2 (click)="videoschats()">Vidéos</h2>
+              <h2 (click)="videoschats()" class="clickable" > <span class="color">-> Videos</span></h2>
               <div class="container">
                   <form (ngSubmit)="onSubmit2()">
                       <label for="fileInput" custom-file-upload></label>
@@ -57,8 +57,8 @@
   </div>
 
   <div class="right-container">
-      <app-photospost *ngIf="show_photos" [liste_photos]="photosTest" (photosUpdated)="onPhotosUpdated($event)"></app-photospost>
-      <app-videopost *ngIf="show_videos" [liste_videos]="videosTest" (videosUpdated)="onVideosUpdated($event)"></app-videopost>
+      <app-photospost *ngIf="show_photos && previous_videos_route == false" [liste_photos]="photosTest" (photosUpdated)="onPhotosUpdated($event)"></app-photospost>
+      <app-videopost *ngIf="show_videos && previous_videos_route == true" [liste_videos]="videosTest" (videosUpdated)="onVideosUpdated($event)"></app-videopost>
 
   </div>
 </div>

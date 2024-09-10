@@ -27,8 +27,12 @@
       <img class="couronne" [src]="bronze" alt="Profile Picture">
     </div>
     <div class="golden-circle2">
-      <img class="circle-image" [src]="chat2 || chat" alt="Profile Picture">
+      <div *ngFor="let profile of profiles">
+      <div *ngIf="profile.username == numberone[2]?.username">
+      <img class="circle-image" [src]="profile.profile_picture || chat" alt="Profile Picture">
     </div>
+    </div>
+  </div>
     <div class="paragraphs-container">
       <p class="paragraph" *ngIf="numberthree.length == 1 && numberthree[0] && numberthree[0].username">
         {{ numberthree[0].username }}
@@ -43,7 +47,7 @@
     <div class="golden-circle1">
       <div *ngFor="let profile of profiles">
         <div *ngIf="profile.username == numberone[0]?.username">
-          <img class="circle-image" [src]="profile.profile_picture" alt="Profile Picture">
+          <img class="circle-image" [src]="profile.profile_picture||chat" alt="Profile Picture">
         </div>
       </div>
     </div>
@@ -59,8 +63,15 @@
       <img class="couronne" [src]="argent" alt="Profile Picture">
     </div>
     <div class="golden-circle">
-      <img class="circle-image" [src]="chat || chat" alt="Profile Picture">
+      <div *ngFor="let profile of profiles">
+
+      <div *ngIf="profile.username == numberone[1]?.username">
+
+      <img class="circle-image" [src]="profile.profile_picture || chat" alt="Profile Picture">
+      </div>
     </div>
+  </div>
+
     <div class="paragraphs-container">
       <p class="paragraph" *ngIf="numbertwo.length == 1 && numbertwo[0] && numbertwo[0].username">
         {{ numbertwo[0].username }}

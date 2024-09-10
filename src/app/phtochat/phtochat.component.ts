@@ -53,10 +53,20 @@ ngOnInit(): void {
 }
 
 navigateToPhotos(){
-  this.router.navigate(['/listfan', this.username]); // Navigue vers /listfan/123 si userId = 123
+  this.router.navigate(['/listfan', this.username], {
+    queryParams: { source: 'nextRoute' }
+  });; // Navigue vers /listfan/123 si userId = 123
 
 
 }
+
+navigateToVideos() {
+  // Passez un paramètre 'source' avec la valeur 'previousRoute'
+  this.router.navigate(['/listfan', this.username], {
+    queryParams: { source: 'previousRoute' }
+  });
+}
+
 
 loadMoreImages(): void {
   this.images.push(...this.images);

@@ -3,12 +3,13 @@
     <fa-icon [icon]="faTimes" size="2x" (click)="closeModal()" class="close-button"></fa-icon>
     <div class="modal-content">
       <div *ngIf="friends_list">
+        <!-- Boucle sur les amis de l'utilisateur -->
         <div *ngFor="let datas of friends_list.friends">
+          <!-- Boucle sur tous les utilisateurs pour trouver ceux qui correspondent aux amis -->
           <div *ngFor="let dat of all_users">
             <div *ngIf="datas === dat.id" class="user-container">
-              <p class="user-name" >
-                {{ dat.username }}
-              </p>
+              <p class="user-name">{{ dat.username }}</p>
+              <!-- Affiche la photo de profil de chaque ami -->
               <div *ngFor="let photos of photos_list">
                 <div *ngIf="photos.user.id === dat.id" class="user-photo">
                   <fa-icon [icon]="faComment" size="2x" (click)="navigateToChat(dat.username)"></fa-icon>&nbsp;&nbsp;
@@ -16,40 +17,38 @@
                 </div>
               </div>
             </div>
-          <div *ngIf="privatechats">
-            <div class="chat-container">
-              <div class="messages">
-                <div *ngFor="let mess of messages">
-                  <div class="sent">
-                    <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
-                    <p class="sent-bubble">
-                      {{ mess.message }}
-                                    </p>
+          </div>
+        </div>
+        
+        <!-- Afficher la fenêtre de chat pour l'utilisateur sélectionné si `privatechats` est true -->
+        <div *ngIf="privatechats">
+          <div class="chat-container">
+            <div class="messages">
+              <!-- Afficher les messages du chat pour l'utilisateur sélectionné -->
+              <div *ngIf="mess[actuser] && mess[actuser].length > 0; else noMessages">
+                <div *ngFor="let message of mess[actuser]">
+                  <!-- Affichage des messages envoyés -->
+                  <div class="sent" *ngIf="message.receiver == actuser ">
+                    <p class="sent-bubble">{{ message.message }}</p>
                   </div>
-                  <div class="received">
-                    <h5 class="hour">{{ formatTime(currentTime) || 'Invalid Time' }}</h5>
-                    <p class="received-bubble">
-                      {{ mess.message }}
-  
-                    </p>
+                  <!-- Affichage des messages reçus -->
+                  <div class="received" *ngIf="message.sender== actuser">
+                    <p class="received-bubble">{{ message.message }}</p>
                   </div>
                 </div>
               </div>
-              <input [(ngModel)]="messageText" placeholder="Type a message" />
-              <button (click)="sendMessage()">Send</button>
+              <!-- Bloc pour indiquer qu'il n'y a pas de messages -->
+              <ng-template #noMessages>
+                <p>Aucun message disponible.</p>
+              </ng-template>
             </div>
+            <!-- Entrée pour taper le message -->
+            <input [(ngModel)]="messageText" placeholder="Type a message" />
+            <button (click)="sendMessage()">Send</button>
           </div>
-  
         </div>
 
-  
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-

@@ -41,6 +41,8 @@ export class ListefansComponent implements OnInit {
   faFolderOpen = faFolderOpen;
   username: string | null = null;
   test: string|null = 'https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/image-gallery/images/img-1.webp';
+  source: string | null = null;
+  previous_videos_route:boolean = false
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -57,8 +59,32 @@ export class ListefansComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
+      // Récupération du paramètre 'id' de la route
       this.username = params.get('id');
+  
+      // Abonnement à queryParamMap pour récupérer les query parameters
+      this.route.queryParamMap.subscribe(queryParams => {
+        // Récupération du query parameter 'source'
+        this.source = queryParams.get('source');
+        console.log('Source:', this.source);
+  
+        // Exemple de logique basée sur la source
+        if (this.source === 'previousRoute') {
+          console.log('Provenance: Photos');
+          this.previous_videos_route = true
+          this.show_videos = true;
+          this.videoschats();
+          // Logique pour traiter la navigation depuis Photos
+        } else if (this.source === 'nextRoute') {
+          console.log('Provenance: Videos');
+          this.previous_videos_route = false
+          this.show_photos = true;
+          this.photoschats();
 
+          // Logique pour traiter la navigation depuis Videos
+        }
+      });
+  
       // Vérifier si l'ID de l'utilisateur est déjà enregistré dans le UserService
       const storedUserId = this.userService.getUserId();
       if (storedUserId) {
